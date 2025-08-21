@@ -27,6 +27,6 @@ Rs1 Repository
 
 ## Creating a Package
 1. Open terminal
-2. Run: `cd 41068_ws/src`
+2. Run: `cd 41068_ws/src/RsHDeez`
 3. Then run: `ros2 pkg create --build-type ament_cmake <package_name>`, making sure to give the package a unique name
 4. A package with a CMakeLists.txt and package.xml file will generate
