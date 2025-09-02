@@ -2,27 +2,44 @@
 <sdf version='1.8'>
   <world name="world_big_demo">
 
-    <plugin name='ignition::gazebo::systems::Physics' filename='ignition-gazebo-physics-system' />
-    <plugin name='ignition::gazebo::systems::UserCommands' filename='ignition-gazebo-user-commands-system' />
-    <plugin name='ignition::gazebo::systems::SceneBroadcaster' filename='ignition-gazebo-scene-broadcaster-system' />
-    <plugin name='ignition::gazebo::systems::Contact' filename='ignition-gazebo-contact-system' />
+    <!--<plugin
+    name='ignition::gazebo::systems::Physics' filename='ignition-gazebo-physics-system' />
+  <plugin name='ignition::gazebo::systems::UserCommands'
+    filename='ignition-gazebo-user-commands-system' />
+  <plugin name='ignition::gazebo::systems::SceneBroadcaster'
+    filename='ignition-gazebo-scene-broadcaster-system' />
+  <plugin name='ignition::gazebo::systems::Contact' filename='ignition-gazebo-contact-system' />-->
+
+    <plugin
+      filename="ignition-gazebo-physics-system"
+      name="gz::sim::systems::Physics">
+    </plugin>
+    <plugin
+      filename="ignition-gazebo-user-commands-system"
+      name="gz::sim::systems::UserCommands">
+    </plugin>
+    <plugin
+      filename="ignition-gazebo-scene-broadcaster-system"
+      name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
     <light name="sun" type="directional">
       <cast_shadows>0</cast_shadows>
       <pose>0 0 100 0 -0 0</pose>
       <diffuse>0.8 0.8 0.8 1</diffuse>
       <specular>0.8 0.8 0.8 1</specular>
       <!-- <attenuation>
-        <range>1000</range>
-        <constant>0.9</constant>
-        <linear>0.01</linear>
-        <quadratic>0.001</quadratic>
-      </attenuation> -->
+      <range>1000</range>
+      <constant>0.9</constant>
+      <linear>0.01</linear>
+      <quadratic>0.001</quadratic>
+    </attenuation> -->
       <direction>-0.5 0.1 -0.9</direction>
       <intensity>5</intensity>
     </light>
     <gravity>0 0 -9.81</gravity>
     <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
-    <atmosphere type="adiabatic"/>
+    <atmosphere type="adiabatic" />
     <physics name="default_physics" type="ignored">
       <max_step_size>0.01</max_step_size>
       <real_time_factor>1</real_time_factor>
@@ -46,46 +63,43 @@
 
     <!-- Large ground planes with forest floor texture -->
     <!-- <include>
-      <uri>
-        model://forest_plane
-      </uri>
-      <name>forest_plane</name>
-      <pose>0 0 0 0 0 0</pose>
-    </include> -->
+    <uri>
+      model://forest_plane
+    </uri>
+    <name>forest_plane</name>
+    <pose>0 0 0 0 0 0</pose>
+  </include> -->
 
     <!-- Forest wall -->
     <!-- <include>
-      <uri>
-        model://forest_wall
-      </uri>
-      <name>forest_wall1</name>
-      <pose>12.5 0 2 1.570796 0 -1.570796</pose>
-    </include> -->
+    <uri>
+      model://forest_wall
+    </uri>
+    <name>forest_wall1</name>
+    <pose>12.5 0 2 1.570796 0 -1.570796</pose>
+  </include> -->
 
 
     <!-- Oak trees -->
     <!-- <include>
-      <uri>
-        https://fuel.gazebosim.org/1.0/OpenRobotics/models/Oak%20tree
-      </uri>
-      <name>oak1</name>
-      <pose>-4.77393 12.2995 -0.3 0 -0 0</pose>
-    </include> -->
+    <uri>
+      https://fuel.gazebosim.org/1.0/OpenRobotics/models/Oak%20tree
+    </uri>
+    <name>oak1</name>
+    <pose>-4.77393 12.2995 -0.3 0 -0 0</pose>
+  </include> -->
 
 
     <!-- Platypus -->
     <!-- <include>
-      <uri>
-        https://fuel.gazebosim.org/1.0/OpenRobotics/models/platypus
-      </uri>
-      <name>platypus1</name>
-      <pose>-10 5 0 0 0 0</pose>
-    </include> -->
+    <uri>
+      https://fuel.gazebosim.org/1.0/OpenRobotics/models/platypus
+    </uri>
+    <name>platypus1</name>
+    <pose>-10 5 0 0 0 0</pose>
+    
+  </include> -->
 
-    <camera_clip>
-      <near>0.1</near>
-      <far>5000</far>
-    </camera_clip>
     <include>
       <uri>
         ../models/large_scan_gen_sdf/

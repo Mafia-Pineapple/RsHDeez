@@ -4,7 +4,7 @@
 		<model name="tile_0_0">
 			<pose>0 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -30,7 +30,7 @@
 		<model name="tile_0_1">
 			<pose>500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -56,7 +56,7 @@
 		<model name="tile_0_2">
 			<pose>1000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -82,7 +82,7 @@
 		<model name="tile_0_3">
 			<pose>1500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -108,7 +108,7 @@
 		<model name="tile_0_4">
 			<pose>2000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -134,7 +134,7 @@
 		<model name="tile_0_5">
 			<pose>2500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -160,7 +160,7 @@
 		<model name="tile_0_6">
 			<pose>3000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -186,7 +186,7 @@
 		<model name="tile_0_7">
 			<pose>3500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -212,7 +212,7 @@
 		<model name="tile_0_8">
 			<pose>4000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -238,7 +238,7 @@
 		<model name="tile_0_9">
 			<pose>4500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -264,7 +264,7 @@
 		<model name="tile_0_10">
 			<pose>5000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -290,7 +290,7 @@
 		<model name="tile_0_11">
 			<pose>5500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -316,7 +316,7 @@
 		<model name="tile_0_12">
 			<pose>6000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -342,7 +342,7 @@
 		<model name="tile_0_13">
 			<pose>6500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -368,7 +368,7 @@
 		<model name="tile_0_14">
 			<pose>7000 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -394,7 +394,7 @@
 		<model name="tile_0_15">
 			<pose>7500 0 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_0_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -420,7 +420,7 @@
 		<model name="tile_1_0">
 			<pose>0 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -446,7 +446,7 @@
 		<model name="tile_1_1">
 			<pose>500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -472,7 +472,7 @@
 		<model name="tile_1_2">
 			<pose>1000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -498,7 +498,7 @@
 		<model name="tile_1_3">
 			<pose>1500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -524,7 +524,7 @@
 		<model name="tile_1_4">
 			<pose>2000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -550,7 +550,7 @@
 		<model name="tile_1_5">
 			<pose>2500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -576,7 +576,7 @@
 		<model name="tile_1_6">
 			<pose>3000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -602,7 +602,7 @@
 		<model name="tile_1_7">
 			<pose>3500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -628,7 +628,7 @@
 		<model name="tile_1_8">
 			<pose>4000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -654,7 +654,7 @@
 		<model name="tile_1_9">
 			<pose>4500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -680,7 +680,7 @@
 		<model name="tile_1_10">
 			<pose>5000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -706,7 +706,7 @@
 		<model name="tile_1_11">
 			<pose>5500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -732,7 +732,7 @@
 		<model name="tile_1_12">
 			<pose>6000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -758,7 +758,7 @@
 		<model name="tile_1_13">
 			<pose>6500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -784,7 +784,7 @@
 		<model name="tile_1_14">
 			<pose>7000 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -810,7 +810,7 @@
 		<model name="tile_1_15">
 			<pose>7500 -500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_1_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -836,7 +836,7 @@
 		<model name="tile_2_0">
 			<pose>0 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -862,7 +862,7 @@
 		<model name="tile_2_1">
 			<pose>500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -888,7 +888,7 @@
 		<model name="tile_2_2">
 			<pose>1000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -914,7 +914,7 @@
 		<model name="tile_2_3">
 			<pose>1500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -940,7 +940,7 @@
 		<model name="tile_2_4">
 			<pose>2000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -966,7 +966,7 @@
 		<model name="tile_2_5">
 			<pose>2500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -992,7 +992,7 @@
 		<model name="tile_2_6">
 			<pose>3000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1018,7 +1018,7 @@
 		<model name="tile_2_7">
 			<pose>3500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1044,7 +1044,7 @@
 		<model name="tile_2_8">
 			<pose>4000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1070,7 +1070,7 @@
 		<model name="tile_2_9">
 			<pose>4500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1096,7 +1096,7 @@
 		<model name="tile_2_10">
 			<pose>5000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1122,7 +1122,7 @@
 		<model name="tile_2_11">
 			<pose>5500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1148,7 +1148,7 @@
 		<model name="tile_2_12">
 			<pose>6000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1174,7 +1174,7 @@
 		<model name="tile_2_13">
 			<pose>6500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1200,7 +1200,7 @@
 		<model name="tile_2_14">
 			<pose>7000 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1226,7 +1226,7 @@
 		<model name="tile_2_15">
 			<pose>7500 -1000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_2_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1252,7 +1252,7 @@
 		<model name="tile_3_0">
 			<pose>0 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1278,7 +1278,7 @@
 		<model name="tile_3_1">
 			<pose>500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1304,7 +1304,7 @@
 		<model name="tile_3_2">
 			<pose>1000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1330,7 +1330,7 @@
 		<model name="tile_3_3">
 			<pose>1500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1356,7 +1356,7 @@
 		<model name="tile_3_4">
 			<pose>2000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1382,7 +1382,7 @@
 		<model name="tile_3_5">
 			<pose>2500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1408,7 +1408,7 @@
 		<model name="tile_3_6">
 			<pose>3000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1434,7 +1434,7 @@
 		<model name="tile_3_7">
 			<pose>3500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1460,7 +1460,7 @@
 		<model name="tile_3_8">
 			<pose>4000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1486,7 +1486,7 @@
 		<model name="tile_3_9">
 			<pose>4500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1512,7 +1512,7 @@
 		<model name="tile_3_10">
 			<pose>5000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1538,7 +1538,7 @@
 		<model name="tile_3_11">
 			<pose>5500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1564,7 +1564,7 @@
 		<model name="tile_3_12">
 			<pose>6000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1590,7 +1590,7 @@
 		<model name="tile_3_13">
 			<pose>6500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1616,7 +1616,7 @@
 		<model name="tile_3_14">
 			<pose>7000 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1642,7 +1642,7 @@
 		<model name="tile_3_15">
 			<pose>7500 -1500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_3_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1668,7 +1668,7 @@
 		<model name="tile_4_0">
 			<pose>0 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1694,7 +1694,7 @@
 		<model name="tile_4_1">
 			<pose>500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1720,7 +1720,7 @@
 		<model name="tile_4_2">
 			<pose>1000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1746,7 +1746,7 @@
 		<model name="tile_4_3">
 			<pose>1500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1772,7 +1772,7 @@
 		<model name="tile_4_4">
 			<pose>2000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1798,7 +1798,7 @@
 		<model name="tile_4_5">
 			<pose>2500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1824,7 +1824,7 @@
 		<model name="tile_4_6">
 			<pose>3000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1850,7 +1850,7 @@
 		<model name="tile_4_7">
 			<pose>3500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1876,7 +1876,7 @@
 		<model name="tile_4_8">
 			<pose>4000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1902,7 +1902,7 @@
 		<model name="tile_4_9">
 			<pose>4500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1928,7 +1928,7 @@
 		<model name="tile_4_10">
 			<pose>5000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1954,7 +1954,7 @@
 		<model name="tile_4_11">
 			<pose>5500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -1980,7 +1980,7 @@
 		<model name="tile_4_12">
 			<pose>6000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2006,7 +2006,7 @@
 		<model name="tile_4_13">
 			<pose>6500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2032,7 +2032,7 @@
 		<model name="tile_4_14">
 			<pose>7000 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2058,7 +2058,7 @@
 		<model name="tile_4_15">
 			<pose>7500 -2000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_4_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2084,7 +2084,7 @@
 		<model name="tile_5_0">
 			<pose>0 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2110,7 +2110,7 @@
 		<model name="tile_5_1">
 			<pose>500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2136,7 +2136,7 @@
 		<model name="tile_5_2">
 			<pose>1000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2162,7 +2162,7 @@
 		<model name="tile_5_3">
 			<pose>1500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2188,7 +2188,7 @@
 		<model name="tile_5_4">
 			<pose>2000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2214,7 +2214,7 @@
 		<model name="tile_5_5">
 			<pose>2500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2240,7 +2240,7 @@
 		<model name="tile_5_6">
 			<pose>3000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2266,7 +2266,7 @@
 		<model name="tile_5_7">
 			<pose>3500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2292,7 +2292,7 @@
 		<model name="tile_5_8">
 			<pose>4000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2318,7 +2318,7 @@
 		<model name="tile_5_9">
 			<pose>4500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2344,7 +2344,7 @@
 		<model name="tile_5_10">
 			<pose>5000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2370,7 +2370,7 @@
 		<model name="tile_5_11">
 			<pose>5500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2396,7 +2396,7 @@
 		<model name="tile_5_12">
 			<pose>6000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2422,7 +2422,7 @@
 		<model name="tile_5_13">
 			<pose>6500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2448,7 +2448,7 @@
 		<model name="tile_5_14">
 			<pose>7000 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2474,7 +2474,7 @@
 		<model name="tile_5_15">
 			<pose>7500 -2500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_5_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2500,7 +2500,7 @@
 		<model name="tile_6_0">
 			<pose>0 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2526,7 +2526,7 @@
 		<model name="tile_6_1">
 			<pose>500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2552,7 +2552,7 @@
 		<model name="tile_6_2">
 			<pose>1000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2578,7 +2578,7 @@
 		<model name="tile_6_3">
 			<pose>1500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2604,7 +2604,7 @@
 		<model name="tile_6_4">
 			<pose>2000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2630,7 +2630,7 @@
 		<model name="tile_6_5">
 			<pose>2500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2656,7 +2656,7 @@
 		<model name="tile_6_6">
 			<pose>3000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2682,7 +2682,7 @@
 		<model name="tile_6_7">
 			<pose>3500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2708,7 +2708,7 @@
 		<model name="tile_6_8">
 			<pose>4000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2734,7 +2734,7 @@
 		<model name="tile_6_9">
 			<pose>4500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2760,7 +2760,7 @@
 		<model name="tile_6_10">
 			<pose>5000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2786,7 +2786,7 @@
 		<model name="tile_6_11">
 			<pose>5500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2812,7 +2812,7 @@
 		<model name="tile_6_12">
 			<pose>6000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2838,7 +2838,7 @@
 		<model name="tile_6_13">
 			<pose>6500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2864,7 +2864,7 @@
 		<model name="tile_6_14">
 			<pose>7000 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2890,7 +2890,7 @@
 		<model name="tile_6_15">
 			<pose>7500 -3000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_6_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2916,7 +2916,7 @@
 		<model name="tile_7_0">
 			<pose>0 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2942,7 +2942,7 @@
 		<model name="tile_7_1">
 			<pose>500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2968,7 +2968,7 @@
 		<model name="tile_7_2">
 			<pose>1000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -2994,7 +2994,7 @@
 		<model name="tile_7_3">
 			<pose>1500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3020,7 +3020,7 @@
 		<model name="tile_7_4">
 			<pose>2000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3046,7 +3046,7 @@
 		<model name="tile_7_5">
 			<pose>2500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3072,7 +3072,7 @@
 		<model name="tile_7_6">
 			<pose>3000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3098,7 +3098,7 @@
 		<model name="tile_7_7">
 			<pose>3500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3124,7 +3124,7 @@
 		<model name="tile_7_8">
 			<pose>4000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3150,7 +3150,7 @@
 		<model name="tile_7_9">
 			<pose>4500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3176,7 +3176,7 @@
 		<model name="tile_7_10">
 			<pose>5000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3202,7 +3202,7 @@
 		<model name="tile_7_11">
 			<pose>5500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3228,7 +3228,7 @@
 		<model name="tile_7_12">
 			<pose>6000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3254,7 +3254,7 @@
 		<model name="tile_7_13">
 			<pose>6500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3280,7 +3280,7 @@
 		<model name="tile_7_14">
 			<pose>7000 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3306,7 +3306,7 @@
 		<model name="tile_7_15">
 			<pose>7500 -3500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_7_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3332,7 +3332,7 @@
 		<model name="tile_8_0">
 			<pose>0 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3358,7 +3358,7 @@
 		<model name="tile_8_1">
 			<pose>500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3384,7 +3384,7 @@
 		<model name="tile_8_2">
 			<pose>1000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3410,7 +3410,7 @@
 		<model name="tile_8_3">
 			<pose>1500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3436,7 +3436,7 @@
 		<model name="tile_8_4">
 			<pose>2000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3462,7 +3462,7 @@
 		<model name="tile_8_5">
 			<pose>2500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3488,7 +3488,7 @@
 		<model name="tile_8_6">
 			<pose>3000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3514,7 +3514,7 @@
 		<model name="tile_8_7">
 			<pose>3500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3540,7 +3540,7 @@
 		<model name="tile_8_8">
 			<pose>4000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3566,7 +3566,7 @@
 		<model name="tile_8_9">
 			<pose>4500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3592,7 +3592,7 @@
 		<model name="tile_8_10">
 			<pose>5000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3618,7 +3618,7 @@
 		<model name="tile_8_11">
 			<pose>5500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3644,7 +3644,7 @@
 		<model name="tile_8_12">
 			<pose>6000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3670,7 +3670,7 @@
 		<model name="tile_8_13">
 			<pose>6500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3696,7 +3696,7 @@
 		<model name="tile_8_14">
 			<pose>7000 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3722,7 +3722,7 @@
 		<model name="tile_8_15">
 			<pose>7500 -4000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_8_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3748,7 +3748,7 @@
 		<model name="tile_9_0">
 			<pose>0 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3774,7 +3774,7 @@
 		<model name="tile_9_1">
 			<pose>500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3800,7 +3800,7 @@
 		<model name="tile_9_2">
 			<pose>1000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3826,7 +3826,7 @@
 		<model name="tile_9_3">
 			<pose>1500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3852,7 +3852,7 @@
 		<model name="tile_9_4">
 			<pose>2000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3878,7 +3878,7 @@
 		<model name="tile_9_5">
 			<pose>2500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3904,7 +3904,7 @@
 		<model name="tile_9_6">
 			<pose>3000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3930,7 +3930,7 @@
 		<model name="tile_9_7">
 			<pose>3500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3956,7 +3956,7 @@
 		<model name="tile_9_8">
 			<pose>4000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -3982,7 +3982,7 @@
 		<model name="tile_9_9">
 			<pose>4500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4008,7 +4008,7 @@
 		<model name="tile_9_10">
 			<pose>5000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4034,7 +4034,7 @@
 		<model name="tile_9_11">
 			<pose>5500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4060,7 +4060,7 @@
 		<model name="tile_9_12">
 			<pose>6000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4086,7 +4086,7 @@
 		<model name="tile_9_13">
 			<pose>6500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4112,7 +4112,7 @@
 		<model name="tile_9_14">
 			<pose>7000 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4138,7 +4138,7 @@
 		<model name="tile_9_15">
 			<pose>7500 -4500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_9_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4164,7 +4164,7 @@
 		<model name="tile_10_0">
 			<pose>0 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4190,7 +4190,7 @@
 		<model name="tile_10_1">
 			<pose>500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4216,7 +4216,7 @@
 		<model name="tile_10_2">
 			<pose>1000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4242,7 +4242,7 @@
 		<model name="tile_10_3">
 			<pose>1500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4268,7 +4268,7 @@
 		<model name="tile_10_4">
 			<pose>2000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4294,7 +4294,7 @@
 		<model name="tile_10_5">
 			<pose>2500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4320,7 +4320,7 @@
 		<model name="tile_10_6">
 			<pose>3000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4346,7 +4346,7 @@
 		<model name="tile_10_7">
 			<pose>3500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4372,7 +4372,7 @@
 		<model name="tile_10_8">
 			<pose>4000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4398,7 +4398,7 @@
 		<model name="tile_10_9">
 			<pose>4500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4424,7 +4424,7 @@
 		<model name="tile_10_10">
 			<pose>5000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4450,7 +4450,7 @@
 		<model name="tile_10_11">
 			<pose>5500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4476,7 +4476,7 @@
 		<model name="tile_10_12">
 			<pose>6000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4502,7 +4502,7 @@
 		<model name="tile_10_13">
 			<pose>6500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4528,7 +4528,7 @@
 		<model name="tile_10_14">
 			<pose>7000 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4554,7 +4554,7 @@
 		<model name="tile_10_15">
 			<pose>7500 -5000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_10_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4580,7 +4580,7 @@
 		<model name="tile_11_0">
 			<pose>0 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4606,7 +4606,7 @@
 		<model name="tile_11_1">
 			<pose>500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4632,7 +4632,7 @@
 		<model name="tile_11_2">
 			<pose>1000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4658,7 +4658,7 @@
 		<model name="tile_11_3">
 			<pose>1500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4684,7 +4684,7 @@
 		<model name="tile_11_4">
 			<pose>2000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4710,7 +4710,7 @@
 		<model name="tile_11_5">
 			<pose>2500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4736,7 +4736,7 @@
 		<model name="tile_11_6">
 			<pose>3000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4762,7 +4762,7 @@
 		<model name="tile_11_7">
 			<pose>3500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4788,7 +4788,7 @@
 		<model name="tile_11_8">
 			<pose>4000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4814,7 +4814,7 @@
 		<model name="tile_11_9">
 			<pose>4500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4840,7 +4840,7 @@
 		<model name="tile_11_10">
 			<pose>5000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4866,7 +4866,7 @@
 		<model name="tile_11_11">
 			<pose>5500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4892,7 +4892,7 @@
 		<model name="tile_11_12">
 			<pose>6000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4918,7 +4918,7 @@
 		<model name="tile_11_13">
 			<pose>6500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4944,7 +4944,7 @@
 		<model name="tile_11_14">
 			<pose>7000 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4970,7 +4970,7 @@
 		<model name="tile_11_15">
 			<pose>7500 -5500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_11_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -4996,7 +4996,7 @@
 		<model name="tile_12_0">
 			<pose>0 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5022,7 +5022,7 @@
 		<model name="tile_12_1">
 			<pose>500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5048,7 +5048,7 @@
 		<model name="tile_12_2">
 			<pose>1000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5074,7 +5074,7 @@
 		<model name="tile_12_3">
 			<pose>1500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5100,7 +5100,7 @@
 		<model name="tile_12_4">
 			<pose>2000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5126,7 +5126,7 @@
 		<model name="tile_12_5">
 			<pose>2500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5152,7 +5152,7 @@
 		<model name="tile_12_6">
 			<pose>3000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5178,7 +5178,7 @@
 		<model name="tile_12_7">
 			<pose>3500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5204,7 +5204,7 @@
 		<model name="tile_12_8">
 			<pose>4000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5230,7 +5230,7 @@
 		<model name="tile_12_9">
 			<pose>4500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5256,7 +5256,7 @@
 		<model name="tile_12_10">
 			<pose>5000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5282,7 +5282,7 @@
 		<model name="tile_12_11">
 			<pose>5500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5308,7 +5308,7 @@
 		<model name="tile_12_12">
 			<pose>6000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5334,7 +5334,7 @@
 		<model name="tile_12_13">
 			<pose>6500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5360,7 +5360,7 @@
 		<model name="tile_12_14">
 			<pose>7000 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5386,7 +5386,7 @@
 		<model name="tile_12_15">
 			<pose>7500 -6000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_12_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5412,7 +5412,7 @@
 		<model name="tile_13_0">
 			<pose>0 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5438,7 +5438,7 @@
 		<model name="tile_13_1">
 			<pose>500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5464,7 +5464,7 @@
 		<model name="tile_13_2">
 			<pose>1000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5490,7 +5490,7 @@
 		<model name="tile_13_3">
 			<pose>1500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5516,7 +5516,7 @@
 		<model name="tile_13_4">
 			<pose>2000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5542,7 +5542,7 @@
 		<model name="tile_13_5">
 			<pose>2500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5568,7 +5568,7 @@
 		<model name="tile_13_6">
 			<pose>3000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5594,7 +5594,7 @@
 		<model name="tile_13_7">
 			<pose>3500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5620,7 +5620,7 @@
 		<model name="tile_13_8">
 			<pose>4000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5646,7 +5646,7 @@
 		<model name="tile_13_9">
 			<pose>4500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5672,7 +5672,7 @@
 		<model name="tile_13_10">
 			<pose>5000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5698,7 +5698,7 @@
 		<model name="tile_13_11">
 			<pose>5500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5724,7 +5724,7 @@
 		<model name="tile_13_12">
 			<pose>6000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5750,7 +5750,7 @@
 		<model name="tile_13_13">
 			<pose>6500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5776,7 +5776,7 @@
 		<model name="tile_13_14">
 			<pose>7000 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5802,7 +5802,7 @@
 		<model name="tile_13_15">
 			<pose>7500 -6500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_13_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5828,7 +5828,7 @@
 		<model name="tile_14_0">
 			<pose>0 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5854,7 +5854,7 @@
 		<model name="tile_14_1">
 			<pose>500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5880,7 +5880,7 @@
 		<model name="tile_14_2">
 			<pose>1000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5906,7 +5906,7 @@
 		<model name="tile_14_3">
 			<pose>1500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5932,7 +5932,7 @@
 		<model name="tile_14_4">
 			<pose>2000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5958,7 +5958,7 @@
 		<model name="tile_14_5">
 			<pose>2500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -5984,7 +5984,7 @@
 		<model name="tile_14_6">
 			<pose>3000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6010,7 +6010,7 @@
 		<model name="tile_14_7">
 			<pose>3500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6036,7 +6036,7 @@
 		<model name="tile_14_8">
 			<pose>4000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6062,7 +6062,7 @@
 		<model name="tile_14_9">
 			<pose>4500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6088,7 +6088,7 @@
 		<model name="tile_14_10">
 			<pose>5000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6114,7 +6114,7 @@
 		<model name="tile_14_11">
 			<pose>5500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6140,7 +6140,7 @@
 		<model name="tile_14_12">
 			<pose>6000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6166,7 +6166,7 @@
 		<model name="tile_14_13">
 			<pose>6500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6192,7 +6192,7 @@
 		<model name="tile_14_14">
 			<pose>7000 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6218,7 +6218,7 @@
 		<model name="tile_14_15">
 			<pose>7500 -7000 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_14_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6244,7 +6244,7 @@
 		<model name="tile_15_0">
 			<pose>0 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_0">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6270,7 +6270,7 @@
 		<model name="tile_15_1">
 			<pose>500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_1">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6296,7 +6296,7 @@
 		<model name="tile_15_2">
 			<pose>1000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_2">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6322,7 +6322,7 @@
 		<model name="tile_15_3">
 			<pose>1500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_3">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6348,7 +6348,7 @@
 		<model name="tile_15_4">
 			<pose>2000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_4">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6374,7 +6374,7 @@
 		<model name="tile_15_5">
 			<pose>2500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_5">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6400,7 +6400,7 @@
 		<model name="tile_15_6">
 			<pose>3000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_6">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6426,7 +6426,7 @@
 		<model name="tile_15_7">
 			<pose>3500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_7">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6452,7 +6452,7 @@
 		<model name="tile_15_8">
 			<pose>4000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_8">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6478,7 +6478,7 @@
 		<model name="tile_15_9">
 			<pose>4500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_9">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6504,7 +6504,7 @@
 		<model name="tile_15_10">
 			<pose>5000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_10">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6530,7 +6530,7 @@
 		<model name="tile_15_11">
 			<pose>5500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_11">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6556,7 +6556,7 @@
 		<model name="tile_15_12">
 			<pose>6000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_12">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6582,7 +6582,7 @@
 		<model name="tile_15_13">
 			<pose>6500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_13">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6608,7 +6608,7 @@
 		<model name="tile_15_14">
 			<pose>7000 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_14">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>
@@ -6634,7 +6634,7 @@
 		<model name="tile_15_15">
 			<pose>7500 -7500 0 0 0 0</pose>
 			<static>true</static>
-			<link name="terrain_tile_15_15">
+			<link name="link">
 				<visual name="visual">
 					<material>
 						<ambient>0.1 0.1 0.1 0.1</ambient>

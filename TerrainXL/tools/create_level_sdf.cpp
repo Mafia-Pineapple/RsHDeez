@@ -21,7 +21,7 @@ int main() {
             myfile << "\t\t<model name=\"tile_" << x << "_" << y << "\">\n";
             myfile << "\t\t\t<pose>" << y*500 << " " << -x*500 << " 0 0 0 0</pose>\n";
             myfile << "\t\t\t<static>true</static>\n";
-            myfile << "\t\t\t<link name=\"terrain_tile_" << x << '_' << y << "\">\n";
+            myfile << "\t\t\t<link name=\"link\">\n";
             myfile << "\t\t\t\t<visual name=\"visual\">\n";
             myfile << "\t\t\t\t\t<material>\n";
             myfile << "\t\t\t\t\t\t<ambient>0.1 0.1 0.1 0.1</ambient>\n";
@@ -50,6 +50,29 @@ int main() {
     }
 
     myfile << "\t</model>\n";
+
+    //generate gazebo levels 
+
+    // myfile << "\t<plugin name=\"gz::sim\" filename=\"dummy\">\n";
+
+    // for (short x = 0; x < 16; x++)
+    // {
+    //     for (short y = 0; y < 16; y++)
+    //     {
+    //         myfile << "\t\t<level name=\"level_" << x << '_' << y << "\">\n";
+    //         myfile << "\t\t\t<pose>" << y*500 << " " << -x*500 << " 0 0 0 0</pose>\n";
+    //         myfile << "\t\t\t<geometry>\n";
+    //         myfile << "\t\t\t\t<box>\n";
+    //         myfile << "\t\t\t\t\t<size>500 500 5000</size>\n";
+    //         myfile << "\t\t\t\t</box>\n";
+    //         myfile << "\t\t\t</geometry>\n";
+    //         myfile << "\t\t\t<buffer>300</buffer>\n";
+    //         myfile << "\t\t\t<ref>tile_" << x << '_' << y << "</ref>\n";
+    //         myfile << "\t\t</level>\n";
+    //     }
+    // }
+
+    // myfile << "</plugin>\n";
 
 
 
