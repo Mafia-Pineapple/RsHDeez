@@ -102,7 +102,7 @@
 
     <include>
       <uri>
-        ../models/large_scan_gen_sdf/
+        /home/nic/41068_ws/src/TerrainXL/src/models/large_scan_gen_sdf
       </uri>
     </include>
   </world>
