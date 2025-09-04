@@ -42,9 +42,7 @@ add_executable(fake_world src/fake_world.cpp)
 ament_target_dependencies(fake_world rclcpp geometry_msgs nav_msgs)
 install(TARGETS fake_world RUNTIME DESTINATION lib/${PROJECT_NAME})
 
-add_executable(gz_adapter src/gz_adapter.cpp)
-ament_target_dependencies(gz_adapter rclcpp geometry_msgs nav_msgs ros_gz_interfaces)
-install(TARGETS gz_adapter RUNTIME DESTINATION lib/${PROJECT_NAME})
+
 
 # ---------- Installation ----------
 # Binaries / libraries
