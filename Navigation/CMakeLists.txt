@@ -17,6 +17,7 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(ros_gz_interfaces REQUIRED)
 
 # ---------- Include dirs ----------
 # Public headers live under include/navigation/*.h
@@ -41,6 +42,9 @@ add_executable(fake_world src/fake_world.cpp)
 ament_target_dependencies(fake_world rclcpp geometry_msgs nav_msgs)
 install(TARGETS fake_world RUNTIME DESTINATION lib/${PROJECT_NAME})
 
+add_executable(gz_adapter src/gz_adapter.cpp)
+ament_target_dependencies(gz_adapter rclcpp geometry_msgs nav_msgs ros_gz_interfaces)
+install(TARGETS gz_adapter RUNTIME DESTINATION lib/${PROJECT_NAME})
 
 # ---------- Installation ----------
 # Binaries / libraries
