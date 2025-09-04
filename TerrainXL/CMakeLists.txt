@@ -15,8 +15,13 @@ find_package(ros_ign_interfaces REQUIRED)
 
 install(
   DIRECTORY src/models src/worlds
+  DESTINATION share/${PROJECT_NAME} 
+)
+
+install(DIRECTORY launch/
   DESTINATION share/${PROJECT_NAME}
 )
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
