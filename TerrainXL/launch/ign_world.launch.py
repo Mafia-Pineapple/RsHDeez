@@ -4,7 +4,11 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
+<<<<<<< HEAD
     world = LaunchConfiguration('world', default='large_scan_gen_sdf.sdf')
+=======
+    world = LaunchConfiguration('world', default='world_big_demo.sdf')
+>>>>>>> terraintrees
 
     pkg_name = 'TerrainXL'  # <-- change to match <name> in package.xml (e.g., 'terrainxl')
 
