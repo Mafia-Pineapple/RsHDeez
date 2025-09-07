@@ -7,8 +7,8 @@ using namespace std;
 
 int main() {
 
-    string terrainXL_path = "\t\t\t\t../models/large_scan_obj/\n";
-    string tree_path = "\t\t\t\t../models/tree_rs1/\n";
+    string terrainXL_path = "\t\t\t\tmodel://models/large_scan_obj\n";
+    string tree_path = "\t\t\t\tmodel://models/tree_rs1\n";
 
     ofstream myfile;
     myfile.open("../src/worlds/earth.sdf");

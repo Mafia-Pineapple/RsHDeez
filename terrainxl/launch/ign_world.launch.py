@@ -4,9 +4,9 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
-    world = LaunchConfiguration('world', default='world_big_demo.sdf')
+    world = LaunchConfiguration('world', default='earth.sdf')
 
-    pkg_name = 'TerrainXL'  # <-- change to match <name> in package.xml (e.g., 'terrainxl')
+    pkg_name = 'terrainxl'  # <-- change to match <name> in package.xml (e.g., 'terrainxl')
 
     pkg_share = FindPackageShare(pkg_name)
     world_path = PathJoinSubstitution([pkg_share, 'worlds', world])

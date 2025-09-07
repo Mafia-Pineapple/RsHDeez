@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>TerrainXL</name>
+  <name>terrainxl</name>
   <version>0.0.2</version>
   <description>Large terrain model, example worldfile included</description>
   <maintainer email="james.oliver.hart@gmail.com">james</maintainer>
@@ -22,8 +22,8 @@
 
   <export>
     <build_type>ament_cmake</build_type>
-    <gazebo_ros gazebo_model_path="${prefix}/models"/>
-    <gazebo_ros gazebo_media_path="${prefix}/worlds"/>
+    <gazebo_ros gazebo_model_path="${prefix}/src/models"/>
+    <gazebo_ros gazebo_media_path="${prefix}/src/worlds"/>
   </export>
 </package>
 
