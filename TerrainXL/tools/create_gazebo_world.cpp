@@ -7,7 +7,7 @@ using namespace std;
 
 int main() {
 
-    string terrainXL_path = "\t\t\t\t../models/large_scan_gen_sdf/\n";
+    string terrainXL_path = "\t\t\t\t../models/large_scan_obj/\n";
     string tree_path = "\t\t\t\t../models/tree_rs1/\n";
 
     ofstream myfile;
@@ -37,7 +37,7 @@ int main() {
     myfile << "\t\t\t<pose>0 0 100 0 0 0</pose>\n";
     myfile << "\t\t\t<diffuse>0.8 0.8 0.8 1</diffuse>\n";
     myfile << "\t\t\t<specular>0.8 0.8 0.8 1</specular>\n";
-    myfile << "\t\t\t<direction>-0.5 0.1 0.9</direction>\n";
+    myfile << "\t\t\t<direction>-0.5 0.1 -0.9</direction>\n";
     myfile << "\t\t\t<intensity>5</intensity>\n";
     myfile << "\t\t</light>\n";
 
@@ -102,9 +102,13 @@ int main() {
         myfile << "\t\t\t</uri>\n";
         myfile << string("\t\t\t<name>tree_") + to_string(tree_count) + "</name>\n";
         myfile << string("\t\t\t<pose>");
-        double inv = stod(row[0]);
-        inv = -inv;
-        myfile << row[1] + ' ';
+        double inv2 = stod(row[0]);
+        inv2 = inv2 - 250;
+
+        double inv = stod(row[1]);
+        inv = inv - 7750;
+        myfile << inv2;
+        myfile << ' ';
         myfile << inv;
         myfile << ' ';
         myfile << row[2];
