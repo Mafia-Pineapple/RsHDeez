@@ -37,8 +37,8 @@ int main() {
     myfile << "\t\t\t<pose>0 0 100 0 0 0</pose>\n";
     myfile << "\t\t\t<diffuse>0.8 0.8 0.8 1</diffuse>\n";
     myfile << "\t\t\t<specular>0.8 0.8 0.8 1</specular>\n";
-    myfile << "\t\t\t<direction>-0.5 0.1 -0.9</direction>\n";
-    myfile << "\t\t\t<intensity>5</intensity>\n";
+    myfile << "\t\t\t<direction>-0.5 0.0 -0.9</direction>\n";
+    myfile << "\t\t\t<intensity>1</intensity>\n";
     myfile << "\t\t</light>\n";
 
     myfile << "\t\t<gravity>0 0 -9.81</gravity>\n";
