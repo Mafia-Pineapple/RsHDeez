@@ -49,7 +49,6 @@ install(TARGETS
 # Install directories
 install(DIRECTORY
   launch
-  worlds
   include
   DESTINATION share/${PROJECT_NAME})
 
