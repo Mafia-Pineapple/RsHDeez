@@ -48,8 +48,10 @@ install(TARGETS
 
 # Install directories
 install(DIRECTORY
+  config
   launch
   include
+  models
   DESTINATION share/${PROJECT_NAME})
 
 if(BUILD_TESTING)

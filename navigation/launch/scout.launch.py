@@ -2,6 +2,7 @@ import os
 import sys
 
 import launch
+
 from launch.conditions import IfCondition
 from launch.substitutions import PythonExpression
 from launch.actions import IncludeLaunchDescription, GroupAction, SetEnvironmentVariable, ExecuteProcess, TimerAction
@@ -17,23 +18,29 @@ import xacro
 
 def generate_launch_description():
     # Your package name
+
     pkg_name = 'navigation'
     share_dir = FindPackageShare(pkg_name)
-    
-    # World file path - using your demo.world.sdf
-    world_path = PathJoinSubstitution([share_dir, 'worlds', 'demo.world.sdf'])
 
+    config_path = PathJoinSubstitution([share_dir, 'config'])
+    
+    # World file path - using terrainxl file
+
+    terrain_xl_dir = FindPackageShare('terrainxl')
+
+    world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earth.sdf'])
+    print(world_path)
     # SJTU drone URDF processing
     use_sim_time = LaunchConfiguration("use_sim_time", default="true")
-    xacro_file_name = "sjtu_drone.urdf.xacro"
+    xacro_file_name = "scout.urdf.xacro"
     xacro_file = os.path.join(
-        get_package_share_directory("sjtu_drone_description"),
-        "urdf", xacro_file_name
+        get_package_share_directory('navigation'),
+        "models", "scout", xacro_file_name
     )
     
     # Process xacro file
     robot_description_config = xacro.process_file(xacro_file)
-    robot_desc = robot_description_config.toxml()
+    robot_description = robot_description_config.toxml()
     model_ns = "drone"
 
     # Alternative method using Command (in case xacro.process_file has issues)
@@ -71,13 +78,23 @@ def generate_launch_description():
         period=3.0,  # Wait for Gazebo to be ready
         actions=[
             Node(
-                package='ros_gz_sim',
+                package='ros_ign_gazebo',
                 executable='create',
                 name='spawn_drone',
                 output='screen',
-                arguments=['-name', 'drone', '-topic', 'robot_description']
+                arguments=['-name', 'drone', '-topic', 'robot_description', '-z', '500']
             )
         ]
+    )
+
+    #Launch ROS bridge
+
+    gazebo_bridge = Node(
+        package='ros_ign_bridge',
+        executable='parameter_bridge',
+        parameters=[{'config_file': PathJoinSubstitution([config_path,
+                                                          'gazebo_bridge.yaml']),
+                    'use_sim_time': use_sim_time}]
     )
 
     # Optional: RViz for visualization (remove if you don't have a config file)
@@ -103,6 +120,7 @@ def generate_launch_description():
         robot_state_publisher,
         joint_state_publisher,
         spawn_drone,
+        gazebo_bridge,
         # rviz,  # Uncomment if you have RViz config
     ])
 
