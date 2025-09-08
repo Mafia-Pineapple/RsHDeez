@@ -4,17 +4,22 @@ using std::placeholders::_1;
 Controller::Controller()
 : Node("controller")
 {
-  // Subs created in base (safe; callbacks just write local state)
+  // Subscribe to odometry from Ignition Gazebo bridge
   sub1_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/drone/gt_odom", 10, std::bind(&Controller::odoCallback, this, _1));  // :contentReference[oaicite:18]{index=18}
+      "/drone/odom", 10, std::bind(&Controller::odoCallback, this, _1));
 
+  // Subscribe to goal commands
   sub2_ = this->create_subscription<geometry_msgs::msg::Point>(
-      "/drone/goal", 10, std::bind(&Controller::setGoal, this, _1));         // :contentReference[oaicite:19]{index=19}
+      "/drone/goal", 10, std::bind(&Controller::setGoal, this, _1));
 
+  // Subscribe to clicked points from RViz
   sub3_ = this->create_subscription<geometry_msgs::msg::PointStamped>(
-      "/clicked_point", 10, std::bind(&Controller::setGoalClicked, this, _1)); // :contentReference[oaicite:20]{index=20}
+      "/clicked_point", 10, std::bind(&Controller::setGoalClicked, this, _1));
 
-  goal_.time = 0.0; goal_.distance = 0.0;
+  goal_.time = 0.0; 
+  goal_.distance = 0.0;
+  
+  RCLCPP_INFO(this->get_logger(), "Controller node initialized");
 }
 
 void Controller::setGoal(const geometry_msgs::msg::Point& msg)
@@ -22,6 +27,8 @@ void Controller::setGoal(const geometry_msgs::msg::Point& msg)
   std::lock_guard<std::mutex> lk(goalMtx_);
   goal_.location = msg;
   goalSet_ = true;
+  RCLCPP_INFO(this->get_logger(), "New goal set: (%.2f, %.2f, %.2f)", 
+              msg.x, msg.y, msg.z);
 }
 
 void Controller::setGoalClicked(const geometry_msgs::msg::PointStamped& msg)
@@ -29,11 +36,19 @@ void Controller::setGoalClicked(const geometry_msgs::msg::PointStamped& msg)
   std::lock_guard<std::mutex> lk(goalMtx_);
   goal_.location.x = msg.point.x;
   goal_.location.y = msg.point.y;
-  goal_.location.z = 2.0;
+  goal_.location.z = 2.0;  // Default flying height
   goalSet_ = true;
+  RCLCPP_INFO(this->get_logger(), "Goal set from clicked point: (%.2f, %.2f, %.2f)", 
+              goal_.location.x, goal_.location.y, goal_.location.z);
 }
 
-bool Controller::setTolerance(double t) { tolerance_ = t; return true; }
+bool Controller::setTolerance(double t) 
+{ 
+  tolerance_ = t; 
+  RCLCPP_INFO(this->get_logger(), "Tolerance set to: %.2f", t);
+  return true; 
+}
+
 double Controller::distanceToGoal(void) { return goal_.distance; }
 double Controller::timeToGoal(void)      { return goal_.time;      }
 double Controller::distanceTravelled(void) { return distance_travelled_; }
@@ -57,7 +72,8 @@ bool Controller::goalReached()
   const double dz = g.location.z - p.position.z;
   const double d  = std::sqrt(dx*dx + dy*dy + dz*dz);
 
-  RCLCPP_INFO(this->get_logger(), "distance: %.3f", d);
+  RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, 
+                       "Distance to goal: %.3f m", d);
   return (d < tolerance_);
 }
 
@@ -71,5 +87,5 @@ void Controller::odoCallback(const nav_msgs::msg::Odometry& msg)
 {
   std::lock_guard<std::mutex> lk(poseMtx_);
   pose_ = msg.pose.pose;
-  // (Optionally accumulate distance/time here if desired)
+  // Could accumulate distance/time here if needed
 }
