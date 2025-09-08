@@ -54,6 +54,21 @@ install(TARGETS
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
+install(
+  DIRECTORY launch worlds
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY worlds
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY models
+  DESTINATION share/${PROJECT_NAME}
+)
+
+
+
 # Public headers
 install(DIRECTORY include/
   DESTINATION include

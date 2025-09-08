@@ -5,7 +5,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         # Start Gazebo Sim (empty world)
-        ExecuteProcess(cmd=['gz', 'sim', '-v', '3', 'empty.sdf'], output='screen'),
+        ExecuteProcess(cmd=['ign', 'gazebo', '-v', '3', 'empty.sdf'], output='screen'),
 
         # Your adapter (bridge-free control + odom)
         Node(package='navigation', executable='gz_adapter', output='screen',
