@@ -28,7 +28,7 @@ def generate_launch_description():
 
     terrain_xl_dir = FindPackageShare('terrainxl')
 
-    world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earth.sdf'])
+    world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall.sdf'])
     print(world_path)
     # SJTU drone URDF processing
     use_sim_time = LaunchConfiguration("use_sim_time", default="true")
