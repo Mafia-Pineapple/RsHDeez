@@ -1,0 +1,176 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="drone_world">
+    
+    <physics name="default_physics" default="0" type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+    
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"></plugin>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"></plugin>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"></plugin>
+    
+    <!-- Sun -->
+    <include>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Sun</uri>
+    </include>
+    
+    <!-- Ground plane -->
+    <include>
+      <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/Ground Plane</uri>
+    </include>
+    
+    <!-- Drone model with force-based control -->
+    <model name="quadrotor">
+      <pose>0 0 1.0 0 0 0</pose>
+      <link name="base_link">
+        <inertial>
+          <mass>1.5</mass>
+          <inertia>
+            <ixx>0.029125</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.029125</iyy>
+            <iyz>0</iyz>
+            <izz>0.055225</izz>
+          </inertia>
+        </inertial>
+        
+        <visual name="body">
+          <geometry>
+            <box>
+              <size>0.47 0.47 0.11</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.2 1</ambient>
+            <diffuse>0.2 0.2 0.2 1</diffuse>
+          </material>
+        </visual>
+        
+        <collision name="body_collision">
+          <geometry>
+            <box>
+              <size>0.47 0.47 0.11</size>
+            </box>
+          </geometry>
+        </collision>
+        
+        <!-- Rotor visuals -->
+        <visual name="rotor_0">
+          <pose>0.19 0.19 0.1 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        
+        <visual name="rotor_1">
+          <pose>-0.19 0.19 0.1 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        
+        <visual name="rotor_2">
+          <pose>-0.19 -0.19 0.1 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+        
+        <visual name="rotor_3">
+          <pose>0.19 -0.19 0.1 0 0 0</pose>
+          <geometry>
+            <cylinder>
+              <radius>0.1</radius>
+              <length>0.01</length>
+            </cylinder>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+      
+      <!-- IMU sensor -->
+      <link name="imu_link">
+        <pose>0 0 0 0 0 0</pose>
+        <sensor name="imu_sensor" type="imu">
+          <always_on>1</always_on>
+          <update_rate>100</update_rate>
+          <visualize>true</visualize>
+          <topic>imu</topic>
+        </sensor>
+      </link>
+      
+      <joint name="imu_joint" type="fixed">
+        <child>imu_link</child>
+        <parent>base_link</parent>
+      </joint>
+      
+      <!-- Triggered publisher to convert cmd_vel to forces -->
+      <plugin filename="ignition-gazebo-triggered-publisher-system"
+              name="ignition::gazebo::systems::TriggeredPublisher">
+        <input type="ignition.msgs.Twist" topic="/cmd_vel">
+          <match field="linear.x">.*</match>
+        </input>
+        <output type="ignition.msgs.Wrench" topic="/force_cmd">
+          <ignition_key>force.x</ignition_key>
+          <ignition_value>{linear.x} * 5</ignition_value>
+          <ignition_key>force.y</ignition_key>
+          <ignition_value>{linear.y} * 5</ignition_value>
+          <ignition_key>force.z</ignition_key>
+          <ignition_value>{linear.z} * 8 + 14.7</ignition_value>
+          <ignition_key>torque.x</ignition_key>
+          <ignition_value>{angular.x} * 2</ignition_value>
+          <ignition_key>torque.y</ignition_key>
+          <ignition_value>{angular.y} * 2</ignition_value>
+          <ignition_key>torque.z</ignition_key>
+          <ignition_value>{angular.z} * 2</ignition_value>
+        </output>
+      </plugin>
+      
+      <!-- Apply forces -->
+      <plugin filename="ignition-gazebo-apply-link-wrench-system"
+              name="ignition::gazebo::systems::ApplyLinkWrench">
+        <link_name>base_link</link_name>
+        <force_topic>/force_cmd</force_topic>
+      </plugin>
+      
+      <!-- Odometry plugin -->
+      <plugin filename="ignition-gazebo-odometry-publisher-system"
+              name="ignition::gazebo::systems::OdometryPublisher">
+        <odom_frame>odom</odom_frame>
+        <robot_base_frame>base_link</robot_base_frame>
+        <odom_publish_frequency>50</odom_publish_frequency>
+        <odom_topic>odom</odom_topic>
+      </plugin>
+      
+    </model>
+    
+  </world>
+</sdf>

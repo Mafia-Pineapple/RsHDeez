@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <world name="demo_world">
+    <gravity>0 0 -9.81</gravity>
+
+    <!-- Simple ground plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane><normal>0 0 1</normal><size>100 100</size></plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane><normal>0 0 1</normal><size>100 100</size></plane>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Sun -->
+    <light name="sun" type="directional">
+      <pose>0 0 10 0 0 0</pose>
+      <direction>-0.5 0.5 -1</direction>
+    </light>
+
+    <!-- GUI broadcaster -->
+    <plugin name="scene_broadcaster" filename="gz-sim-scene-broadcaster-system"/>
+  </world>
+</sdf>

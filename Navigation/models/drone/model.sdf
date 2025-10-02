@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+  <model name="drone">
+    <pose>0 0 0.5 0 0 0</pose>
+    <link name="base_link">
+      <inertial>
+        <mass>1.0</mass>
+        <inertia>
+          <ixx>0.002</ixx><iyy>0.002</iyy><izz>0.003</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <collision name="col">
+        <geometry><box><size>0.3 0.3 0.1</size></box></geometry>
+      </collision>
+      <visual name="vis">
+        <geometry><box><size>0.3 0.3 0.1</size></box></geometry>
+      </visual>
+    </link>
+
+    <plugin name="lin_vel" filename="gz-sim-linear-velocity-control-system">
+      <topic>/model/drone/cmd_vel</topic>
+      <use_world_frame>false</use_world_frame>
+      <limit>3.0</limit>
+    </plugin>
+    <plugin name="ang_vel" filename="gz-sim-angular-velocity-control-system">
+      <topic>/model/drone/cmd_vel</topic>
+      <use_world_frame>false</use_world_frame>
+      <limit>2.0</limit>
+    </plugin>
+    <plugin name="odom_pub" filename="gz-sim-odometry-publisher-system">
+      <frame_id>world</frame_id>
+      <child_frame_id>drone/base_link</child_frame_id>
+      <topic>/model/drone/odometry</topic>
+      <publish_velocity>true</publish_velocity>
+    </plugin>
+  </model>
+</sdf>

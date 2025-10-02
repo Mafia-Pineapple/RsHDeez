@@ -28,7 +28,7 @@ def generate_launch_description():
 
     terrain_xl_dir = FindPackageShare('terrainxl')
 
-    world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earth.sdf'])
+    world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'drone_world.sdf'])
     print(world_path)
     # SJTU drone URDF processing
     use_sim_time = LaunchConfiguration("use_sim_time", default="true")
@@ -82,7 +82,7 @@ def generate_launch_description():
                 executable='create',
                 name='spawn_drone',
                 output='screen',
-                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-5000', '-x', '3700', '-z', '513.5']
+                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '0', '-x', '0', '-z', '3.3']
             )
         ]
     )

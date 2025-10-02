@@ -4,9 +4,9 @@ using std::placeholders::_1;
 Controller::Controller()
 : Node("controller")
 {
-  // Subscribe to odometry from Ignition Gazebo bridge
+  // Subscribe to odometry from the correct topic
   sub1_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/drone/odom", 10, std::bind(&Controller::odoCallback, this, _1));
+      "/odometry", 10, std::bind(&Controller::odoCallback, this, _1));
 
   // Subscribe to goal commands
   sub2_ = this->create_subscription<geometry_msgs::msg::Point>(
@@ -20,6 +20,7 @@ Controller::Controller()
   goal_.distance = 0.0;
   
   RCLCPP_INFO(this->get_logger(), "Controller node initialized");
+  RCLCPP_INFO(this->get_logger(), "Subscribing to odometry on: /odometry");
 }
 
 void Controller::setGoal(const geometry_msgs::msg::Point& msg)
@@ -87,5 +88,9 @@ void Controller::odoCallback(const nav_msgs::msg::Odometry& msg)
 {
   std::lock_guard<std::mutex> lk(poseMtx_);
   pose_ = msg.pose.pose;
-  // Could accumulate distance/time here if needed
+  
+  // Debug: Log position occasionally
+  RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 5000, 
+                       "Current position: (%.2f, %.2f, %.2f)", 
+                       pose_.position.x, pose_.position.y, pose_.position.z);
 }
