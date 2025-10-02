@@ -14,8 +14,8 @@ Quadcopter::Quadcopter()
 {
   tolerance_ = 0.5; // 0.5 m sphere tolerance
 
-  // Publishers for drone control
-  pubCmdVel_  = this->create_publisher<geometry_msgs::msg::Twist>("/model/drone/cmd_vel", 10);
+  // Publishers for drone control - try generic topic
+  pubCmdVel_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
   pubTakeOff_ = this->create_publisher<std_msgs::msg::Empty>("/drone/takeoff", 10);
   pubLanding_ = this->create_publisher<std_msgs::msg::Empty>("/drone/land", 10);
 
@@ -105,7 +105,7 @@ void Quadcopter::sendCmd(double yaw_rate, double move_l_r, double move_u_d, doub
   
   // Debug output
   RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000, 
-                       "Publishing cmd: linear.z=%.2f to /model/drone/cmd_vel", 
+                       "Publishing cmd: linear.z=%.2f to /drone/cmd_vel", 
                        msg.linear.z);
 }
 

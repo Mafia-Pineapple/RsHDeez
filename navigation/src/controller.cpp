@@ -4,9 +4,9 @@ using std::placeholders::_1;
 Controller::Controller()
 : Node("controller")
 {
-  // Subscribe to odometry from the correct topic
+  // Subscribe to odometry from Gazebo
   sub1_ = this->create_subscription<nav_msgs::msg::Odometry>(
-      "/odometry", 10, std::bind(&Controller::odoCallback, this, _1));
+    "/odometry", 10, std::bind(&Controller::odoCallback, this, _1));
 
   // Subscribe to goal commands
   sub2_ = this->create_subscription<geometry_msgs::msg::Point>(
@@ -20,7 +20,7 @@ Controller::Controller()
   goal_.distance = 0.0;
   
   RCLCPP_INFO(this->get_logger(), "Controller node initialized");
-  RCLCPP_INFO(this->get_logger(), "Subscribing to odometry on: /odometry");
+  RCLCPP_INFO(this->get_logger(), "Subscribing to odometry on: /drone/gt_odom");
 }
 
 void Controller::setGoal(const geometry_msgs::msg::Point& msg)
