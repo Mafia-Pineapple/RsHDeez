@@ -54,6 +54,12 @@ install(DIRECTORY
   models
   DESTINATION share/${PROJECT_NAME})
 
+
+  add_executable(pose_to_odom src/pose_to_odom.cpp)
+  ament_target_dependencies(pose_to_odom rclcpp geometry_msgs nav_msgs)
+  install(TARGETS pose_to_odom DESTINATION lib/${PROJECT_NAME})
+  
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()

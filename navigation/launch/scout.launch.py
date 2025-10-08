@@ -106,6 +106,14 @@ def generate_launch_description():
     #     arguments=['-d', os.path.join(get_package_share_directory('navigation'), 'rviz', 'navigation.rviz')]
     # )
 
+    Node(
+        package='navigation',
+        executable='pose_to_odom',
+        name='pose_to_odom',
+        output='screen',
+    ),
+
+
     ld = launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
             name='use_sim_time',
@@ -121,6 +129,7 @@ def generate_launch_description():
         joint_state_publisher,
         spawn_drone,
         gazebo_bridge,
+        
         # rviz,  # Uncomment if you have RViz config
     ])
 
