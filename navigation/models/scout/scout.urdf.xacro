@@ -11,49 +11,58 @@
 
   <!-- Main link -->
   <link name="base_link">
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="0.503"/> <!-- kg -->
-      <inertia ixx="1.805e-3" ixy="-8.619e-7" ixz="1.555e-5"
-               iyy="1.764e-3" iyz="3.595e-7"
-               izz="3.328e-3" />
-    </inertial>
-<!--     <collision name="collision">
-      <origin xyz="-0.00424 0.00014 -0.00595" rpy="0 0 0"/>
-      <geometry>
-        <box size="0.5 0.5 0.2"/>
-      </geometry>
-    </collision> -->
-    <visual name="hull">
-      <geometry>
-        <mesh filename="file://$(find navigation)/models/scout/meshes/hull.dae"/>
-      </geometry>
-    </visual>
-    <visual name="propeller_rr">
-      <origin xyz="-0.09035 -0.11423 -0.00501" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_rr.dae"/>
-      </geometry>
-    </visual>
-    <visual name="propeller_rl">
-      <origin xyz="0.09035 0.11452 -0.00501" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_rl.dae"/>
-      </geometry>
-    </visual>
-    <visual name="propeller_fr">
-      <origin xyz="0.08456 -0.11435 -0.00501" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_fr.dae"/>
-      </geometry>
-    </visual>
-    <visual name="propeller_fl">
-      <origin xyz="0.08456 0.11463 -0.00501" rpy="0 0 0"/>
-      <geometry>
-        <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_fl.dae"/>
-      </geometry>
-    </visual>
-  </link>
+  <inertial>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <mass value="0.503"/> <!-- kg -->
+    <inertia ixx="1.805e-3" ixy="-8.619e-7" ixz="1.555e-5"
+             iyy="1.764e-3" iyz="3.595e-7"
+             izz="3.328e-3" />
+  </inertial>
+
+  <!-- COLLISION: matches your SDF body collision -->
+  <collision name="base_link_collision">
+    <origin xyz="-0.00424 0.00014 -0.00595" rpy="0 0 0"/>
+    <geometry>
+      <box size="0.316618 0.330564 0.089582"/>
+    </geometry>
+  </collision>
+
+  <!-- Visuals (unchanged) -->
+  <visual name="hull">
+    <geometry>
+      <mesh filename="file://$(find navigation)/models/scout/meshes/hull.dae"/>
+    </geometry>
+  </visual>
+
+  <visual name="propeller_rr">
+    <origin xyz="-0.09035 -0.11423 -0.00501" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_rr.dae"/>
+    </geometry>
+  </visual>
+
+  <visual name="propeller_rl">
+    <origin xyz="0.09035 0.11452 -0.00501" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_rl.dae"/>
+    </geometry>
+  </visual>
+
+  <visual name="propeller_fr">
+    <origin xyz="0.08456 -0.11435 -0.00501" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_fr.dae"/>
+    </geometry>
+  </visual>
+
+  <visual name="propeller_fl">
+    <origin xyz="0.08456 0.11463 -0.00501" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find navigation)/models/scout/meshes/propeller_fl.dae"/>
+    </geometry>
+  </visual>
+</link>
+
 
 
   <joint name="imu_joint" type="fixed">

@@ -84,6 +84,25 @@
     </plugin>
   </gazebo>
 
+<gazebo reference="base_link">
+  <self_collide>false</self_collide>
+  <surface>
+    <contact>
+      <!-- default mask: collide with world -->
+      <collide_bitmask>0xFFFF</collide_bitmask>
+    </contact>
+    <friction>
+      <ode>
+        <mu>0.8</mu>
+        <mu2>0.6</mu2>
+      </ode>
+    </friction>
+    <bounce>
+      <restitution_coefficient>0.05</restitution_coefficient>
+    </bounce>
+  </surface>
+</gazebo>
+
   <!-- Publish odometry separately -->
 <gazebo>
   <plugin
