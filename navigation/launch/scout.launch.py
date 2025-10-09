@@ -82,7 +82,7 @@ def generate_launch_description():
                 executable='create',
                 name='spawn_drone',
                 output='screen',
-                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '0', '-x', '0', '-z', '3.3']
+                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-7946.740000', '-x', '-178.273000', '-z', '567.6510']
             )
         ]
     )
