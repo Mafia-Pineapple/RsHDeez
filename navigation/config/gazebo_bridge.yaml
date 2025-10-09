@@ -1,10 +1,9 @@
-# Timing consistency
-- ros_topic_name: '/clock'
-  gz_topic_name: '/clock'
-  ros_type_name: 'rosgraph_msgs/msg/Clock'
-  gz_type_name: 'gz.msgs.Clock'
+- ros_topic_name: "/clock"
+  gz_topic_name: "/clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
   direction: GZ_TO_ROS
-
+  
 # Position of joints [ie. wheels] (published by ignition::gazebo::systems::JointStatePublisher)
 - ros_topic_name: '/joint_states'
   gz_topic_name: '/model/scout/joint_states'
@@ -61,9 +60,17 @@
   gz_type_name: "ignition.msgs.Image"
   direction: GZ_TO_ROS
 
-# Camera: depth pointcloud
+# Depth cloud
 - ros_topic_name: "/camera/depth/points"
   gz_topic_name: "/model/scout/camera/points"
   ros_type_name: "sensor_msgs/msg/PointCloud2"
-  gz_type_name: "ignition.msgs.PointCloudPacked"
+  gz_type_name: "gz.msgs.PointCloudPacked"
   direction: GZ_TO_ROS
+
+# Downward AGL (LaserScan)
+- ros_topic_name: "/drone/agl"
+  gz_topic_name: "/model/scout/agl"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  gz_type_name: "gz.msgs.LaserScan"
+  direction: GZ_TO_ROS
+

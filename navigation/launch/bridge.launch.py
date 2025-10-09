@@ -3,11 +3,12 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     """
-    Launch file to bridge topics between ROS2 and Ignition Gazebo
+    Bridges between ROS 2 and Gazebo (Ignition/GZ).
+    NOTE: If your world name isn't 'default', or your model/link/sensor
+    differ, change the AGL GZ topic accordingly.
     """
-    
-    # Bridge for drone command velocities (ROS -> Gazebo)
-    # SJTU drone uses /cmd_vel topic
+
+    # /cmd_vel (ROS -> GZ). Keep bidirectional if you actually need it both ways.
     cmd_vel_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -17,50 +18,51 @@ def generate_launch_description():
         ],
         output='screen'
     )
-    
-    # Bridge for drone odometry (Gazebo -> ROS)
+
+    # Odometry (GZ -> ROS).
+    # ⚠ If your model is 'scout' (it is, per your SDF), change '/model/drone/...' to '/model/scout/...'
     odom_bridge = Node(
         package='ros_gz_bridge',
-        executable='parameter_bridge', 
+        executable='parameter_bridge',
         name='odom_bridge',
         arguments=[
-            '/model/drone/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry'
+            '/model/scout/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry'
         ],
         remappings=[
-            ('/model/drone/odometry', '/drone/odom')
+            ('/model/scout/odometry', '/drone/odom')
         ],
         output='screen'
     )
-    
-    # Bridge for drone pose (Gazebo -> ROS) - alternative to odometry
+
+    # Pose (GZ -> ROS).
     pose_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        name='pose_bridge', 
+        name='pose_bridge',
         arguments=[
-            '/model/drone/pose@geometry_msgs/msg/PoseStamped@gz.msgs.Pose'
+            '/model/scout/pose@geometry_msgs/msg/PoseStamped[gz.msgs.Pose'
         ],
         remappings=[
-            ('/model/drone/pose', '/drone/pose')
+            ('/model/scout/pose', '/drone/pose')
         ],
         output='screen'
     )
-    
-    # Bridge for IMU data (if available)
+
+    # IMU (GZ -> ROS) — only if you have this topic in sim.
     imu_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name='imu_bridge',
         arguments=[
-            '/imu@sensor_msgs/msg/Imu@gz.msgs.IMU'
+            '/imu@sensor_msgs/msg/Imu[gz.msgs.IMU'
         ],
         remappings=[
             ('/imu', '/drone/imu')
         ],
         output='screen'
     )
-    
-    # Bridge for clock synchronization
+
+    # Clock (GZ -> ROS).
     clock_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -69,10 +71,29 @@ def generate_launch_description():
         output='screen'
     )
 
+    # AGL / downward laser (GZ -> ROS) — this is the important one.
+    # Default GZ topic when <topic> is removed from the SDF:
+    #   /world/<WORLD>/model/scout/link/body/sensor/agl/scan
+    # Change 'default' if your world has a different name.
+    agl_gz_topic = '/world/default/model/scout/link/body/sensor/agl/scan'
+    agl_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='agl_bridge',
+        arguments=[
+            f'{agl_gz_topic}@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'
+        ],
+        remappings=[
+            (agl_gz_topic, '/drone/agl')
+        ],
+        output='screen'
+    )
+
     return LaunchDescription([
         cmd_vel_bridge,
-        odom_bridge, 
+        odom_bridge,
         pose_bridge,
         imu_bridge,
         clock_bridge,
+        agl_bridge,
     ])

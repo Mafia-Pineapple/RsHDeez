@@ -82,11 +82,7 @@ def generate_launch_description():
                 executable='create',
                 name='spawn_drone',
                 output='screen',
-<<<<<<< HEAD
-                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-7946.740000', '-x', '-178.273000', '-z', '567.6510']
-=======
-                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-4660', '-x', '3528', '-z', '580'],
->>>>>>> origin/NicBranch
+                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-7946.740000', '-x', '-178.273000', '-z', '567.6510'],
             )
         ]
     )
