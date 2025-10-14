@@ -67,10 +67,9 @@
   gz_type_name: "gz.msgs.PointCloudPacked"
   direction: GZ_TO_ROS
 
-# Downward AGL (LaserScan)
-- ros_topic_name: "/drone/agl"
+# Downward AGL (LaserScan) - UPDATED
+- ros_topic_name: "/agl"
   gz_topic_name: "/model/scout/agl"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "gz.msgs.LaserScan"
   direction: GZ_TO_ROS
-

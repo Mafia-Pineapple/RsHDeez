@@ -18,18 +18,16 @@ import xacro
 
 def generate_launch_description():
     # Your package name
-
     pkg_name = 'navigation'
     share_dir = FindPackageShare(pkg_name)
 
     config_path = PathJoinSubstitution([share_dir, 'config'])
     
     # World file path - using terrainxl file
-
     terrain_xl_dir = FindPackageShare('terrainxl')
-
     world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall.sdf'])
     print(world_path)
+    
     # SJTU drone URDF processing
     use_sim_time = LaunchConfiguration("use_sim_time", default="true")
     xacro_file_name = "scout.urdf.xacro"
@@ -87,8 +85,7 @@ def generate_launch_description():
         ]
     )
 
-    #Launch ROS bridge
-
+    # Launch ROS bridge
     gazebo_bridge = Node(
         package='ros_ign_bridge',
         executable='parameter_bridge',
@@ -97,22 +94,21 @@ def generate_launch_description():
                     'use_sim_time': use_sim_time}]
     )
 
-    # Optional: RViz for visualization (remove if you don't have a config file)
-    # rviz = Node(
-    #     package='rviz2',
-    #     executable='rviz2',
-    #     name='navigation_viz',
-    #     output={'both': 'log'},
-    #     arguments=['-d', os.path.join(get_package_share_directory('navigation'), 'rviz', 'navigation.rviz')]
-    # )
-
-    Node(
+    # Pose to odom converter
+    pose_to_odom = Node(
         package='navigation',
         executable='pose_to_odom',
         name='pose_to_odom',
         output='screen',
-    ),
+    )
 
+    # AGL parser node
+    agl_parser = Node(
+        package='navigation',
+        executable='agl_parser',
+        name='agl_parser',
+        output='screen',
+    )
 
     ld = launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
@@ -129,6 +125,8 @@ def generate_launch_description():
         joint_state_publisher,
         spawn_drone,
         gazebo_bridge,
+        pose_to_odom,
+        agl_parser,
         
         # rviz,  # Uncomment if you have RViz config
     ])
