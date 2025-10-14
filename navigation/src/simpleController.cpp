@@ -1,236 +1,333 @@
-#include <rclcpp/rclcpp.hpp>
-#include <geometry_msgs/msg/twist.hpp>
-#include <nav_msgs/msg/odometry.hpp>
+#include "quadcopter.h"
+#include <cmath>
 #include <chrono>
+#include <random>
+#include <tf2/utils.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 using namespace std::chrono_literals;
 
-class SimpleDroneController : public rclcpp::Node
+Quadcopter::Quadcopter()
+: liftoff_(false),
+  TARGET_SPEED(1.0),
+  TARGET_HEIGHT_TOLERANCE(0.2),
+  goalSet_(false),
+  wandering_(false),
+  target_agl_(1.5)
 {
-public:
-    SimpleDroneController() : Node("simple_drone_controller"), phase_(Phase::TAKEOFF)
-    {
-        // Publisher to drone cmd_vel topic - FIXED: Changed from /model/drone to /model/scout
-        cmd_vel_pub_ = this->create_publisher<geometry_msgs::msg::Twist>("/model/scout/cmd_vel", 10);
-        
-        // Subscribe to odometry to track position - FIXED: Changed from /model/drone to /model/scout
-        odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
-            "/model/scout/odometry", 10,
-            std::bind(&SimpleDroneController::odomCallback, this, std::placeholders::_1));
-        
-        // Control timer at 20Hz
-        timer_ = this->create_wall_timer(50ms, std::bind(&SimpleDroneController::controlLoop, this));
-        
-        // Initialize variables
-        start_time_ = this->now();
-        takeoff_height_ = 3.0;  // Target takeoff height in meters
-        forward_distance_ = 5.0; // Target forward distance in meters
-        
-        RCLCPP_INFO(this->get_logger(), "Simple Drone Controller started");
-        RCLCPP_INFO(this->get_logger(), "Phase 1: Taking off to %.1f meters", takeoff_height_);
-    }
+  tolerance_ = 0.5; // 0.5 m sphere tolerance
 
-private:
-    enum class Phase {
-        TAKEOFF,
-        HOVER_STABILIZE,
-        MOVE_FORWARD,
-        HOVER_END,
-        COMPLETE
-    };
-    
-    void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
-    {
-        current_pose_ = msg->pose.pose;
-        
-        // Track initial position on first callback
-        if (!initial_pose_set_) {
-            initial_pose_ = current_pose_;
-            initial_pose_set_ = true;
-            RCLCPP_INFO(this->get_logger(), "Initial position recorded: (%.2f, %.2f, %.2f)", 
-                       initial_pose_.position.x, initial_pose_.position.y, initial_pose_.position.z);
-        }
-    }
-    
-    void controlLoop()
-    {
-        if (!initial_pose_set_) {
-            // Wait for first odometry message
-            return;
-        }
-        
-        geometry_msgs::msg::Twist cmd;
-        
-        switch (phase_) {
-            case Phase::TAKEOFF:
-                handleTakeoff(cmd);
-                break;
-                
-            case Phase::HOVER_STABILIZE:
-                handleHoverStabilize(cmd);
-                break;
-                
-            case Phase::MOVE_FORWARD:
-                handleMoveForward(cmd);
-                break;
-                
-            case Phase::HOVER_END:
-                handleHoverEnd(cmd);
-                break;
-                
-            case Phase::COMPLETE:
-                // Mission complete, send zero velocities
-                cmd.linear.x = 0.0;
-                cmd.linear.y = 0.0;
-                cmd.linear.z = 0.0;
-                cmd.angular.z = 0.0;
-                break;
-        }
-        
-        cmd_vel_pub_->publish(cmd);
-    }
-    
-    void handleTakeoff(geometry_msgs::msg::Twist& cmd)
-    {
-        double current_height = current_pose_.position.z - initial_pose_.position.z;
-        double height_error = takeoff_height_ - current_height;
-        
-        if (std::abs(height_error) < 0.2) {
-            // Close enough to target height, move to hover stabilize
-            phase_ = Phase::HOVER_STABILIZE;
-            phase_start_time_ = this->now();
-            RCLCPP_INFO(this->get_logger(), "Takeoff complete! Current height: %.2f m", current_height);
-            RCLCPP_INFO(this->get_logger(), "Phase 2: Stabilizing hover for 2 seconds");
-            
-            cmd.linear.x = 0.0;
-            cmd.linear.y = 0.0;
-            cmd.linear.z = 0.0;
-            cmd.angular.z = 0.0;
-        } else {
-            // Continue climbing with proportional control
-            double climb_velocity = std::max(0.2, std::min(1.5, height_error * 0.8));
-            
-            cmd.linear.x = 0.0;
-            cmd.linear.y = 0.0;
-            cmd.linear.z = climb_velocity;
-            cmd.angular.z = 0.0;
-            
-            RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000,
-                               "Taking off... Height: %.2f/%.2f m", current_height, takeoff_height_);
-        }
-    }
-    
-    void handleHoverStabilize(geometry_msgs::msg::Twist& cmd)
-    {
-        auto elapsed = this->now() - phase_start_time_;
-        
-        if (elapsed.seconds() > 2.0) {
-            // Stabilization complete, start moving forward
-            phase_ = Phase::MOVE_FORWARD;
-            forward_start_pose_ = current_pose_;
-            RCLCPP_INFO(this->get_logger(), "Stabilization complete!");
-            RCLCPP_INFO(this->get_logger(), "Phase 3: Moving forward %.1f meters", forward_distance_);
-        }
-        
-        // Maintain altitude with slight upward velocity to counteract gravity
-        double current_height = current_pose_.position.z - initial_pose_.position.z;
-        double height_error = takeoff_height_ - current_height;
-        double altitude_correction = height_error * 0.5;
-        
-        cmd.linear.x = 0.0;
-        cmd.linear.y = 0.0;
-        cmd.linear.z = altitude_correction;
-        cmd.angular.z = 0.0;
-    }
-    
-    void handleMoveForward(geometry_msgs::msg::Twist& cmd)
-    {
-        double dx = current_pose_.position.x - forward_start_pose_.position.x;
-        double distance_travelled = std::abs(dx);
-        double distance_remaining = forward_distance_ - distance_travelled;
-        
-        if (distance_remaining <= 0.2) {
-            // Close enough to target distance, start final hover
-            phase_ = Phase::HOVER_END;
-            phase_start_time_ = this->now();
-            RCLCPP_INFO(this->get_logger(), "Forward movement complete! Distance: %.2f m", distance_travelled);
-            RCLCPP_INFO(this->get_logger(), "Phase 4: Final hover for 3 seconds");
-            
-            cmd.linear.x = 0.0;
-            cmd.linear.y = 0.0;
-            cmd.linear.z = 0.0;
-            cmd.angular.z = 0.0;
-        } else {
-            // Continue moving forward with altitude maintenance
-            double forward_velocity = std::max(0.3, std::min(1.0, distance_remaining * 0.5));
-            
-            // Maintain altitude
-            double current_height = current_pose_.position.z - initial_pose_.position.z;
-            double height_error = takeoff_height_ - current_height;
-            double altitude_correction = height_error * 0.5;
-            
-            cmd.linear.x = forward_velocity;  // Forward (positive X in body frame)
-            cmd.linear.y = 0.0;               // No sideways movement
-            cmd.linear.z = altitude_correction; // Altitude correction
-            cmd.angular.z = 0.0;              // No yaw rotation
-            
-            RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000,
-                               "Moving forward... Distance: %.2f/%.2f m", distance_travelled, forward_distance_);
-        }
-    }
-    
-    void handleHoverEnd(geometry_msgs::msg::Twist& cmd)
-    {
-        auto elapsed = this->now() - phase_start_time_;
-        
-        if (elapsed.seconds() > 3.0) {
-            // Mission complete
-            phase_ = Phase::COMPLETE;
-            RCLCPP_INFO(this->get_logger(), "Mission complete! Drone will now hover in place.");
-        }
-        
-        // Maintain altitude during final hover
-        double current_height = current_pose_.position.z - initial_pose_.position.z;
-        double height_error = takeoff_height_ - current_height;
-        double altitude_correction = height_error * 0.5;
-        
-        cmd.linear.x = 0.0;
-        cmd.linear.y = 0.0;
-        cmd.linear.z = altitude_correction;
-        cmd.angular.z = 0.0;
-    }
-    
-    // ROS2 components
-    rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub_;
-    rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
-    rclcpp::TimerBase::SharedPtr timer_;
-    
-    // State variables
-    Phase phase_;
-    rclcpp::Time start_time_;
-    rclcpp::Time phase_start_time_;
-    
-    // Pose tracking
-    geometry_msgs::msg::Pose current_pose_;
-    geometry_msgs::msg::Pose initial_pose_;
-    geometry_msgs::msg::Pose forward_start_pose_;
-    bool initial_pose_set_ = false;
-    
-    // Flight parameters
-    double takeoff_height_;
-    double forward_distance_;
-};
+  // Publishers for drone control
+  pubCmdVel_ = this->create_publisher<geometry_msgs::msg::Twist>("/cmd_vel", 10);
+  pubTakeOff_ = this->create_publisher<std_msgs::msg::Empty>("/drone/takeoff", 10);
+  pubLanding_ = this->create_publisher<std_msgs::msg::Empty>("/drone/land", 10);
 
-int main(int argc, char** argv)
+  // Subscriber for goal position
+  subGoal_ = this->create_subscription<geometry_msgs::msg::PointStamped>(
+      "/drone/goal_stamped", 10,
+      std::bind(&Quadcopter::goalCallback, this, std::placeholders::_1));
+
+  // Subscriber for AGL
+  subAgl_ = this->create_subscription<std_msgs::msg::Float64>(
+      "/drone/agl_distance", 10,
+      std::bind(&Quadcopter::aglCallback, this, std::placeholders::_1));
+
+  // Service to start/stop motion control
+  srvReachGoal_ = this->create_service<std_srvs::srv::SetBool>(
+      "/reach_goal",
+      std::bind(&Quadcopter::control, this, std::placeholders::_1, std::placeholders::_2));
+
+  // Service to enable/disable wandering mode
+  srvWander_ = this->create_service<std_srvs::srv::SetBool>(
+      "/wander_mode",
+      std::bind(&Quadcopter::wanderControl, this, std::placeholders::_1, std::placeholders::_2));
+
+  // 20 Hz control loop for smooth flight
+  timer_ = this->create_wall_timer(50ms, std::bind(&Quadcopter::reachGoal, this));
+
+  // Random number generator for wandering
+  random_engine_.seed(std::chrono::system_clock::now().time_since_epoch().count());
+
+  RCLCPP_INFO(this->get_logger(), "Quadcopter node initialized");
+  RCLCPP_INFO(this->get_logger(), "Services:");
+  RCLCPP_INFO(this->get_logger(), "  - /reach_goal (data=true: fly to goal)");
+  RCLCPP_INFO(this->get_logger(), "  - /wander_mode (data=true: wander aimlessly)");
+  RCLCPP_INFO(this->get_logger(), "Topics:");
+  RCLCPP_INFO(this->get_logger(), "  - /drone/goal_stamped (set target position)");
+  RCLCPP_INFO(this->get_logger(), "  - /drone/agl_distance (altitude above ground)");
+}
+
+Quadcopter::~Quadcopter() = default;
+
+void Quadcopter::aglCallback(const std_msgs::msg::Float64::SharedPtr msg)
 {
-    rclcpp::init(argc, argv);
-    
-    auto node = std::make_shared<SimpleDroneController>();
-    
-    RCLCPP_INFO(node->get_logger(), "Starting drone flight sequence...");
-    
-    rclcpp::spin(node);
-    rclcpp::shutdown();
-    
-    return 0;
+  current_agl_ = msg->data;
+  agl_received_ = true;
+}
+
+bool Quadcopter::checkOriginToDestination(geometry_msgs::msg::Pose origin,
+                                          geometry_msgs::msg::Point goal,
+                                          double& distance, double& time,
+                                          geometry_msgs::msg::Pose& estimatedGoalPose)
+{
+  const double dx = goal.x - origin.position.x;
+  const double dy = goal.y - origin.position.y;
+  const double dz = goal.z - origin.position.z;
+  distance = std::sqrt(dx*dx + dy*dy + dz*dz);
+  time = distance / TARGET_SPEED;
+
+  estimatedGoalPose.position = goal;
+  estimatedGoalPose.orientation = origin.orientation;
+  return true;
+}
+
+void Quadcopter::goalCallback(const geometry_msgs::msg::PointStamped::SharedPtr msg)
+{
+  goalPosition_ = msg->point;
+  goalSet_ = true;
+  wandering_ = false; // Stop wandering if goal is set
+  RCLCPP_INFO(this->get_logger(), "New goal received: (%.2f, %.2f, %.2f)", 
+              goalPosition_.x, goalPosition_.y, goalPosition_.z);
+}
+
+bool Quadcopter::goalReached(void)
+{
+  if (!goalSet_) return false;
+  
+  auto pose = getOdometry();
+  const double dx = goalPosition_.x - pose.position.x;
+  const double dy = goalPosition_.y - pose.position.y;
+  const double dz = goalPosition_.z - pose.position.z;
+  const double distance = std::sqrt(dx*dx + dy*dy + dz*dz);
+  
+  return distance < tolerance_;
+}
+
+GoalStats Quadcopter::calcNewGoal(void)
+{
+  auto pose = getOdometry();
+  auto goalStats = getGoalStats();
+
+  geometry_msgs::msg::Pose est;
+  checkOriginToDestination(pose, goalStats.location, goalStats.distance, goalStats.time, est);
+
+  const double dx = goalStats.location.x - pose.position.x;
+  const double dy = goalStats.location.y - pose.position.y;
+  target_angle_ = std::atan2(dy, dx);
+
+  return goalStats;
+}
+
+void Quadcopter::sendCmd(double yaw_rate, double move_l_r, double move_u_d, double move_f_b)
+{
+  geometry_msgs::msg::Twist msg;
+  msg.linear.x  = move_f_b;   // forward/backward
+  msg.linear.y  = move_l_r;   // left/right  
+  msg.linear.z  = move_u_d;   // up/down
+  msg.angular.z = yaw_rate;   // yaw rotation
+  
+  pubCmdVel_->publish(msg);
+}
+
+void Quadcopter::sendTakeOff(void)
+{
+  std_msgs::msg::Empty e;
+  pubTakeOff_->publish(e);
+  liftoff_ = true;  
+  landed_ = false;
+  RCLCPP_INFO(this->get_logger(), "Takeoff command sent");
+}
+
+void Quadcopter::sendLanding(void)
+{
+  std_msgs::msg::Empty e;
+  pubLanding_->publish(e);
+  liftoff_ = false; 
+  landed_ = true;
+  RCLCPP_INFO(this->get_logger(), "Landing command sent");
+}
+
+void Quadcopter::control(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+                         std::shared_ptr<std_srvs::srv::SetBool::Response> res)
+{
+  if (req->data) {
+    if (goalSet_) {
+      status_ = pfms::PlatformStatus::RUNNING;
+      wandering_ = false;
+      res->success = true;
+      res->message = "Flying to goal position";
+      RCLCPP_INFO(this->get_logger(), "Control enabled - flying to goal");
+    } else {
+      res->success = false;
+      res->message = "No goal set. Publish to /drone/goal_stamped first";
+      RCLCPP_WARN(this->get_logger(), "No goal set - publish to /drone/goal_stamped first");
+    }
+  } else {
+    status_ = pfms::PlatformStatus::LANDING;
+    wandering_ = false;
+    res->success = true;
+    res->message = "Stopping and landing";
+    RCLCPP_INFO(this->get_logger(), "Control disabled - landing");
+  }
+}
+
+void Quadcopter::wanderControl(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+                                std::shared_ptr<std_srvs::srv::SetBool::Response> res)
+{
+  if (req->data) {
+    wandering_ = true;
+    goalSet_ = false;
+    status_ = pfms::PlatformStatus::RUNNING;
+    wander_direction_change_time_ = this->now();
+    generateRandomDirection();
+    res->success = true;
+    res->message = "Wandering mode enabled - maintaining 1.5m AGL";
+    RCLCPP_INFO(this->get_logger(), "Wandering mode enabled!");
+  } else {
+    wandering_ = false;
+    res->success = true;
+    res->message = "Wandering mode disabled";
+    RCLCPP_INFO(this->get_logger(), "Wandering mode disabled");
+  }
+}
+
+void Quadcopter::generateRandomDirection()
+{
+  // Random forward velocity (0.3 to 1.2 m/s)
+  std::uniform_real_distribution<double> speed_dist(0.3, 1.2);
+  wander_speed_ = speed_dist(random_engine_);
+  
+  // Random yaw rate (-0.3 to 0.3 rad/s for gentle turning)
+  std::uniform_real_distribution<double> yaw_dist(-0.3, 0.3);
+  wander_yaw_rate_ = yaw_dist(random_engine_);
+  
+  // Random duration (3 to 8 seconds before changing direction)
+  std::uniform_real_distribution<double> time_dist(3.0, 8.0);
+  wander_duration_ = time_dist(random_engine_);
+  
+  RCLCPP_INFO(this->get_logger(), 
+              "New wander direction: speed=%.2f m/s, yaw_rate=%.2f rad/s, duration=%.1fs",
+              wander_speed_, wander_yaw_rate_, wander_duration_);
+}
+
+double Quadcopter::maintainAltitude()
+{
+  if (!agl_received_) {
+    RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
+                         "No AGL data received yet");
+    return 0.0;
+  }
+  
+  // Proportional control for altitude
+  const double agl_error = target_agl_ - current_agl_;
+  const double kp_alt = 0.8;  // Altitude gain
+  double vz = kp_alt * agl_error;
+  
+  // Clamp vertical velocity
+  const double max_vz = 1.0;
+  vz = std::max(-max_vz, std::min(max_vz, vz));
+  
+  RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
+                       "AGL: %.2fm, Target: %.2fm, Error: %.2fm, vz: %.2fm/s",
+                       current_agl_, target_agl_, agl_error, vz);
+  
+  return vz;
+}
+
+bool Quadcopter::reachGoal(void)
+{
+  // Debug counter
+  static int debug_counter = 0;
+  debug_counter++;
+  if (debug_counter % 20 == 0) {
+    RCLCPP_DEBUG(this->get_logger(), "reachGoal() - Status: %d, goalSet: %s, wandering: %s", 
+                static_cast<int>(status_), goalSet_ ? "true" : "false",
+                wandering_ ? "true" : "false");
+  }
+
+  switch (status_) {
+    case pfms::PlatformStatus::IDLE:
+      sendCmd(0, 0, 0, 0);
+      return false;
+
+    case pfms::PlatformStatus::TAKEOFF:
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "In TAKEOFF state");
+      break;
+
+    case pfms::PlatformStatus::LANDING:
+      RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, "In LANDING state");
+      sendLanding();
+      sendCmd(0, 0, 0, 0);
+      status_ = pfms::PlatformStatus::IDLE;
+      return true;
+
+    case pfms::PlatformStatus::RUNNING:
+      if (wandering_) {
+        // WANDERING MODE
+        auto pose = getOdometry();
+        
+        // Check if it's time to change direction
+        auto elapsed = (this->now() - wander_direction_change_time_).seconds();
+        if (elapsed > wander_duration_) {
+          generateRandomDirection();
+          wander_direction_change_time_ = this->now();
+        }
+        
+        // Maintain altitude at target AGL
+        double vz = maintainAltitude();
+        
+        // Move in the random direction
+        sendCmd(wander_yaw_rate_, 0.0, vz, wander_speed_);
+        
+        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
+                             "Wandering: speed=%.2f, yaw=%.2f, alt=%.2fm/%.2fm, pos=(%.1f, %.1f)",
+                             wander_speed_, wander_yaw_rate_, current_agl_, target_agl_,
+                             pose.position.x, pose.position.y);
+        return true;
+      }
+      else if (goalSet_) {
+        // GOAL-SEEKING MODE (existing behavior)
+        if (goalReached()) {
+          sendCmd(0, 0, 0, 0);
+          RCLCPP_INFO(this->get_logger(), "Goal reached! Hovering at target position");
+          goalSet_ = false;
+          status_ = pfms::PlatformStatus::IDLE;
+          return true;
+        }
+
+        auto pose = getOdometry();
+        
+        const double dx = goalPosition_.x - pose.position.x;
+        const double dy = goalPosition_.y - pose.position.y;
+        const double dz = goalPosition_.z - pose.position.z;
+        
+        const double kp_xy = 0.8;
+        const double kp_z = 0.5;
+        const double max_vel = 2.0;
+        
+        double vx = kp_xy * dx;
+        double vy = kp_xy * dy;
+        double vz = kp_z * dz;
+        
+        vx = std::max(-max_vel, std::min(max_vel, vx));
+        vy = std::max(-max_vel, std::min(max_vel, vy));
+        vz = std::max(-max_vel, std::min(max_vel, vz));
+        
+        sendCmd(0.0, vy, vz, vx);
+        
+        double distance = std::sqrt(dx*dx + dy*dy + dz*dz);
+        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, 
+                             "Flying to goal - distance remaining: %.2f m", distance);
+        return true;
+      }
+      else {
+        // No goal and not wandering - hover
+        RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000, 
+                             "No goal or wander mode - hovering");
+        sendCmd(0, 0, 0, 0);
+        return false;
+      }
+  }
+
+  return false;
 }

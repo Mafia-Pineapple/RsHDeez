@@ -71,6 +71,15 @@ def generate_launch_description():
         parameters=[{"use_sim_time": use_sim_time}],
     )
 
+
+    # Quadcopter controller node
+    quadcopter_node = Node(
+        package='navigation',
+        executable='quadcopter_node',
+        name='quadcopter_controller',
+        output='screen',
+    )
+
     # Spawn the drone in Ignition Gazebo
     spawn_drone = TimerAction(
         period=3.0,  # Wait for Gazebo to be ready
@@ -127,6 +136,7 @@ def generate_launch_description():
         gazebo_bridge,
         pose_to_odom,
         agl_parser,
+        quadcopter_node, 
         
         # rviz,  # Uncomment if you have RViz config
     ])
