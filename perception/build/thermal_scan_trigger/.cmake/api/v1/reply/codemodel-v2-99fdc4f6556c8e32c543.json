@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-36ac8d7ad6e52102368f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "thermal_scan_trigger",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "thermal_scan_trigger_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-thermal_scan_trigger_node-Release-a23c899a9c25a1a35255.json",
+					"name" : "thermal_scan_trigger_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "thermal_scan_trigger_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-thermal_scan_trigger_uninstall-Release-59d0c9bc3494886edfe9.json",
+					"name" : "thermal_scan_trigger_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Release-6de3edf214edeff8b76c.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger",
+		"source" : "/home/student/41068_ws/src/RsHDeez/perception"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

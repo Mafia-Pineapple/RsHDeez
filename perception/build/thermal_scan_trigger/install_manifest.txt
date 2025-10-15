@@ -1,0 +1,16 @@
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/thermal_scan_trigger/thermal_scan_trigger_node
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/package_run_dependencies/thermal_scan_trigger
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/parent_prefix_path/thermal_scan_trigger
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/ament_prefix_path.sh
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/ament_prefix_path.dsv
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/path.sh
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/path.dsv
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.bash
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.sh
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.zsh
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.dsv
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.dsv
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/packages/thermal_scan_trigger
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/cmake/thermal_scan_triggerConfig.cmake
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/cmake/thermal_scan_triggerConfig-version.cmake
+/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.xml

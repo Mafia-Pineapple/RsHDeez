@@ -1,0 +1,238 @@
+[0.000000] (-) TimerEvent: {}
+[0.001159] (thermal_scan_trigger) JobQueued: {'identifier': 'thermal_scan_trigger', 'dependencies': OrderedDict()}
+[0.001459] (thermal_scan_trigger) JobStarted: {'identifier': 'thermal_scan_trigger'}
+[0.053367] (thermal_scan_trigger) JobProgress: {'identifier': 'thermal_scan_trigger', 'progress': 'cmake'}
+[0.054021] (thermal_scan_trigger) Command: {'cmd': ['/usr/bin/cmake', '/home/student/41068_ws/src/RsHDeez/perception', '-DCMAKE_BUILD_TYPE=Release', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger'], 'cwd': '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'student'), ('SSH_AGENT_PID', '2088'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/student/41068_ws/install/Perception/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/student'), ('OLDPWD', '/home/student/41068_ws/src/RsHDeez'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '2210'), ('XRDP_PULSE_SOURCE_SOCKET', 'xrdp_chansrv_audio_in_socket_10'), ('XRDP_PULSE_SINK_SOCKET', 'xrdp_chansrv_audio_out_socket_10'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1002/bus'), ('COLORTERM', 'truecolor'), ('PULSE_SCRIPT', '/etc/xrdp/pulse/default.pa'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/student/41068_ws/install:/home/student/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'student'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/labNVXMF8:@/tmp/.ICE-unix/2187,unix/labNVXMF8:/tmp/.ICE-unix/2187'), ('XDG_MENU_PREFIX', 'gnome-'), ('XRDP_SOCKET_PATH', '/run/xrdp/sockdir'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/6e1b8a73_1a90_4eeb_90fb_1f98a1e54eb7'), ('XDG_RUNTIME_DIR', '/run/user/1002'), ('DISPLAY', ':10.0'), ('LANG', 'C.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.87'), ('SSH_AUTH_SOCK', '/run/user/1002/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/student/41068_ws/install/UI:/home/student/41068_ws/install/Perception:/home/student/41068_ws/install/Navigation:/home/student/41068_ws/install/DescisionMaking:/home/student/41068_ws/install/Controller:/home/student/41068_ws/install/41068_ignition_bringup:/opt/ros/humble'), ('UID', '1002'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('XRDP_SESSION', '1'), ('GPG_AGENT_INFO', '/run/user/1002/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo-11/'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('SGX_AESM_ADDR', '1'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/student/41068_ws/install/UI:/home/student/41068_ws/install/Perception:/home/student/41068_ws/install/Navigation:/home/student/41068_ws/install/DescisionMaking:/home/student/41068_ws/install/Controller:/home/student/41068_ws/install/41068_ignition_bringup')]), 'shell': False}
+[0.099977] (-) TimerEvent: {}
+[0.200402] (-) TimerEvent: {}
+[0.300778] (-) TimerEvent: {}
+[0.401128] (-) TimerEvent: {}
+[0.501493] (-) TimerEvent: {}
+[0.602028] (-) TimerEvent: {}
+[0.702377] (-) TimerEvent: {}
+[0.802729] (-) TimerEvent: {}
+[0.906718] (-) TimerEvent: {}
+[1.007112] (-) TimerEvent: {}
+[1.042002] (thermal_scan_trigger) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[1.107231] (-) TimerEvent: {}
+[1.207572] (-) TimerEvent: {}
+[1.308027] (-) TimerEvent: {}
+[1.408576] (-) TimerEvent: {}
+[1.508948] (-) TimerEvent: {}
+[1.572901] (thermal_scan_trigger) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[1.609076] (-) TimerEvent: {}
+[1.709474] (-) TimerEvent: {}
+[1.714390] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[1.809586] (-) TimerEvent: {}
+[1.896977] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[1.905583] (thermal_scan_trigger) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[1.909667] (-) TimerEvent: {}
+[1.912739] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[1.922695] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[1.944584] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[2.009802] (-) TimerEvent: {}
+[2.066884] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[2.076589] (thermal_scan_trigger) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[2.076949] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[2.077460] (thermal_scan_trigger) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[2.109930] (-) TimerEvent: {}
+[2.171291] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)\n'}
+[2.210054] (-) TimerEvent: {}
+[2.310394] (-) TimerEvent: {}
+[2.410750] (-) TimerEvent: {}
+[2.459469] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter \n'}
+[2.510878] (-) TimerEvent: {}
+[2.611282] (-) TimerEvent: {}
+[2.711658] (-) TimerEvent: {}
+[2.812078] (-) TimerEvent: {}
+[2.870844] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found rclcpp: 16.0.14 (/opt/ros/humble/share/rclcpp/cmake)\n'}
+[2.912254] (-) TimerEvent: {}
+[3.012798] (-) TimerEvent: {}
+[3.113167] (-) TimerEvent: {}
+[3.213561] (-) TimerEvent: {}
+[3.240008] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)\n'}
+[3.282747] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)\n'}
+[3.313756] (-) TimerEvent: {}
+[3.360028] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)\n'}
+[3.413953] (-) TimerEvent: {}
+[3.496448] (thermal_scan_trigger) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[3.514071] (-) TimerEvent: {}
+[3.610102] (thermal_scan_trigger) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[3.614233] (-) TimerEvent: {}
+[3.714583] (-) TimerEvent: {}
+[3.814985] (-) TimerEvent: {}
+[3.915393] (-) TimerEvent: {}
+[3.946965] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)\n'}
+[3.975416] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)\n'}
+[4.015508] (-) TimerEvent: {}
+[4.115970] (-) TimerEvent: {}
+[4.216338] (-) TimerEvent: {}
+[4.310476] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  \n'}
+[4.316467] (-) TimerEvent: {}
+[4.362945] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/humble/include  \n'}
+[4.416727] (thermal_scan_trigger) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[4.416957] (-) TimerEvent: {}
+[4.504662] (thermal_scan_trigger) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[4.517083] (-) TimerEvent: {}
+[4.597220] (thermal_scan_trigger) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[4.597880] (thermal_scan_trigger) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[4.617218] (-) TimerEvent: {}
+[4.688179] (thermal_scan_trigger) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[4.689676] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[4.717380] (-) TimerEvent: {}
+[4.817694] (-) TimerEvent: {}
+[4.918055] (-) TimerEvent: {}
+[5.018407] (-) TimerEvent: {}
+[5.078445] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)\n'}
+[5.118542] (-) TimerEvent: {}
+[5.218949] (-) TimerEvent: {}
+[5.309922] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)\n'}
+[5.319041] (-) TimerEvent: {}
+[5.383792] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)\n'}
+[5.419180] (-) TimerEvent: {}
+[5.519580] (-) TimerEvent: {}
+[5.565968] (thermal_scan_trigger) StdoutLine: {'line': b'-- Found OpenCV: /usr (found version "4.5.4") \n'}
+[5.619696] (-) TimerEvent: {}
+[5.679575] (thermal_scan_trigger) StdoutLine: {'line': b'-- Configuring done\n'}
+[5.695990] (thermal_scan_trigger) StdoutLine: {'line': b'-- Generating done\n'}
+[5.697558] (thermal_scan_trigger) StderrLine: {'line': b'\x1b[33mCMake Warning:\n'}
+[5.697787] (thermal_scan_trigger) StderrLine: {'line': b'  Manually-specified variables were not used by the project:\n'}
+[5.697897] (thermal_scan_trigger) StderrLine: {'line': b'\n'}
+[5.697993] (thermal_scan_trigger) StderrLine: {'line': b'    CATKIN_INSTALL_INTO_PREFIX_ROOT\n'}
+[5.698086] (thermal_scan_trigger) StderrLine: {'line': b'\n'}
+[5.698182] (thermal_scan_trigger) StderrLine: {'line': b'\x1b[0m\n'}
+[5.701642] (thermal_scan_trigger) StdoutLine: {'line': b'-- Build files have been written to: /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger\n'}
+[5.717553] (thermal_scan_trigger) CommandEnded: {'returncode': 0}
+[5.718327] (thermal_scan_trigger) JobProgress: {'identifier': 'thermal_scan_trigger', 'progress': 'build'}
+[5.719266] (thermal_scan_trigger) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger', '--', '-j8', '-l8'], 'cwd': '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'student'), ('SSH_AGENT_PID', '2088'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/student/41068_ws/install/Perception/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/student'), ('OLDPWD', '/home/student/41068_ws/src/RsHDeez'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '2210'), ('XRDP_PULSE_SOURCE_SOCKET', 'xrdp_chansrv_audio_in_socket_10'), ('XRDP_PULSE_SINK_SOCKET', 'xrdp_chansrv_audio_out_socket_10'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1002/bus'), ('COLORTERM', 'truecolor'), ('PULSE_SCRIPT', '/etc/xrdp/pulse/default.pa'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/student/41068_ws/install:/home/student/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'student'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/labNVXMF8:@/tmp/.ICE-unix/2187,unix/labNVXMF8:/tmp/.ICE-unix/2187'), ('XDG_MENU_PREFIX', 'gnome-'), ('XRDP_SOCKET_PATH', '/run/xrdp/sockdir'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/6e1b8a73_1a90_4eeb_90fb_1f98a1e54eb7'), ('XDG_RUNTIME_DIR', '/run/user/1002'), ('DISPLAY', ':10.0'), ('LANG', 'C.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.87'), ('SSH_AUTH_SOCK', '/run/user/1002/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/student/41068_ws/install/UI:/home/student/41068_ws/install/Perception:/home/student/41068_ws/install/Navigation:/home/student/41068_ws/install/DescisionMaking:/home/student/41068_ws/install/Controller:/home/student/41068_ws/install/41068_ignition_bringup:/opt/ros/humble'), ('UID', '1002'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('XRDP_SESSION', '1'), ('GPG_AGENT_INFO', '/run/user/1002/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo-11/'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('SGX_AESM_ADDR', '1'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/student/41068_ws/install/UI:/home/student/41068_ws/install/Perception:/home/student/41068_ws/install/Navigation:/home/student/41068_ws/install/DescisionMaking:/home/student/41068_ws/install/Controller:/home/student/41068_ws/install/41068_ignition_bringup')]), 'shell': False}
+[5.720574] (-) TimerEvent: {}
+[5.777037] (thermal_scan_trigger) StdoutLine: {'line': b'[ 50%] \x1b[32mBuilding CXX object CMakeFiles/thermal_scan_trigger_node.dir/src/thermal_scan_trigger.cpp.o\x1b[0m\n'}
+[5.820706] (-) TimerEvent: {}
+[5.921042] (-) TimerEvent: {}
+[6.021393] (-) TimerEvent: {}
+[6.121812] (-) TimerEvent: {}
+[6.222162] (-) TimerEvent: {}
+[6.322489] (-) TimerEvent: {}
+[6.422921] (-) TimerEvent: {}
+[6.523371] (-) TimerEvent: {}
+[6.623788] (-) TimerEvent: {}
+[6.724220] (-) TimerEvent: {}
+[6.824603] (-) TimerEvent: {}
+[6.925020] (-) TimerEvent: {}
+[7.025396] (-) TimerEvent: {}
+[7.125728] (-) TimerEvent: {}
+[7.226065] (-) TimerEvent: {}
+[7.326406] (-) TimerEvent: {}
+[7.426857] (-) TimerEvent: {}
+[7.527217] (-) TimerEvent: {}
+[7.627659] (-) TimerEvent: {}
+[7.728136] (-) TimerEvent: {}
+[7.828564] (-) TimerEvent: {}
+[7.928961] (-) TimerEvent: {}
+[8.029322] (-) TimerEvent: {}
+[8.129771] (-) TimerEvent: {}
+[8.230162] (-) TimerEvent: {}
+[8.330537] (-) TimerEvent: {}
+[8.430919] (-) TimerEvent: {}
+[8.531293] (-) TimerEvent: {}
+[8.631679] (-) TimerEvent: {}
+[8.732047] (-) TimerEvent: {}
+[8.832457] (-) TimerEvent: {}
+[8.932853] (-) TimerEvent: {}
+[9.033252] (-) TimerEvent: {}
+[9.133654] (-) TimerEvent: {}
+[9.234086] (-) TimerEvent: {}
+[9.334470] (-) TimerEvent: {}
+[9.434853] (-) TimerEvent: {}
+[9.535282] (-) TimerEvent: {}
+[9.635769] (-) TimerEvent: {}
+[9.736168] (-) TimerEvent: {}
+[9.836656] (-) TimerEvent: {}
+[9.937032] (-) TimerEvent: {}
+[10.037464] (-) TimerEvent: {}
+[10.137893] (-) TimerEvent: {}
+[10.238329] (-) TimerEvent: {}
+[10.338752] (-) TimerEvent: {}
+[10.439180] (-) TimerEvent: {}
+[10.539579] (-) TimerEvent: {}
+[10.639973] (-) TimerEvent: {}
+[10.740349] (-) TimerEvent: {}
+[10.840783] (-) TimerEvent: {}
+[10.941178] (-) TimerEvent: {}
+[11.041608] (-) TimerEvent: {}
+[11.142085] (-) TimerEvent: {}
+[11.242536] (-) TimerEvent: {}
+[11.342965] (-) TimerEvent: {}
+[11.443326] (-) TimerEvent: {}
+[11.543681] (-) TimerEvent: {}
+[11.644098] (-) TimerEvent: {}
+[11.744539] (-) TimerEvent: {}
+[11.844953] (-) TimerEvent: {}
+[11.945327] (-) TimerEvent: {}
+[12.045770] (-) TimerEvent: {}
+[12.146205] (-) TimerEvent: {}
+[12.246582] (-) TimerEvent: {}
+[12.346973] (-) TimerEvent: {}
+[12.447397] (-) TimerEvent: {}
+[12.538197] (thermal_scan_trigger) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable thermal_scan_trigger_node\x1b[0m\n'}
+[12.547493] (-) TimerEvent: {}
+[12.647892] (-) TimerEvent: {}
+[12.748246] (-) TimerEvent: {}
+[12.848596] (-) TimerEvent: {}
+[12.949033] (-) TimerEvent: {}
+[13.049415] (-) TimerEvent: {}
+[13.149875] (-) TimerEvent: {}
+[13.250387] (-) TimerEvent: {}
+[13.351161] (-) TimerEvent: {}
+[13.451817] (-) TimerEvent: {}
+[13.552273] (-) TimerEvent: {}
+[13.652690] (-) TimerEvent: {}
+[13.753064] (-) TimerEvent: {}
+[13.853488] (-) TimerEvent: {}
+[13.954025] (-) TimerEvent: {}
+[14.054542] (-) TimerEvent: {}
+[14.155173] (-) TimerEvent: {}
+[14.255568] (-) TimerEvent: {}
+[14.355962] (-) TimerEvent: {}
+[14.456308] (-) TimerEvent: {}
+[14.556715] (-) TimerEvent: {}
+[14.657080] (-) TimerEvent: {}
+[14.757495] (-) TimerEvent: {}
+[14.858036] (-) TimerEvent: {}
+[14.958781] (-) TimerEvent: {}
+[15.059293] (-) TimerEvent: {}
+[15.159894] (-) TimerEvent: {}
+[15.260377] (-) TimerEvent: {}
+[15.360869] (-) TimerEvent: {}
+[15.461319] (-) TimerEvent: {}
+[15.562067] (-) TimerEvent: {}
+[15.662698] (-) TimerEvent: {}
+[15.763069] (-) TimerEvent: {}
+[15.863436] (-) TimerEvent: {}
+[15.963906] (-) TimerEvent: {}
+[15.989164] (thermal_scan_trigger) StdoutLine: {'line': b'[100%] Built target thermal_scan_trigger_node\n'}
+[16.001649] (thermal_scan_trigger) CommandEnded: {'returncode': 0}
+[16.002648] (thermal_scan_trigger) JobProgress: {'identifier': 'thermal_scan_trigger', 'progress': 'install'}
+[16.012241] (thermal_scan_trigger) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger'], 'cwd': '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('USER', 'student'), ('SSH_AGENT_PID', '2088'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/student/41068_ws/install/Perception/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib'), ('HOME', '/home/student'), ('OLDPWD', '/home/student/41068_ws/src/RsHDeez'), ('ROS_PYTHON_VERSION', '3'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '2210'), ('XRDP_PULSE_SOURCE_SOCKET', 'xrdp_chansrv_audio_in_socket_10'), ('XRDP_PULSE_SINK_SOCKET', 'xrdp_chansrv_audio_out_socket_10'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1002/bus'), ('COLORTERM', 'truecolor'), ('PULSE_SCRIPT', '/etc/xrdp/pulse/default.pa'), ('IM_CONFIG_PHASE', '1'), ('COLCON_PREFIX_PATH', '/home/student/41068_ws/install:/home/student/ros2_ws/install'), ('ROS_DISTRO', 'humble'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'student'), ('_', '/usr/bin/colcon'), ('ROS_VERSION', '2'), ('XDG_SESSION_CLASS', 'user'), ('TERM', 'xterm-256color'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/opt/ros/humble/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'), ('SESSION_MANAGER', 'local/labNVXMF8:@/tmp/.ICE-unix/2187,unix/labNVXMF8:/tmp/.ICE-unix/2187'), ('XDG_MENU_PREFIX', 'gnome-'), ('XRDP_SOCKET_PATH', '/run/xrdp/sockdir'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/6e1b8a73_1a90_4eeb_90fb_1f98a1e54eb7'), ('XDG_RUNTIME_DIR', '/run/user/1002'), ('DISPLAY', ':10.0'), ('LANG', 'C.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.87'), ('SSH_AUTH_SOCK', '/run/user/1002/keyring/ssh'), ('AMENT_PREFIX_PATH', '/home/student/41068_ws/install/UI:/home/student/41068_ws/install/Perception:/home/student/41068_ws/install/Navigation:/home/student/41068_ws/install/DescisionMaking:/home/student/41068_ws/install/Controller:/home/student/41068_ws/install/41068_ignition_bringup:/opt/ros/humble'), ('UID', '1002'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('XRDP_SESSION', '1'), ('GPG_AGENT_INFO', '/run/user/1002/gnupg/S.gpg-agent:0:1'), ('GAZEBO_RESOURCE_PATH', '/usr/share/gazebo-11/'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger'), ('XDG_DATA_DIRS', '/usr/share/gnome:/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('PYTHONPATH', '/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('SGX_AESM_ADDR', '1'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('CMAKE_PREFIX_PATH', '/home/student/41068_ws/install/UI:/home/student/41068_ws/install/Perception:/home/student/41068_ws/install/Navigation:/home/student/41068_ws/install/DescisionMaking:/home/student/41068_ws/install/Controller:/home/student/41068_ws/install/41068_ignition_bringup')]), 'shell': False}
+[16.019564] (thermal_scan_trigger) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[16.019808] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/thermal_scan_trigger/thermal_scan_trigger_node\n'}
+[16.020613] (thermal_scan_trigger) StdoutLine: {'line': b'-- Set runtime path of "/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/thermal_scan_trigger/thermal_scan_trigger_node" to ""\n'}
+[16.020798] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/package_run_dependencies/thermal_scan_trigger\n'}
+[16.021003] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/parent_prefix_path/thermal_scan_trigger\n'}
+[16.021220] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/ament_prefix_path.sh\n'}
+[16.021363] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/ament_prefix_path.dsv\n'}
+[16.021526] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/path.sh\n'}
+[16.021677] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/path.dsv\n'}
+[16.021821] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.bash\n'}
+[16.021979] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.sh\n'}
+[16.022134] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.zsh\n'}
+[16.022287] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.dsv\n'}
+[16.022440] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.dsv\n'}
+[16.022652] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/packages/thermal_scan_trigger\n'}
+[16.022832] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/cmake/thermal_scan_triggerConfig.cmake\n'}
+[16.022956] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/cmake/thermal_scan_triggerConfig-version.cmake\n'}
+[16.023092] (thermal_scan_trigger) StdoutLine: {'line': b'-- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.xml\n'}
+[16.024629] (thermal_scan_trigger) CommandEnded: {'returncode': 0}
+[16.064048] (-) TimerEvent: {}
+[16.125008] (thermal_scan_trigger) JobEnded: {'identifier': 'thermal_scan_trigger', 'rc': 0}
+[16.125939] (-) EventReactorShutdown: {}

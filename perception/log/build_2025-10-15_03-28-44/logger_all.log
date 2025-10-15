@@ -1,0 +1,101 @@
+[0.277s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'thermal_scan_trigger', '--cmake-args', '-DCMAKE_BUILD_TYPE=Release']
+[0.277s] DEBUG:colcon:Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=8, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['thermal_scan_trigger'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=['-DCMAKE_BUILD_TYPE=Release'], cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0x7696bd8560b0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7696bd855690>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7696bd855690>>, mixin_verb=('build',))
+[0.475s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.475s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.475s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.475s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.475s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.476s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.476s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/student/41068_ws/src/RsHDeez/perception'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.476s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.491s] DEBUG:colcon.colcon_core.package_identification:Package '.' with type 'ros.catkin' and name 'thermal_scan_trigger'
+[0.491s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.491s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.491s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.491s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.491s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.534s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) check parameters
+[0.534s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) discover
+[0.560s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 6 installed packages in /home/student/41068_ws/install
+[0.566s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 0 installed packages in /home/student/ros2_ws/install
+[0.568s] DEBUG:colcon.colcon_installed_package_information.package_discovery:Found 414 installed packages in /opt/ros/humble
+[0.570s] Level 1:colcon.colcon_core.package_discovery:discover_packages(prefix_path) using defaults
+[0.665s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'cmake_args' from command line to '['-DCMAKE_BUILD_TYPE=Release']'
+[0.665s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'cmake_target' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'cmake_clean_cache' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'cmake_clean_first' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'cmake_force_configure' from command line to 'False'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'ament_cmake_args' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'catkin_cmake_args' from command line to 'None'
+[0.666s] Level 5:colcon.colcon_core.verb:set package 'thermal_scan_trigger' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.666s] DEBUG:colcon.colcon_core.verb:Building package 'thermal_scan_trigger' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': ['-DCMAKE_BUILD_TYPE=Release'], 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger', 'merge_install': False, 'path': '/home/student/41068_ws/src/RsHDeez/perception', 'symlink_install': False, 'test_result_base': None}
+[0.666s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.668s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.668s] INFO:colcon.colcon_ros.task.catkin.build:Building ROS package in '/home/student/41068_ws/src/RsHDeez/perception' with build type 'catkin'
+[0.668s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/student/41068_ws/src/RsHDeez/perception'
+[0.707s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.708s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.708s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.721s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger': /usr/bin/cmake /home/student/41068_ws/src/RsHDeez/perception -DCMAKE_BUILD_TYPE=Release -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger
+[6.385s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger' returned '0': /usr/bin/cmake /home/student/41068_ws/src/RsHDeez/perception -DCMAKE_BUILD_TYPE=Release -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger
+[6.387s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger': /usr/bin/cmake --build /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger -- -j8 -l8
+[16.669s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger' returned '0': /usr/bin/cmake --build /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger -- -j8 -l8
+[16.680s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger': /usr/bin/cmake --install /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger
+[16.692s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger' returned '0': /usr/bin/cmake --install /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger
+[16.692s] Level 1:colcon.colcon_core.shell:create_environment_hook('thermal_scan_trigger', 'ros_package_path')
+[16.692s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/ros_package_path.ps1'
+[16.699s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/ros_package_path.dsv'
+[16.702s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/ros_package_path.sh'
+[16.707s] Level 1:colcon.colcon_core.shell:create_environment_hook('thermal_scan_trigger', 'pkg_config_path')
+[16.707s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/pkg_config_path.ps1'
+[16.708s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/pkg_config_path.dsv'
+[16.708s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/pkg_config_path.sh'
+[16.710s] Level 1:colcon.colcon_core.shell:create_environment_hook('thermal_scan_trigger', 'pkg_config_path_multiarch')
+[16.711s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/pkg_config_path_multiarch.ps1'
+[16.711s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/pkg_config_path_multiarch.dsv'
+[16.711s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/pkg_config_path_multiarch.sh'
+[16.713s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(thermal_scan_trigger)
+[16.763s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger' for CMake module files
+[16.764s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger' for CMake config files
+[16.764s] Level 1:colcon.colcon_core.shell:create_environment_hook('thermal_scan_trigger', 'cmake_prefix_path')
+[16.764s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/cmake_prefix_path.ps1'
+[16.765s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/cmake_prefix_path.dsv'
+[16.765s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/hook/cmake_prefix_path.sh'
+[16.766s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib'
+[16.766s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/bin'
+[16.767s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/pkgconfig/thermal_scan_trigger.pc'
+[16.767s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/python3.10/site-packages'
+[16.767s] Level 1:colcon.colcon_core.environment:checking '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/bin'
+[16.768s] INFO:colcon.colcon_core.shell:Creating package script '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.ps1'
+[16.773s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.dsv'
+[16.776s] INFO:colcon.colcon_core.shell:Creating package script '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.sh'
+[16.780s] INFO:colcon.colcon_core.shell:Creating package script '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.bash'
+[16.786s] INFO:colcon.colcon_core.shell:Creating package script '/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.zsh'
+[16.791s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/colcon-core/packages/thermal_scan_trigger)
+[16.792s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[16.792s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[16.792s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[16.792s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[16.820s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[16.820s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[16.820s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[16.844s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[16.845s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/student/41068_ws/src/RsHDeez/perception/install/local_setup.ps1'
+[16.856s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/student/41068_ws/src/RsHDeez/perception/install/_local_setup_util_ps1.py'
+[16.862s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/student/41068_ws/src/RsHDeez/perception/install/setup.ps1'
+[16.872s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/student/41068_ws/src/RsHDeez/perception/install/local_setup.sh'
+[16.877s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/student/41068_ws/src/RsHDeez/perception/install/_local_setup_util_sh.py'
+[16.881s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/student/41068_ws/src/RsHDeez/perception/install/setup.sh'
+[16.885s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/student/41068_ws/src/RsHDeez/perception/install/local_setup.bash'
+[16.891s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/student/41068_ws/src/RsHDeez/perception/install/setup.bash'
+[16.896s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/student/41068_ws/src/RsHDeez/perception/install/local_setup.zsh'
+[16.901s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/student/41068_ws/src/RsHDeez/perception/install/setup.zsh'

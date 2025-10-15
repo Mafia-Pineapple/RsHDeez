@@ -1,0 +1,2 @@
+source;share/thermal_scan_trigger/environment/ament_prefix_path.sh
+source;share/thermal_scan_trigger/environment/path.sh
