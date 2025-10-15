@@ -22,7 +22,7 @@ include_directories(include)
 # Controller library
 add_library(controller_lib src/controller.cpp)
 ament_target_dependencies(controller_lib 
-  rclcpp std_msgs geometry_msgs nav_msgs)
+  rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs std_srvs tf2)
 
 # Quadcopter executable
 add_executable(quadcopter_node src/main.cpp src/quadcopter.cpp)
