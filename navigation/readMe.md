@@ -137,3 +137,17 @@ ros2 service list
 ### Services
 - `/wander_mode` (std_srvs/SetBool) - Enable/disable autonomous wandering
 - `/reach_goal` (std_srvs/SetBool) - Start/stop goal-seeking behavior
+
+
+### Calebs ReadMe --- Live Camera view
+
+To make "it send the camera information" 
+```bash 
+ros2 launch realsense2_camera rs_launch.py
+```
+
+To view the gazebo camera:
+
+```bash
+ros2 run rqt_image_view rqt_image_view
+```
