@@ -12,46 +12,45 @@ find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
-find_package(sensor_msgs REQUIRED) 
+find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
 # Include directories
 include_directories(include)
 
-# Controller library
-add_library(controller_lib src/controller.cpp)
-ament_target_dependencies(controller_lib 
-  rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs std_srvs tf2)
-
-# Quadcopter executable
-add_executable(quadcopter_node src/main.cpp src/quadcopter.cpp)
-target_link_libraries(quadcopter_node controller_lib)
-ament_target_dependencies(quadcopter_node 
-  rclcpp std_msgs geometry_msgs nav_msgs std_srvs tf2 tf2_geometry_msgs)
+# Quadcopter executable (now includes both controller base + quadcopter)
+add_executable(quadcopter_node src/main.cpp src/quadcopter.cpp src/controller_base.cpp)
+ament_target_dependencies(quadcopter_node
+  rclcpp std_msgs geometry_msgs nav_msgs std_srvs sensor_msgs tf2 tf2_geometry_msgs)
 
 # AGL parser
 add_executable(agl_parser src/agl_parser.cpp)
-ament_target_dependencies(agl_parser 
+ament_target_dependencies(agl_parser
   rclcpp sensor_msgs std_msgs nav_msgs)
 
+# Pose to odom converter
+add_executable(pose_to_odom src/pose_to_odom.cpp)
+ament_target_dependencies(pose_to_odom
+  rclcpp geometry_msgs nav_msgs)
 
 # Goal publisher executable  
 add_executable(goal_publisher_node src/goal_publisher.cpp)
-ament_target_dependencies(goal_publisher_node 
+ament_target_dependencies(goal_publisher_node
   rclcpp geometry_msgs)
 
 # Fake world simulator (for testing without Gazebo)
 add_executable(fake_world_node src/fake_world.cpp)
-ament_target_dependencies(fake_world_node 
+ament_target_dependencies(fake_world_node
   rclcpp geometry_msgs nav_msgs)
 
 # Install executables
 install(TARGETS
   quadcopter_node
+  agl_parser
+  pose_to_odom
   goal_publisher_node
   fake_world_node
-  agl_parser
   DESTINATION lib/${PROJECT_NAME})
 
 # Install directories
@@ -61,12 +60,6 @@ install(DIRECTORY
   include
   models
   DESTINATION share/${PROJECT_NAME})
-
-
-  add_executable(pose_to_odom src/pose_to_odom.cpp)
-  ament_target_dependencies(pose_to_odom rclcpp geometry_msgs nav_msgs)
-  install(TARGETS pose_to_odom DESTINATION lib/${PROJECT_NAME})
-  
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

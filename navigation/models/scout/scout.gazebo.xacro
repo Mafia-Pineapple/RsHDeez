@@ -210,6 +210,42 @@
   </gazebo>
 
   <gazebo reference="camera_link">
+    <sensor name="thermal_camera" type="thermal">
+    <always_on>true</always_on>
+    <update_rate>10</update_rate>
+    <visualize>$(arg camera_visual)</visualize>
+    <pose>0 0 0 0 0 0</pose>
+
+    <camera>
+      <!-- Approx 60 deg field of view -->
+      <horizontal_fov>1.047</horizontal_fov>
+      <image>
+        <width>640</width>
+        <height>480</height>
+        <!-- Thermal cameras output 16-bit grayscale (Kelvin values) -->
+        <format>L16</format>
+      </image>
+      <clip>
+        <near>0.2</near>
+        <far>50</far>
+      </clip>
+    </camera>
+
+    <!-- Thermal parameters -->
+    <thermal_camera>
+      <min_temperature>273.15</min_temperature>   <!-- 0°C -->
+      <max_temperature>373.15</max_temperature>   <!-- 100°C -->
+      <resolution>0.1</resolution>                <!-- Temperature resolution in K -->
+    </thermal_camera>
+
+    <!-- Topics for Gazebo transport (bridge these to ROS) -->
+    <topic>/model/scout/thermal/image</topic>
+    <camera_info_topic>/model/scout/thermal/camera_info</camera_info_topic>
+
+    <!-- If you use TF optical frames for cameras, uncomment and point to it -->
+    <!-- <gz_frame_id>camera_thermal_optical_frame</gz_frame_id> -->
+  </sensor>
+
     <sensor name="rgbd_camera" type="rgbd_camera">
       <camera>
         <horizontal_fov>2.0944</horizontal_fov>
