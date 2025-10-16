@@ -1,24 +1,158 @@
-#pragma once
-#include <rclcpp/rclcpp.hpp>
-#include <memory>
-#include <thread>
+#ifndef QUADCOPTER_H
+#define QUADCOPTER_H
+
+#include "controller.h"
+#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/point_stamped.hpp>
+#include <sensor_msgs/msg/laser_scan.hpp>
+#include <std_msgs/msg/empty.hpp>
+#include <std_msgs/msg/float64.hpp>
+#include <std_srvs/srv/set_bool.hpp>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Matrix3x3.h>
+#include <chrono>
+#include <random>
 #include <atomic>
 
-class Controller; // forward-declare
+namespace pfms {
+  enum class PlatformStatus {
+    IDLE,
+    TAKEOFF,
+    RUNNING,
+    LANDING
+  };
+}
 
-/**
- * Thin wrapper node that owns and spins the Controller internally.
- * This ensures existing launch files that only spin Quadcopter still
- * run the control loop.
- */
-class Quadcopter : public rclcpp::Node {
+class Quadcopter : public Controller
+{
 public:
-  explicit Quadcopter(const rclcpp::NodeOptions & options = rclcpp::NodeOptions());
-  ~Quadcopter();
+  Quadcopter();
+  virtual ~Quadcopter();
+
+  // Core control functions
+  bool reachGoal(void);
+  GoalStats calcNewGoal(void);
+  bool checkOriginToDestination(geometry_msgs::msg::Pose origin,
+                                geometry_msgs::msg::Point goal,
+                                double& distance, double& time,
+                                geometry_msgs::msg::Pose& estimatedGoalPose);
+
+  // Goal management
+  void goalCallback(const geometry_msgs::msg::PointStamped::SharedPtr msg);
+  bool goalReached(void);
+
+  // Command sending
+  void sendCmd(double yaw_rate, double move_l_r, double move_u_d, double move_f_b);
+  void sendTakeOff(void);
+  void sendLanding(void);
+
+  // Service callbacks
+  void control(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+               std::shared_ptr<std_srvs::srv::SetBool::Response> res);
+  void wanderControl(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+                     std::shared_ptr<std_srvs::srv::SetBool::Response> res);
+  void patternControl(const std::shared_ptr<std_srvs::srv::SetBool::Request> req,
+                      std::shared_ptr<std_srvs::srv::SetBool::Response> res);
+
+  // Wander mode
+  void generateRandomDirection();
+  double maintainAltitude();
+  
+  // Callbacks
+  void aglCallback(const std_msgs::msg::Float64::SharedPtr msg);
+  void lidarCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg);
+
+  // Pattern mode functions
+  void patternReset();
+  void generatePatternWaypoint();
+  
+  // Collision avoidance
+  void applyCollisionAvoidance(double& vx, double& yaw_rate);
+  
+  // Inline accessors for LiDAR data
+  float getMinAhead() const { return min_ahead_.load(std::memory_order_relaxed); }
+  float getMinLeft() const { return min_left_.load(std::memory_order_relaxed); }
+  float getMinRight() const { return min_right_.load(std::memory_order_relaxed); }
 
 private:
-  std::shared_ptr<Controller> controller_;
-  std::unique_ptr<rclcpp::executors::SingleThreadedExecutor> inner_exec_;
-  std::thread spin_thread_;
-  std::atomic<bool> running_{false};
+  // Publishers
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pubCmdVel_;
+  rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr pubTakeOff_;
+  rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr pubLanding_;
+
+  // Subscribers
+  rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr subGoal_;
+  rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subAgl_;
+  rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subLidar_;
+
+  // Services
+  rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr srvReachGoal_;
+  rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr srvWander_;
+  rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr srvPattern_;
+
+  // Timer
+  rclcpp::TimerBase::SharedPtr timer_;
+
+  // State variables
+  pfms::PlatformStatus status_ = pfms::PlatformStatus::IDLE;
+  bool liftoff_;
+  bool landed_ = false;
+  bool goalSet_ = false;
+  bool wandering_ = false;
+  bool pattern_mode_ = false;
+  
+  geometry_msgs::msg::Point goalPosition_;
+  double target_angle_ = 0.0;
+  double tolerance_;
+
+  // AGL tracking
+  double current_agl_ = 0.0;
+  double target_agl_ = 1.5;
+  bool agl_received_ = false;
+
+  // LiDAR collision avoidance (must match order in cpp)
+  std::atomic<float> min_ahead_{std::numeric_limits<float>::infinity()};
+  std::atomic<float> min_left_{std::numeric_limits<float>::infinity()};
+  std::atomic<float> min_right_{std::numeric_limits<float>::infinity()};
+  double obs_stop_dist_;
+  double obs_slow_dist_;
+  double lidar_front_fov_deg_;
+  double lidar_side_min_deg_;
+  double lidar_side_max_deg_;
+
+  // Wander mode state
+  std::mt19937 random_engine_;
+  double wander_speed_ = 0.0;
+  double wander_yaw_rate_ = 0.0;
+  double wander_duration_ = 0.0;
+  rclcpp::Time wander_direction_change_time_;
+
+  // Pattern mode state
+  std::string pattern_type_ = "spiral";  // Default: spiral
+  geometry_msgs::msg::Point pattern_origin_;
+  geometry_msgs::msg::Point pattern_current_waypoint_;
+  rclcpp::Time pattern_start_time_;
+  
+  // Lawnmower pattern state
+  int pattern_lane_ = 0;
+  bool pattern_heading_east_ = true;
+  double pattern_leg_length_ = 25.0;
+  double pattern_lane_spacing_ = 8.0;
+  
+  // Spiral pattern state
+  double pattern_spiral_radius_ = 0.0;
+  double pattern_spiral_angle_ = 0.0;
+  double pattern_spiral_yaw_rate_ = 0.25;  // rad/s
+  double pattern_spiral_speed_ = 1.2;      // m/s
+  double pattern_spiral_inflate_ = 0.05;   // radius growth per second
+  
+  // Box pattern state
+  int pattern_box_side_idx_ = 0;
+  double pattern_box_side_ = 20.0;
+
+  // Constants
+  const double TARGET_SPEED;
+  const double TARGET_HEIGHT_TOLERANCE;
 };
+
+#endif // QUADCOPTER_H
