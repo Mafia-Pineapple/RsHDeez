@@ -1,0 +1,18 @@
+<model name="bear">
+      <static>false</static>
+      <pose>5 0 0 1.5708 0 0</pose>
+      <link name="body">
+        <collision name="col">
+          <geometry><box><size>1.0 0.5 0.6</size></box></geometry>
+        </collision>
+        <visual name="vis">
+          <geometry>
+            <mesh>
+              <uri>file:///home/student/41068_ws/src/RsHDeez/Perception/models/animals/obj/bear.obj</uri>
+              <scale>0.05 0.05 0.05</scale>
+            </mesh>
+          </geometry>
+          <temperature>309</temperature> <!-- ~36°C -->
+        </visual>
+      </link>
+    </model>

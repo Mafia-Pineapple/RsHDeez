@@ -1,0 +1,18 @@
+<model name="boar">
+      <static>false</static>
+      <pose>-5 0 0 0 0 0</pose>
+      <link name="body">
+        <collision name="col">
+          <geometry><box><size>0.8 0.4 0.5</size></box></geometry>
+        </collision>
+        <visual name="vis">
+          <geometry>
+            <mesh>
+              <uri>file:///home/student/41068_ws/src/RsHDeez/terrainxl/src/models/animals/boar.obj</uri>
+              <scale>0.05 0.05 0.05</scale>
+            </mesh>
+          </geometry>
+          <temperature>311</temperature> <!-- ~38°C -->
+        </visual>
+      </link>
+    </model>
