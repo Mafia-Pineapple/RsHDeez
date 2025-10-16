@@ -644,7 +644,7 @@
 		<include>
 			<uri>
 				model://models/animals/bear
-			<uri>
+			</uri>
 			<name> bear_0</name>
 			<pose>-176.273 -7944.74 565.6510 0 0 0</pose>
 		</include>
