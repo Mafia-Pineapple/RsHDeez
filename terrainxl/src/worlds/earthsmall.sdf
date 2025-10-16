@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
 <sdf version="1.8">
 	<world name="earth">
-		<gui>
-			<config>file://home/james/git/RsHDeez/terrainxl/src/worlds/gui.config</config>
-		</gui>
 		<plugin
 			filename="ignition-gazebo-physics-system"
 			name="gz::sim::systems::Physics">
