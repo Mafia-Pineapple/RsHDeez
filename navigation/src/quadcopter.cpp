@@ -13,7 +13,7 @@ Quadcopter::Quadcopter()
   goalSet_(false),
   wandering_(false),
   pattern_mode_(false),
-  target_agl_(1.5)
+  target_agl_(23)
 {
   tolerance_ = 0.5; // 0.5 m sphere tolerance
 
@@ -451,11 +451,37 @@ bool Quadcopter::reachGoal(void)
         double vx = 0.0;
         
         if (pattern_type_ == "spiral") {
-          // SPIRAL PATTERN
-          pattern_spiral_radius_ += pattern_spiral_inflate_ * 0.05;
-          pattern_spiral_angle_ += pattern_spiral_yaw_rate_ * 0.05;
+          // SPIRAL PATTERN - Archimedean spiral with increasing radius
+          // Update spiral parameters
+          const double dt = 0.05;  // 20Hz control loop
+          pattern_spiral_angle_ += pattern_spiral_yaw_rate_ * dt;
+          pattern_spiral_radius_ = pattern_spiral_inflate_ * pattern_spiral_angle_;
           
-          yaw_rate = pattern_spiral_yaw_rate_;
+          // Calculate desired position on spiral
+          double target_x = pattern_origin_.x + pattern_spiral_radius_ * std::cos(pattern_spiral_angle_);
+          double target_y = pattern_origin_.y + pattern_spiral_radius_ * std::sin(pattern_spiral_angle_);
+          
+          // Get current position
+          double dx = target_x - pose.position.x;
+          double dy = target_y - pose.position.y;
+          
+          // Calculate desired heading toward next spiral point
+          double desired_yaw = std::atan2(dy, dx);
+          
+          // Get current yaw
+          tf2::Quaternion q(pose.orientation.x, pose.orientation.y,
+                           pose.orientation.z, pose.orientation.w);
+          double roll, pitch, yaw;
+          tf2::Matrix3x3(q).getRPY(roll, pitch, yaw);
+          
+          // Yaw error
+          double yaw_error = desired_yaw - yaw;
+          while (yaw_error > M_PI) yaw_error -= 2.0*M_PI;
+          while (yaw_error < -M_PI) yaw_error += 2.0*M_PI;
+          
+          yaw_rate = 1.2 * yaw_error;
+          yaw_rate = std::max(-0.6, std::min(0.6, yaw_rate));
+          
           vx = pattern_spiral_speed_;
           
           // Apply collision avoidance
@@ -464,8 +490,9 @@ bool Quadcopter::reachGoal(void)
           sendCmd(yaw_rate, 0.0, vz, vx);
           
           RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
-                               "SPIRAL: r=%.2fm, speed=%.2fm/s, ahead=%.2fm",
-                               pattern_spiral_radius_, vx, getMinAhead());
+                               "SPIRAL: r=%.2fm, angle=%.2frad, target=(%.1f,%.1f), ahead=%.2fm",
+                               pattern_spiral_radius_, pattern_spiral_angle_, 
+                               target_x, target_y, getMinAhead());
                                
         } else if (pattern_type_ == "lawnmower") {
           // LAWNMOWER PATTERN
