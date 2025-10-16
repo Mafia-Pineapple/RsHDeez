@@ -23,13 +23,3 @@ newmtl bear
 	Ka 0.588235 0.588235 0.588235
 	map_Kd bear.tga
 
-newmtl teeths
-	Ns 3
-	d 1
-	illum 2
-	Kd 0.588235 0.588235 0.588235
-	Ks 0 0 0
-	Ka 0.588235 0.588235 0.588235
-	map_Kd bear teeth.tga
-	map_d bear teeth alpha.tga
-
