@@ -27,6 +27,10 @@ def generate_launch_description():
     terrain_xl_dir = FindPackageShare('terrainxl')
     world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall.sdf'])
     print(world_path)
+
+    # GUI config path - using terrainxl file
+    gui_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'gui.config'])
+    print(gui_path)
     
     # SJTU drone URDF processing
     use_sim_time = LaunchConfiguration("use_sim_time", default="true")
@@ -49,7 +53,7 @@ def generate_launch_description():
 
     # Start Ignition Gazebo with your world
     ignition_gazebo = ExecuteProcess(
-        cmd=['ign', 'gazebo', '-v', '3', world_path],
+        cmd=['ign', 'gazebo', '-v', '3', world_path, '--gui-config', gui_path],
         output='screen'
     )
 
