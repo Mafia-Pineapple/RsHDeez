@@ -1,0 +1,17 @@
+slam node periodically takes snapshots of laser scan (/scan) and odometry data (/odometry) and stores it internally
+
+to run the node:
+ros2 run slam slammer
+
+to request the slam data (ROS2)
+
+    - send std_msgs::msg::Bool true to /slam/cloud/request_data
+    - it will respond with a JointState in global coordinates
+
+    - jointstate data:
+        - these are all float64 arrays
+        - position: x data
+        - velocity: y data
+        -   effort: z data
+
+    - it tries to filter out invalid points (inf, nan)
