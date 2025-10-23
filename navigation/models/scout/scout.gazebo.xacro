@@ -238,12 +238,10 @@
       <resolution>0.1</resolution>                <!-- Temperature resolution in K -->
     </thermal_camera>
 
-    <!-- Topics for Gazebo transport (bridge these to ROS) -->
+    <!-- Topics for Gazebo transport -->
     <topic>/model/scout/thermal/image</topic>
     <camera_info_topic>/model/scout/thermal/camera_info</camera_info_topic>
 
-    <!-- If you use TF optical frames for cameras, uncomment and point to it -->
-    <!-- <gz_frame_id>camera_thermal_optical_frame</gz_frame_id> -->
   </sensor>
 
     <sensor name="rgbd_camera" type="rgbd_camera">

@@ -643,10 +643,10 @@
 
 		<include>
 			<uri>
-				model://models/animals/bear
+				model://models/bear
 			</uri>
 			<name> bear_0</name>
-			<pose>-176.273 -7944.74 565.6510 0 0 0</pose>
+			<pose>-176.273 -7947.7400 567 0 0 0</pose>
 		</include>
 	</world>
 </sdf>
