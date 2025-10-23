@@ -6,7 +6,7 @@ ros2 run slam slammer
 to request the slam data (ROS2)
 
     - send std_msgs::msg::Bool true to /slam/cloud/request_data
-    - it will respond with a JointState in global coordinates
+    - it will respond with a JointState in global coordinates on /slam/cloud/xyz
 
     - jointstate data:
         - these are all float64 arrays
