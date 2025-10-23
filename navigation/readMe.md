@@ -37,6 +37,13 @@ This will start:
 - Quadcopter controller node
 - AGL parser node
 
+### 1.5. Start Bridging for Cameras
+
+```bash
+ros2 run ros_gz_bridge parameter_bridge "/model/scout/thermal/image@sensor_msgs/msg/Image@gz.msgs.Image" "/model/scout/thermal/camera_info@sensor_msgs/msg/CameraInfo@gz.msgs.CameraInfo"
+```
+
+
 ### 2. Enable Wandering Mode
 
 In a new terminal:
