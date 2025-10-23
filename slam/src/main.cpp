@@ -19,6 +19,9 @@
 #include "sensor_msgs/msg/joint_state.hpp"
 using std::placeholders::_1;
 
+#include <iostream>
+#include <fstream>
+
 using namespace std::chrono_literals;
 
 class slam : public rclcpp::Node
@@ -74,6 +77,78 @@ class slam : public rclcpp::Node
       if (msg.data)
       {
         RCLCPP_INFO(this->get_logger(), "Slam insight data requested");
+        scan_assoc_mtx.lock();
+        //local copy
+        auto local_scan_assoc = scan_associated;
+        auto local_rec_increment = rec_increment;
+        scan_assoc_mtx.unlock();
+        //publish as jointstate
+        sensor_msgs::msg::JointState msg;
+        msg.name.push_back("XYZ data");
+        
+        //std::ofstream myfile;
+        //myfile.open("/home/james/git/RsHDeez/slam/nonsense.csv");
+        for (int i = 0; i < local_scan_assoc.size(); i++)
+        {
+          auto scan = local_scan_assoc[i].first;
+          auto odo = local_scan_assoc[i].second;
+          std::vector<std::array<float, 2>> points_xy;
+          //convert scan to local xyz
+          for (size_t j = 0; j < scan.size(); j++)
+          {
+            if (scan[j] == std::numeric_limits<float>::infinity() || std::isnan(scan[j]))
+            {
+              continue; //skip invalid points
+            }
+            std::array<float, 2> point;
+            float angle = j * local_rec_increment;
+            point[0] = scan[j] * cos(angle);
+            point[1] = scan[j] * sin(angle);
+            //point[2] = 0.0; //2d lidar, z=0
+            //z doesnt matter its always 0 in local-to-drone space
+            points_xy.push_back(point);
+          }
+          
+          float x_global, y_global, z_global;
+          
+          //transform to global using odo
+          for (int j = 0; j < points_xy.size(); j++)
+          {
+            float x_local = points_xy[j][0];
+            float y_local = points_xy[j][1];
+            float z_local = 0;
+            //convert xyz local to global using odometry data
+            
+            double orx = odo.pose.pose.orientation.x;
+            double ory = odo.pose.pose.orientation.y;
+            double orz = odo.pose.pose.orientation.z;
+            double orw = odo.pose.pose.orientation.w;
+            double opx = odo.pose.pose.position.x;
+            double opy = odo.pose.pose.position.y;
+            double opz = odo.pose.pose.position.z;
+          
+            //rotation matrix from quaternion
+            double R11 = 1 - 2 * (ory * ory + orz * orz);
+            double R12 = 2 * (orx * ory - orz * orw);
+            double R13 = 2 * (orx * orz + ory * orw);
+            double R21 = 2 * (orx * ory + orz * orw);
+            double R22 = 1 - 2 * (orx * orx + orz * orz);
+            double R23 = 2 * (ory * orz - orx * orw);
+            double R31 = 2 * (orx * orz - ory * orw);
+            double R32 = 2 * (ory * orz + orx * orw);
+            double R33 = 1 - 2 * (orx * orx + ory * ory);
+
+            x_global = R11 * x_local + R12 * y_local + R13 * z_local + opx;
+            y_global = R21 * x_local + R22 * y_local + R23 * z_local + opy;
+            z_global = R31 * x_local + R32 * y_local + R33 * z_local + opz;
+            //myfile << x_global << ',' << y_global << ',' << z_global << '\n';
+            msg.position.push_back(x_global);
+            msg.velocity.push_back(y_global);
+            msg.effort.push_back(z_global);
+          }
+        }
+        pub_xyz->publish(msg);
+        //myfile.close(); 
       }
     }
     void timer_callback()
