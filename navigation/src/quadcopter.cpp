@@ -3,11 +3,16 @@
 #include <chrono>
 #include <tf2/utils.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/point.hpp>
+#include <nav_msgs/msg/odometry.hpp>
 
 using namespace std::chrono_literals;
 
-Quadcopter::Quadcopter()
-: liftoff_(false),
+Quadcopter::Quadcopter() 
+: Node("quadcopter_node"),
+  liftoff_(false),
   TARGET_SPEED(1.0),
   TARGET_HEIGHT_TOLERANCE(0.2),
   goalSet_(false),
@@ -68,6 +73,11 @@ Quadcopter::Quadcopter()
       "/scan", rclcpp::SensorDataQoS(),
       std::bind(&Quadcopter::lidarCallback, this, std::placeholders::_1));
 
+  // Subscriber for odometry
+  subOdom_ = this->create_subscription<nav_msgs::msg::Odometry>(
+      "/odom", 10,
+      std::bind(&Quadcopter::odomCallback, this, std::placeholders::_1));
+
   // Service to start/stop motion control
   srvReachGoal_ = this->create_service<std_srvs::srv::SetBool>(
       "/reach_goal",
@@ -82,6 +92,8 @@ Quadcopter::Quadcopter()
   srvPattern_ = this->create_service<std_srvs::srv::SetBool>(
       "/pattern_mode",
       std::bind(&Quadcopter::patternControl, this, std::placeholders::_1, std::placeholders::_2));
+
+  
 
   // 20 Hz control loop for smooth flight
   timer_ = this->create_wall_timer(50ms, std::bind(&Quadcopter::reachGoal, this));
@@ -104,6 +116,36 @@ Quadcopter::Quadcopter()
 }
 
 Quadcopter::~Quadcopter() = default;
+
+void Quadcopter::odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
+{
+  current_pose_.pose = msg->pose.pose;
+  current_pose_.header = msg->header;
+}
+
+geometry_msgs::msg::Pose Quadcopter::getOdometry()
+{
+  return current_pose_.pose;
+}
+
+geometry_msgs::msg::PoseStamped Quadcopter::getCurrentPose() const {
+  return current_pose_;
+}
+
+void Quadcopter::setGoal(const geometry_msgs::msg::Point &goal) {
+  goalPosition_ = goal;
+  goalSet_ = true;
+}
+
+void Quadcopter::stopMovement() {
+  geometry_msgs::msg::Twist cmd;
+  cmd_vel_pub_->publish(cmd);
+  goalSet_ = false;
+}
+
+void Quadcopter::resumeSearch() {
+  goalSet_ = false;
+}
 
 void Quadcopter::aglCallback(const std_msgs::msg::Float64::SharedPtr msg)
 {
@@ -254,10 +296,11 @@ bool Quadcopter::goalReached(void)
   return distance < tolerance_;
 }
 
-GoalStats Quadcopter::calcNewGoal(void)
+GoalStats Quadcopter::calcNewGoal()
 {
-  auto pose = getOdometry();
-  auto goalStats = getGoalStats();
+  auto pose = getOdometry();  // get current pose
+
+  GoalStats goalStats;  // <-- declare it here
 
   geometry_msgs::msg::Pose est;
   checkOriginToDestination(pose, goalStats.location, goalStats.distance, goalStats.time, est);
@@ -268,6 +311,7 @@ GoalStats Quadcopter::calcNewGoal(void)
 
   return goalStats;
 }
+
 
 void Quadcopter::sendCmd(double yaw_rate, double move_l_r, double move_u_d, double move_f_b)
 {

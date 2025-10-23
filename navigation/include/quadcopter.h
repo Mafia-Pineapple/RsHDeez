@@ -3,6 +3,7 @@
 
 #include "controller.h"
 #include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 #include <std_msgs/msg/empty.hpp>
@@ -10,9 +11,12 @@
 #include <std_srvs/srv/set_bool.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
+#include "geometry_msgs/msg/pose_stamped.hpp"
 #include <chrono>
 #include <random>
 #include <atomic>
+
+
 
 namespace pfms {
   enum class PlatformStatus {
@@ -23,7 +27,7 @@ namespace pfms {
   };
 }
 
-class Quadcopter : public Controller
+class Quadcopter : public rclcpp::Node
 {
 public:
   Quadcopter();
@@ -74,16 +78,29 @@ public:
   float getMinLeft() const { return min_left_.load(std::memory_order_relaxed); }
   float getMinRight() const { return min_right_.load(std::memory_order_relaxed); }
 
+  geometry_msgs::msg::PoseStamped getCurrentPose() const;
+  void setGoal(const geometry_msgs::msg::Point &goal);
+  void stopMovement();
+  void resumeSearch();
+
+ 
+
+
 private:
   // Publishers
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pubCmdVel_;
   rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr pubTakeOff_;
   rclcpp::Publisher<std_msgs::msg::Empty>::SharedPtr pubLanding_;
+  rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_pub_;
 
   // Subscribers
   rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr subGoal_;
   rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subAgl_;
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subLidar_;
+
+  rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subOdom_;
+  void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
+  geometry_msgs::msg::Pose getOdometry();
 
   // Services
   rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr srvReachGoal_;
@@ -102,6 +119,7 @@ private:
   bool pattern_mode_ = false;
   
   geometry_msgs::msg::Point goalPosition_;
+   geometry_msgs::msg::PoseStamped current_pose_;
   double target_angle_ = 0.0;
   double tolerance_;
 
