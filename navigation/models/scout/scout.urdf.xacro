@@ -103,6 +103,16 @@
     <child link="camera_link"/>
   </joint>
 
+  <joint name="third_person_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="third_person_link"/>
+    <origin xyz="-0.25 0.0 0.25" rpy="0 0.785398 0"/> <!-- 0.5 0.0 0.9 -->
+  </joint>
+
+  <link name="third_person_link" type="fixed">
+    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/> <!-- 0.5 0.0 0.9 -->
+  </link>
+
   <link name="camera_link">
     <visual>
      <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -119,6 +129,8 @@
       <material name="dark"/>
     </visual>
   </link>
+
+
 
   <joint name="camera_rgb_joint" type="fixed">
     <origin xyz="${r200_cam_rgb_px} ${r200_cam_rgb_py} ${r200_cam_rgb_pz}" rpy="0 0 0"/>
