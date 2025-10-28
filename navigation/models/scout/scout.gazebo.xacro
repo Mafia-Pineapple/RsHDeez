@@ -171,7 +171,7 @@
     <sensor type="gpu_ray" name="agl_sensor">
       <!-- Position further below the drone body to avoid self-collision -->
       <!-- Increased z offset from -0.08 to -0.15 -->
-      <pose>0 0 -0.15 0 0 0</pose>
+      <pose>0 0 -0.15 0 1.5708 0</pose>
       <visualize>true</visualize>
       <update_rate>30</update_rate>
       <gz_frame_id>base_link</gz_frame_id>
