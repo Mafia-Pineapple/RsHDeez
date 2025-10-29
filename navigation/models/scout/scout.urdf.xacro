@@ -101,6 +101,7 @@
     <origin xyz="0.25 0.0 0.25" rpy="0 0.785398 0"/> <!-- 0.5 0.0 0.9 -->
     <parent link="base_link"/>
     <child link="camera_link"/>
+    <origin xyz="0.2 0 1.1" rpy="0 0 0"/>
   </joint>
 
   <joint name="third_person_joint" type="fixed">
@@ -159,5 +160,23 @@
     <child link="camera_depth_optical_frame"/>
   </joint>
   <link name="camera_depth_optical_frame"/>
+
+  <!-- Thermal camera frames -->
+  <joint name="camera_thermal_joint" type="fixed">
+    <!-- Re-use the same position as RGB by default; tweak as needed -->
+    <origin xyz="${r200_cam_rgb_px} ${r200_cam_rgb_py} ${r200_cam_rgb_pz}" rpy="0 0 0"/>
+    <parent link="camera_link"/>
+    <child link="camera_thermal_frame"/>
+  </joint>
+  <link name="camera_thermal_frame"/>
+
+  <joint name="camera_thermal_optical_joint" type="fixed">
+    <!-- Standard optical frame rotation: X forward, Z down -->
+    <origin xyz="0 0 0" rpy="-1.57 0 -1.57"/>
+    <parent link="camera_thermal_frame"/>
+    <child link="camera_thermal_optical_frame"/>
+  </joint>
+  <link name="camera_thermal_optical_frame"/>
+
 
 </robot>

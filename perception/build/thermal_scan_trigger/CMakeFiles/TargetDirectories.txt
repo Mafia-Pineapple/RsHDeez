@@ -1,0 +1,10 @@
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/uninstall.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/thermal_scan_trigger_uninstall.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/thermal_scan_trigger_node.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/test.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/edit_cache.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/rebuild_cache.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/list_install_components.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/install.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/install/local.dir
+/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger/CMakeFiles/install/strip.dir

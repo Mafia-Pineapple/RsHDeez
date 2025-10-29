@@ -1,0 +1,70 @@
+[0.053s] Invoking command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger': /usr/bin/cmake /home/student/41068_ws/src/RsHDeez/perception -DCMAKE_BUILD_TYPE=Release -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger
+[1.040s] -- The C compiler identification is GNU 11.4.0
+[1.571s] -- The CXX compiler identification is GNU 11.4.0
+[1.713s] -- Detecting C compiler ABI info
+[1.895s] -- Detecting C compiler ABI info - done
+[1.904s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.911s] -- Detecting C compile features
+[1.921s] -- Detecting C compile features - done
+[1.943s] -- Detecting CXX compiler ABI info
+[2.065s] -- Detecting CXX compiler ABI info - done
+[2.075s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[2.075s] -- Detecting CXX compile features
+[2.076s] -- Detecting CXX compile features - done
+[2.170s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[2.458s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[2.869s] -- Found rclcpp: 16.0.14 (/opt/ros/humble/share/rclcpp/cmake)
+[3.238s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[3.281s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[3.358s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[3.495s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.609s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.945s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[3.974s] -- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[4.309s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[4.361s] -- Found FastRTPS: /opt/ros/humble/include  
+[4.415s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[4.503s] -- Looking for pthread.h
+[4.596s] -- Looking for pthread.h - found
+[4.596s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[4.687s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[4.688s] -- Found Threads: TRUE  
+[5.077s] -- Found sensor_msgs: 4.9.0 (/opt/ros/humble/share/sensor_msgs/cmake)
+[5.308s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[5.382s] -- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)
+[5.564s] -- Found OpenCV: /usr (found version "4.5.4") 
+[5.678s] -- Configuring done
+[5.694s] -- Generating done
+[5.696s] [33mCMake Warning:
+[5.696s]   Manually-specified variables were not used by the project:
+[5.696s] 
+[5.696s]     CATKIN_INSTALL_INTO_PREFIX_ROOT
+[5.696s] 
+[5.696s] [0m
+[5.700s] -- Build files have been written to: /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger
+[5.716s] Invoked command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger' returned '0': /usr/bin/cmake /home/student/41068_ws/src/RsHDeez/perception -DCMAKE_BUILD_TYPE=Release -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger
+[5.718s] Invoking command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger': /usr/bin/cmake --build /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger -- -j8 -l8
+[5.775s] [ 50%] [32mBuilding CXX object CMakeFiles/thermal_scan_trigger_node.dir/src/thermal_scan_trigger.cpp.o[0m
+[12.537s] [100%] [32m[1mLinking CXX executable thermal_scan_trigger_node[0m
+[15.988s] [100%] Built target thermal_scan_trigger_node
+[16.000s] Invoked command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger' returned '0': /usr/bin/cmake --build /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger -- -j8 -l8
+[16.011s] Invoking command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger': /usr/bin/cmake --install /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger
+[16.018s] -- Install configuration: "Release"
+[16.018s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/thermal_scan_trigger/thermal_scan_trigger_node
+[16.019s] -- Set runtime path of "/home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/lib/thermal_scan_trigger/thermal_scan_trigger_node" to ""
+[16.019s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/package_run_dependencies/thermal_scan_trigger
+[16.019s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/parent_prefix_path/thermal_scan_trigger
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/ament_prefix_path.sh
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/ament_prefix_path.dsv
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/path.sh
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/environment/path.dsv
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.bash
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.sh
+[16.020s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.zsh
+[16.021s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/local_setup.dsv
+[16.021s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.dsv
+[16.021s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/ament_index/resource_index/packages/thermal_scan_trigger
+[16.021s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/cmake/thermal_scan_triggerConfig.cmake
+[16.021s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/cmake/thermal_scan_triggerConfig-version.cmake
+[16.021s] -- Installing: /home/student/41068_ws/src/RsHDeez/perception/install/thermal_scan_trigger/share/thermal_scan_trigger/package.xml
+[16.023s] Invoked command in '/home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger' returned '0': /usr/bin/cmake --install /home/student/41068_ws/src/RsHDeez/perception/build/thermal_scan_trigger
