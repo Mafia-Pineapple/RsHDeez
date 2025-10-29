@@ -17,12 +17,12 @@ find_package(tf2_geometry_msgs REQUIRED)
 
 include_directories(include)
 
-# Quadcopter Node (main node)
+# Main quadcopter node with integrated decision making
 add_executable(quadcopter_node
   src/main.cpp
   src/quadcopter.cpp
-  src/decision_making.cpp   # include decision-making
   src/controller_base.cpp
+  src/decision_making.cpp
 )
 ament_target_dependencies(quadcopter_node
   rclcpp
@@ -35,7 +35,7 @@ ament_target_dependencies(quadcopter_node
   tf2_geometry_msgs
 )
 
-# Other nodes (optional)
+# Other utility nodes
 add_executable(agl_parser src/agl_parser.cpp)
 ament_target_dependencies(agl_parser
   rclcpp
