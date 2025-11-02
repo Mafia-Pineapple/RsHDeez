@@ -24,6 +24,9 @@ add_executable(quadcopter_node
   src/controller_base.cpp
   src/decision_making.cpp
 )
+
+
+
 ament_target_dependencies(quadcopter_node
   rclcpp
   std_msgs
@@ -64,12 +67,18 @@ ament_target_dependencies(fake_world_node
   nav_msgs
 )
 
+add_executable(odometry_offset_node src/odometry_offset.cpp)
+ament_target_dependencies(odometry_offset_node 
+  rclcpp nav_msgs geometry_msgs tf2_ros)
+
+
 install(TARGETS
   quadcopter_node
   agl_parser
   pose_to_odom
   goal_publisher_node
   fake_world_node
+  odometry_offset_node  # ADD THIS
   DESTINATION lib/${PROJECT_NAME}
 )
 
@@ -80,6 +89,8 @@ install(DIRECTORY
   models
   DESTINATION share/${PROJECT_NAME}
 )
+
+
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
