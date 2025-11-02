@@ -1,11 +1,15 @@
 import os
 import sys
-
 import launch
-
 from launch.conditions import IfCondition
 from launch.substitutions import PythonExpression
-from launch.actions import IncludeLaunchDescription, GroupAction, SetEnvironmentVariable, ExecuteProcess, TimerAction
+from launch.actions import (
+    IncludeLaunchDescription, 
+    GroupAction, 
+    SetEnvironmentVariable, 
+    ExecuteProcess, 
+    TimerAction
+)
 from launch_ros.actions import Node, PushRosNamespace
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -13,7 +17,6 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import Command
 from ament_index_python.packages import get_package_share_directory
-
 import xacro
 
 def generate_launch_description():
@@ -26,11 +29,9 @@ def generate_launch_description():
     # World file path - using terrainxl file
     terrain_xl_dir = FindPackageShare('terrainxl')
     world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall.sdf'])
-    print(world_path)
 
     # GUI config path - using terrainxl file
     gui_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'gui.config'])
-    print(gui_path)
     
     # SJTU drone URDF processing
     use_sim_time = LaunchConfiguration("use_sim_time", default="true")
@@ -82,6 +83,15 @@ def generate_launch_description():
         executable='quadcopter_node',
         name='quadcopter_controller',
         output='screen',
+    )
+
+    # Decision Making node - ADDED THIS
+    decision_making_node = Node(
+        package='navigation',
+        executable='decision_making_node',
+        name='decision_making_node',
+        output='screen',
+        parameters=[{"use_sim_time": use_sim_time}],
     )
 
     # Spawn the drone in Ignition Gazebo
@@ -140,7 +150,8 @@ def generate_launch_description():
         gazebo_bridge,
         pose_to_odom,
         agl_parser,
-        quadcopter_node, 
+        quadcopter_node,
+        decision_making_node,  # ADDED THIS
         
         # rviz,  # Uncomment if you have RViz config
     ])
