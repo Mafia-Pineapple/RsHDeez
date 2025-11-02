@@ -14,6 +14,7 @@ find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(laser_geometry REQUIRED)
 
 include_directories(include)
 
@@ -72,13 +73,23 @@ ament_target_dependencies(odometry_offset_node
   rclcpp nav_msgs geometry_msgs tf2_ros)
 
 
+
+add_executable(laserscan_to_pointcloud_node src/laserscan_to_pointcloud.cpp)
+ament_target_dependencies(laserscan_to_pointcloud_node 
+  rclcpp
+  sensor_msgs 
+  laser_geometry
+  )
+
+
 install(TARGETS
   quadcopter_node
   agl_parser
   pose_to_odom
   goal_publisher_node
   fake_world_node
-  odometry_offset_node  # ADD THIS
+  odometry_offset_node
+  laserscan_to_pointcloud_node
   DESTINATION lib/${PROJECT_NAME}
 )
 
