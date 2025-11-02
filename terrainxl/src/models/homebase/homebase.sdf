@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <model name="homebase">
+    <pose>0 0 0 0 0 0</pose>
+    <static>true</static>
+    <link name="body">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>visual.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <thermal>
+            <emissivity>0.9</emissivity>        <!-- How well the object emits thermal radiation -->
+            <temperature>293</temperature>      <!-- Kelvin, e.g., 295K = ~22°C -->
+          </thermal>
+        </material>
+      </visual>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>collision.obj</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>
