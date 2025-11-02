@@ -17,12 +17,12 @@
   gz_type_name: 'ignition.msgs.Odometry'
   direction: GZ_TO_ROS
 
-  # Bridge the pose/TF topic
-- ros_topic_name: '/tf'
-  gz_topic_name: '/model/scout/pose'
-  ros_type_name: 'tf2_msgs/msg/TFMessage'
-  gz_type_name: 'ignition.msgs.Pose_V'
-  direction: GZ_TO_ROS
+#   # Bridge the pose/TF topic
+# - ros_topic_name: '/tf'
+#   gz_topic_name: '/model/scout/pose'
+#   ros_type_name: 'tf2_msgs/msg/TFMessage'
+#   gz_type_name: 'ignition.msgs.Pose_V'
+#   direction: GZ_TO_ROS
 
 # Intertial Measurement Unit
 - ros_topic_name: '/imu'
