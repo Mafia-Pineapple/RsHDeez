@@ -106,7 +106,7 @@ ros2 pkg list | grep navigation
 ```bash
 cd ~/41068_ws
 source install/setup.bash
-ros2 launch navigation scout_launch.py
+ros2 launch navigation scout.launch.py
 ```
 *This starts Gazebo with terrain, spawns the drone, and initializes all sensors.*
 
