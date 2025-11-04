@@ -6,7 +6,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     
-    # RTAB-Map core SLAM node
+    # RTAB-Map core SLAM node - LIDAR ONLY
     rtabmap = Node(
         package='rtabmap_slam',
         executable='rtabmap',
@@ -15,63 +15,63 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': use_sim_time,
             'frame_id': 'base_link',
-            'subscribe_depth': True,
-            'subscribe_rgb': True,
-            'subscribe_scan': True,
-            'subscribe_scan_cloud': True,
-            'approx_sync': True,
-            'approx_sync_max_interval': 0.2,  # Increase from default
-            'queue_size': 50,
-            'qos': 1,                         # Try different QoS
-
-            # Memory management
+            
+            # DISABLE CAMERA
+            'subscribe_depth': False,           # Changed to False
+            'subscribe_rgb': False,             # Changed to False
+            'subscribe_scan': True,             # Keep LIDAR
+            'subscribe_scan_cloud': False,      # Changed to False (no converter yet)
+            
+            'approx_sync': False,               # Not needed without camera
+            'queue_size': 10,
+            
+            # USE PROVIDED ODOMETRY (don't compute visual odom)
+            'Odom/Strategy': '0',               # Use external odometry
+            'Reg/Strategy': '1',                # ICP registration (LIDAR-based)
+            'Reg/Force3DoF': 'false',           # Allow 6DOF for drone
+            
+            # ICP PARAMETERS
+            'Icp/VoxelSize': '0.1',
+            'Icp/MaxTranslation': '2.0',
+            'Icp/MaxCorrespondenceDistance': '1.0',
+            'Icp/PointToPlane': 'true',
+            'Icp/PointToPlaneK': '5',
+            'Icp/Iterations': '30',
+            'Icp/Epsilon': '0.001',
+            
+            # MEMORY MANAGEMENT
             'Mem/IncrementalMemory': 'true',
             'Mem/InitWMWithAllNodes': 'false',
             
-            # SLAM parameters for aerial vehicle
-            'RGBD/AngularUpdate': '0.05',        # Update every 3 degrees rotation
-            'RGBD/LinearUpdate': '0.05',         # Update every 5cm movement
+            # SLAM PARAMETERS
+            'RGBD/AngularUpdate': '0.1',        # Update every 6 degrees
+            'RGBD/LinearUpdate': '0.1',         # Update every 10cm
             'RGBD/OptimizeFromGraphEnd': 'false',
             'RGBD/ProximityBySpace': 'true',
             'RGBD/ProximityPathMaxNeighbors': '10',
             
-            # Loop closure
-            'Rtabmap/DetectionRate': '1',        # Hz for loop closure detection
-            'Rtabmap/TimeThr': '700',            # Time threshold for loop closure
+            # LOOP CLOSURE
+            'Rtabmap/DetectionRate': '1.0',     # Check for loops every second
+            'Rtabmap/TimeThr': '0',
             
-            # 3D mapping
-            'Grid/3D': 'true',                   # Create 3D occupancy grid
-            'Grid/RayTracing': 'true',           # Ray trace to clear space
-            'Grid/RangeMax': '10.0',             # Max sensor range
-            'Grid/CellSize': '0.1',              # 10cm voxels
-            'Grid/ClusterRadius': '0.3',
-            'Grid/GroundIsObstacle': 'false',    # Ground is not obstacle for drone
-            'Grid/MaxObstacleHeight': '10.0',    # Trees can be tall
-            'Grid/MinGroundHeight': '-10.0',     # Allow terrain below
-            'Grid/MaxGroundHeight': '0.5',       # What counts as ground
-            
-            # Odometry
-            'Odom/Strategy': '0',                # 0=Frame-to-Map, 1=Frame-to-Frame
-            'Odom/ResetCountdown': '15',
-            
-            # For forest/outdoor
-            'Kp/MaxFeatures': '400',
-            'Kp/DetectorStrategy': '6',          # GFTT/Good features to track
-            'Vis/MaxFeatures': '1000',
-            'Vis/MinInliers': '15',
+            # 3D MAPPING FROM LIDAR
+            'Grid/3D': 'true',                  # Create 3D occupancy grid
+            'Grid/RayTracing': 'true',          # Ray trace to clear space
+            'Grid/RangeMax': '15.0',            # Max LIDAR range
+            'Grid/CellSize': '0.1',             # 10cm voxels
+            'Grid/GroundIsObstacle': 'false',   # Ground is not obstacle for drone
+            'Grid/MaxObstacleHeight': '20.0',   # Trees can be tall
+            'Grid/MinGroundHeight': '-10.0',    # Allow terrain below
+            'Grid/FromDepth': 'false',          # Don't use depth camera
         }],
         remappings=[
-            ('rgb/image', '/camera/image'),
-            ('rgb/camera_info', '/camera/camera_info'),
-            ('depth/image', '/camera/depth/image'),
             ('scan', '/scan'),
-            ('scan_cloud', '/scan/points'),      # If you add the converter
             ('odom', '/odometry')
         ],
         arguments=['--delete_db_on_start']
     )
     
-    # RTAB-Map visualization (optional but helpful)
+    # RTAB-Map visualization - LIDAR ONLY
     rtabmap_viz = Node(
         package='rtabmap_viz',
         executable='rtabmap_viz',
@@ -80,16 +80,15 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': use_sim_time,
             'frame_id': 'base_link',
-            'subscribe_depth': True,
-            'subscribe_rgb': True,
-            'subscribe_scan': True,
-            'approx_sync': True,
-            'queue_size': 30,
+            
+            # DISABLE CAMERA VISUALIZATION
+            'subscribe_depth': False,           # Changed to False
+            'subscribe_rgb': False,             # Changed to False
+            'subscribe_scan': True,             # Keep LIDAR
+            'approx_sync': False,
+            'queue_size': 10,
         }],
         remappings=[
-            ('rgb/image', '/camera/image'),
-            ('rgb/camera_info', '/camera/camera_info'),
-            ('depth/image', '/camera/depth/image'),
             ('scan', '/scan'),
             ('odom', '/odometry')
         ]
