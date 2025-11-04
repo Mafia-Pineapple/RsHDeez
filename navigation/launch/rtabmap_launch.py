@@ -66,7 +66,8 @@ def generate_launch_description():
         }],
         remappings=[
             ('scan', '/scan'),
-            ('odom', '/odometry')
+            ('odom', '/odometry'),
+            ('grid_map', '/map'),
         ],
         arguments=['--delete_db_on_start']
     )
@@ -90,7 +91,8 @@ def generate_launch_description():
         }],
         remappings=[
             ('scan', '/scan'),
-            ('odom', '/odometry')
+            ('odom', '/odometry'),
+            ('grid_map', '/map'),
         ]
     )
     
