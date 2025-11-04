@@ -77,7 +77,7 @@ public:
   float getMinAhead() const { return min_ahead_.load(std::memory_order_relaxed); }
   float getMinLeft() const { return min_left_.load(std::memory_order_relaxed); }
   float getMinRight() const { return min_right_.load(std::memory_order_relaxed); }
-
+  geometry_msgs::msg::Pose getOdometry();
   geometry_msgs::msg::PoseStamped getCurrentPose() const;
   void setGoal(const geometry_msgs::msg::Point &goal);
   void stopMovement();
@@ -100,7 +100,7 @@ private:
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subOdom_;
   void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
-  geometry_msgs::msg::Pose getOdometry();
+
 
   // Services
   rclcpp::Service<std_srvs::srv::SetBool>::SharedPtr srvReachGoal_;

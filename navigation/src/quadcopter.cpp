@@ -18,7 +18,7 @@ Quadcopter::Quadcopter()
   goalSet_(false),
   wandering_(false),
   pattern_mode_(false),
-  target_agl_(23)
+  target_agl_(10)
 {
   tolerance_ = 0.5; // 0.5 m sphere tolerance
 
@@ -486,9 +486,48 @@ bool Quadcopter::reachGoal(void)
       status_ = pfms::PlatformStatus::IDLE;
       return true;
 
-    case pfms::PlatformStatus::RUNNING:
-      if (pattern_mode_) {
-        // ========== PATTERN SEARCH MODE WITH COLLISION AVOIDANCE ==========
+      case pfms::PlatformStatus::RUNNING:
+      // ========== PRIORITY 1: GOAL-SEEKING MODE (HIGHEST PRIORITY) ==========
+      if (goalSet_) {
+        if (goalReached()) {
+          sendCmd(0, 0, 0, 0);
+          RCLCPP_INFO(this->get_logger(), "Goal reached! Hovering at target position");
+          goalSet_ = false;
+          status_ = pfms::PlatformStatus::IDLE;
+          return true;
+        }
+
+        auto pose = getOdometry();
+        
+        const double dx = goalPosition_.x - pose.position.x;
+        const double dy = goalPosition_.y - pose.position.y;
+        const double dz = goalPosition_.z - pose.position.z;
+        
+        const double kp_xy = 0.8;
+        const double kp_z = 0.5;
+        const double max_vel = 2.0;
+        
+        double vx = kp_xy * dx;
+        double vy = kp_xy * dy;
+        double vz = kp_z * dz;
+        
+        vx = std::max(-max_vel, std::min(max_vel, vx));
+        vy = std::max(-max_vel, std::min(max_vel, vy));
+        vz = std::max(-max_vel, std::min(max_vel, vz));
+        
+        // Apply collision avoidance to forward speed
+        double yaw_rate = 0.0;
+        applyCollisionAvoidance(vx, yaw_rate);
+        
+        sendCmd(yaw_rate, vy, vz, vx);
+        
+        double distance = std::sqrt(dx*dx + dy*dy + dz*dz);
+        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, 
+                             "Goal: dist=%.2fm, ahead=%.2fm", distance, getMinAhead());
+        return true;
+        
+      } else if (pattern_mode_) {
+        // ========== PRIORITY 2: PATTERN SEARCH MODE WITH COLLISION AVOIDANCE ==========
         auto pose = getOdometry();
         double vz = maintainAltitude();
         double yaw_rate = 0.0;
@@ -642,7 +681,7 @@ bool Quadcopter::reachGoal(void)
         return true;
         
       } else if (wandering_) {
-        // ========== WANDER MODE WITH COLLISION AVOIDANCE ==========
+        // ========== PRIORITY 3: WANDER MODE WITH COLLISION AVOIDANCE ==========
         auto pose = getOdometry();
         
         auto elapsed = (this->now() - wander_direction_change_time_).seconds();
@@ -665,45 +704,6 @@ bool Quadcopter::reachGoal(void)
                              vx, yaw_rate, getMinAhead());
         return true;
         
-      } else if (goalSet_) {
-        // ========== GOAL-SEEKING MODE WITH COLLISION AVOIDANCE ==========
-        if (goalReached()) {
-          sendCmd(0, 0, 0, 0);
-          RCLCPP_INFO(this->get_logger(), "Goal reached! Hovering at target position");
-          goalSet_ = false;
-          status_ = pfms::PlatformStatus::IDLE;
-          return true;
-        }
-
-        auto pose = getOdometry();
-        
-        const double dx = goalPosition_.x - pose.position.x;
-        const double dy = goalPosition_.y - pose.position.y;
-        const double dz = goalPosition_.z - pose.position.z;
-        
-        const double kp_xy = 0.8;
-        const double kp_z = 0.5;
-        const double max_vel = 2.0;
-        
-        double vx = kp_xy * dx;
-        double vy = kp_xy * dy;
-        double vz = kp_z * dz;
-        
-        vx = std::max(-max_vel, std::min(max_vel, vx));
-        vy = std::max(-max_vel, std::min(max_vel, vy));
-        vz = std::max(-max_vel, std::min(max_vel, vz));
-        
-        // Apply collision avoidance to forward speed
-        double yaw_rate = 0.0;
-        applyCollisionAvoidance(vx, yaw_rate);
-        
-        sendCmd(yaw_rate, vy, vz, vx);
-        
-        double distance = std::sqrt(dx*dx + dy*dy + dz*dz);
-        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1000, 
-                             "Goal: dist=%.2fm, ahead=%.2fm", distance, getMinAhead());
-        return true;
-        
       } else {
         // No mode active - hover
         RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000, 
@@ -711,6 +711,7 @@ bool Quadcopter::reachGoal(void)
         sendCmd(0, 0, 0, 0);
         return false;
       }
+
   }
 
   return false;

@@ -2,7 +2,7 @@ import os
 import sys
 
 import launch
-
+from launch.actions import IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.substitutions import PythonExpression
 from launch.actions import IncludeLaunchDescription, GroupAction, SetEnvironmentVariable, ExecuteProcess, TimerAction
@@ -56,6 +56,17 @@ def generate_launch_description():
         cmd=['ign', 'gazebo', '-v', '3', world_path, '--gui-config', gui_path],
         output='screen'
     )
+
+    slam_toolbox = Node(
+        package='slam_toolbox',
+        executable='async_slam_toolbox_node',
+        name='slam_toolbox',
+        output='screen',
+        parameters=[
+        PathJoinSubstitution([config_path, 'slam_toolbox.yaml']),
+        {'use_sim_time': use_sim_time}],
+    )   
+
 
     # Robot state publisher
     robot_state_publisher = Node(
@@ -141,6 +152,21 @@ def generate_launch_description():
         name='agl_parser',
         output='screen',
     )
+    
+    # Add this node
+    odometry_offset_node = Node(
+        package='navigation',
+        executable='odometry_offset_node',
+        name='odometry_offset',
+        output='screen',
+        parameters=[
+        {'use_sim_time': use_sim_time},
+        # Optional: manually specify offset if you want
+        {'offset_x': -178.273},
+        {'offset_y': -7946.740},
+        {'offset_z': 567.651}
+        ]
+    )
 
     ld = launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
@@ -160,7 +186,8 @@ def generate_launch_description():
         pose_to_odom,
         agl_parser,
         quadcopter_node, 
-        
+        slam_toolbox,
+        odometry_offset_node,
         # rviz,  # Uncomment if you have RViz config
     ])
 

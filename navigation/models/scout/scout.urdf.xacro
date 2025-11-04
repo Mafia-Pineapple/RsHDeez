@@ -88,8 +88,15 @@
       <material name="dark"/>
     </visual>
 
+ <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <cylinder length="0.04" radius="0.09"/>
+    </geometry>
+  </collision>
+
     <inertial>
-      <mass value="0" />
+      <mass value="0.1" />
       <origin xyz="0 0 0" />
       <inertia ixx="0.001" ixy="0.0" ixz="0.0"
                iyy="0.001" iyz="0.0"

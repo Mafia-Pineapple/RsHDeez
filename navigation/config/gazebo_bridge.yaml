@@ -10,13 +10,19 @@
   ros_type_name: 'sensor_msgs/msg/JointState'
   gz_type_name: 'ignition.msgs.Model'
   direction: GZ_TO_ROS
-
-# # Odometry (published by ignition::gazebo::systems::OdometryPublisher)
-- ros_topic_name: '/odometry'
+# Changed this line:
+- ros_topic_name: '/odometry_raw'  # Changed from '/odometry'
   gz_topic_name: '/model/scout/odometry'
   ros_type_name: 'nav_msgs/msg/Odometry'
   gz_type_name: 'ignition.msgs.Odometry'
   direction: GZ_TO_ROS
+
+#   # Bridge the pose/TF topic
+# - ros_topic_name: '/tf'
+#   gz_topic_name: '/model/scout/pose'
+#   ros_type_name: 'tf2_msgs/msg/TFMessage'
+#   gz_type_name: 'ignition.msgs.Pose_V'
+#   direction: GZ_TO_ROS
 
 # Intertial Measurement Unit
 - ros_topic_name: '/imu'
@@ -51,6 +57,13 @@
   gz_topic_name: "/model/scout/camera/image"
   ros_type_name: "sensor_msgs/msg/Image"
   gz_type_name: "ignition.msgs.Image"
+  direction: GZ_TO_ROS
+
+# ADD THIS - Camera Info (CRITICAL for RTAB-Map!)
+- ros_topic_name: "/camera/camera_info"
+  gz_topic_name: "/model/scout/camera/camera_info"
+  ros_type_name: "sensor_msgs/msg/CameraInfo"
+  gz_type_name: "ignition.msgs.CameraInfo"
   direction: GZ_TO_ROS
 
 # Camera: depth
