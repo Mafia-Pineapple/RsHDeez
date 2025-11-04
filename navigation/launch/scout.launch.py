@@ -98,6 +98,25 @@ def generate_launch_description():
         ]
     )
 
+    camera_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        output='screen',
+        arguments=[
+            # clock
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock]',
+
+            # RGB image
+            '/model/scout/camera/image@sensor_msgs/msg/Image[ignition.msgs.Image]',
+
+            # Depth image
+            '/model/scout/camera/depth_image@sensor_msgs/msg/Image[ignition.msgs.Image]',
+
+            # Thermal
+            '/model/scout/thermal/image@sensor_msgs/msg/Image[ignition.msgs.Image]s',
+        ],
+    )
+
     # Launch ROS bridge
     gazebo_bridge = Node(
         package='ros_ign_bridge',

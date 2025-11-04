@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+  <model name="bear">
+    <!-- Keep model frame at ground level; no offsets here -->
+    <pose>0 0 0 0 0 0</pose>
+    <static>false</static>
+    <canonical_link>body</canonical_link>
+
+    <link name="body">
+      <gravity>true</gravity>
+
+      <!-- Reasonable mass/inertia so the solver settles quickly -->
+      <inertial>
+        <mass>70</mass>
+        <inertia>
+          <ixx>1.67</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>1.67</iyy><iyz>0</iyz>
+          <izz>1.67</izz>
+        </inertia>
+      </inertial>
+
+      <!-- VISUAL: no artificial Z lift -->
+      <visual name="visual">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <mesh>
+            <!-- Use your real mesh path & name -->
+            <!-- Your folder: model root /meshes/bear-obj.obj -->
+            <uri>model://models/boar/boar.obj</uri>
+            <scale>0.05 0.05 0.05</scale>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- COLLISION: lower slightly if the mesh origin is at the belly -->
+      <collision name="coll_mesh">
+        <!-- Start with -0.35 to -0.45; tweak live with View→Collisions -->
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <!-- Option A: same triangle mesh (works; heavier) -->
+          <mesh>
+            <uri>model://models/boar/boar.obj</uri>
+            <scale>0.05 0.05 0.05</scale>
+          </mesh>
+
+          
+        </geometry>
+        <surface>
+          <contact>
+            <ode>
+              <contact_surface_layer>0.0</contact_surface_layer>
+            </ode>
+          </contact>
+          <friction><ode/></friction>
+        </surface>
+      </collision>
+
+
+      <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal">
+        <temperature>310.0</temperature>  <!-- ~37°C -->
+        <emissivity>0.95</emissivity>
+      </plugin>
+
+    </link>
+  </model>
+</sdf>
+

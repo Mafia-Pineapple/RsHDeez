@@ -648,5 +648,13 @@
 			<name> bear_0</name>
 			<pose>-176.273 -7947.7400 567 0 0 0</pose>
 		</include>
+		
+		<include>
+			<uri>
+				model://models/boar
+			</uri>
+			<name> boar_0</name>
+			<pose>-178.273 -7945.7400 567 0 0 0</pose>
+		</include>
 	</world>
 </sdf>

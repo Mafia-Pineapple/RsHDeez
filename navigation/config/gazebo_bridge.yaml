@@ -60,6 +60,13 @@
   gz_type_name: "ignition.msgs.Image"
   direction: GZ_TO_ROS
 
+# Camera: Thermal
+- ros_topic_name: "/camera/thermal/image"
+  gz_topic_name: "/model/scout/thermal/image"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "ignition.msgs.Image"
+  direction: GZ_TO_ROS
+
 # Depth cloud
 - ros_topic_name: "/camera/depth/points"
   gz_topic_name: "/model/scout/camera/points"
