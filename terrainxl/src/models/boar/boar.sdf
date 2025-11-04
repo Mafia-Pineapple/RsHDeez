@@ -13,11 +13,8 @@
       <inertial>
         <mass>70</mass>
         <inertia>
-          <ixx>1.67</ixx>
-          <ixy>0</ixy>
-          <ixz>0</ixz>
-          <iyy>1.67</iyy>
-          <iyz>0</iyz>
+          <ixx>1.67</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>1.67</iyy><iyz>0</iyz>
           <izz>1.67</izz>
         </inertia>
       </inertial>
@@ -29,8 +26,8 @@
           <mesh>
             <!-- Use your real mesh path & name -->
             <!-- Your folder: model root /meshes/bear-obj.obj -->
-            <uri>model://models/bear/bear.obj</uri>
-            <scale>0.1 0.1 0.1</scale>
+            <uri>model://models/boar/boar.obj</uri>
+            <scale>0.05 0.05 0.05</scale>
           </mesh>
         </geometry>
       </visual>
@@ -42,9 +39,11 @@
         <geometry>
           <!-- Option A: same triangle mesh (works; heavier) -->
           <mesh>
-            <uri>model://models/bear/bear.obj</uri>
-            <scale>0.1 0.1 0.1</scale>
+            <uri>model://models/boar/boar.obj</uri>
+            <scale>0.05 0.05 0.05</scale>
           </mesh>
+
+          
         </geometry>
         <surface>
           <contact>
@@ -52,11 +51,10 @@
               <contact_surface_layer>0.0</contact_surface_layer>
             </ode>
           </contact>
-          <friction>
-            <ode/>
-          </friction>
+          <friction><ode/></friction>
         </surface>
       </collision>
+
 
       <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal">
         <temperature>310.0</temperature>  <!-- ~37°C -->
