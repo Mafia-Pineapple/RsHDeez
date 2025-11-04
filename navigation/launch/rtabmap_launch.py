@@ -44,8 +44,8 @@ def generate_launch_description():
             'Mem/InitWMWithAllNodes': 'false',
             
             # SLAM PARAMETERS
-            'RGBD/AngularUpdate': '0.1',        # Update every 6 degrees
-            'RGBD/LinearUpdate': '0.1',         # Update every 10cm
+            'RGBD/AngularUpdate': '0.01',        # Update every 6 degrees
+            'RGBD/LinearUpdate': '0.01',         # Update every 10cm
             'RGBD/OptimizeFromGraphEnd': 'false',
             'RGBD/ProximityBySpace': 'true',
             'RGBD/ProximityPathMaxNeighbors': '10',

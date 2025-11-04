@@ -1,0 +1,9 @@
+autonomous_explorer:
+  ros__parameters:
+    exploration_radius: 30.0       # How far to explore (meters)
+    min_goal_distance: 3.0         # Minimum distance between goals
+    max_goal_distance: 8.0         # Maximum distance for each goal
+    goal_timeout: 30.0             # Seconds before abandoning a goal
+    exploration_time: 180.0        # Total exploration time (3 minutes)
+    flight_height: 5.0             # Cruise altitude
+    survey_pattern: "spiral"       # Options: spiral, grid, frontier

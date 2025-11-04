@@ -82,6 +82,14 @@ ament_target_dependencies(laserscan_to_pointcloud_node
   )
 
 
+  add_executable(autonomous_explorer_node src/autonomous_explorer.cpp)
+  ament_target_dependencies(autonomous_explorer_node 
+    rclcpp geometry_msgs nav_msgs sensor_msgs std_srvs)
+
+    add_executable(smooth_explorer_node src/smooth_explorer.cpp)
+    ament_target_dependencies(smooth_explorer_node 
+      rclcpp geometry_msgs nav_msgs sensor_msgs)
+
 install(TARGETS
   quadcopter_node
   agl_parser
@@ -90,6 +98,8 @@ install(TARGETS
   fake_world_node
   odometry_offset_node
   laserscan_to_pointcloud_node
+  autonomous_explorer_node
+  smooth_explorer_node
   DESTINATION lib/${PROJECT_NAME}
 )
 

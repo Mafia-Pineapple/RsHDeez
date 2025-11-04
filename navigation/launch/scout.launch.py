@@ -95,6 +95,7 @@ def generate_launch_description():
         output='screen',
     )
 
+
     # Spawn the drone in Ignition Gazebo
     spawn_drone = TimerAction(
         period=3.0,  # Wait for Gazebo to be ready
@@ -104,28 +105,9 @@ def generate_launch_description():
                 executable='create',
                 name='spawn_drone',
                 output='screen',
-                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-7946.740000', '-x', '-178.273000', '-z', '567.6510'],
+                arguments=['-name', 'scout', '-topic', 'robot_description', '-y', '-7938.0000', '-x', '-183.5000', '-z', '574.6510'],
             )
         ]
-    )
-
-    camera_bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        output='screen',
-        arguments=[
-            # clock
-            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock]',
-
-            # RGB image
-            '/model/scout/camera/image@sensor_msgs/msg/Image[ignition.msgs.Image]',
-
-            # Depth image
-            '/model/scout/camera/depth_image@sensor_msgs/msg/Image[ignition.msgs.Image]',
-
-            # Thermal
-            '/model/scout/thermal/image@sensor_msgs/msg/Image[ignition.msgs.Image]s',
-        ],
     )
 
     # Launch ROS bridge
