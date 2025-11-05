@@ -18,6 +18,12 @@
           </mesh>
         </geometry>
       </collision>
-    </link>
+      
+	      <!-- Explicitly "cold" thermal definition -->
+	  <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal">
+	    <temperature>273.0</temperature>   <!-- ~0 °C -->
+	    <emissivity>0.0</emissivity>       <!-- no heat radiation -->
+	  </plugin>
+	</link>     
   </model>
 </sdf>
