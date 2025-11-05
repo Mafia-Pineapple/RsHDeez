@@ -1,0 +1,9 @@
+float64 lat -33.725117
+float64 lon 150.320997
+---
+int32 temperature 20
+float32 wind 0
+byte direction 0
+byte weather_type 0
+string weather_message "Clear sky"
+

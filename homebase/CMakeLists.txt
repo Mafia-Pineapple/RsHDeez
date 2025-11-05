@@ -15,7 +15,7 @@ find_package(custom_msgs REQUIRED)
 
 add_executable(homebaser src/main.cpp)
 ament_target_dependencies(homebaser rclcpp std_msgs sensor_msgs nav_msgs custom_msgs)
-target_link_libraries(homebaser)
+target_link_libraries(homebaser curl)
 
 install(TARGETS
   homebaser
