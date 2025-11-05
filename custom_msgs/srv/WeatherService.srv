@@ -3,7 +3,7 @@ float64 lon 150.320997
 ---
 int32 temperature 20
 float32 wind 0
-byte direction 0
-byte weather_type 0
+uint16 direction 0
+uint16 weather_type 0
 string weather_message "Clear sky"
 

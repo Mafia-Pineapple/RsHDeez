@@ -177,7 +177,7 @@ static rosidl_typesupport_introspection_c__MessageMember custom_msgs__srv__Weath
   },
   {
     "direction",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_OCTET,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
@@ -194,7 +194,7 @@ static rosidl_typesupport_introspection_c__MessageMember custom_msgs__srv__Weath
   },
   {
     "weather_type",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_OCTET,  // type
+    rosidl_typesupport_introspection_c__ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array

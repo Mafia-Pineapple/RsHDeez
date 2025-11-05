@@ -151,14 +151,14 @@ inline void to_flow_style_yaml(
   // member: direction
   {
     out << "direction: ";
-    rosidl_generator_traits::character_value_to_yaml(msg.direction, out);
+    rosidl_generator_traits::value_to_yaml(msg.direction, out);
     out << ", ";
   }
 
   // member: weather_type
   {
     out << "weather_type: ";
-    rosidl_generator_traits::character_value_to_yaml(msg.weather_type, out);
+    rosidl_generator_traits::value_to_yaml(msg.weather_type, out);
     out << ", ";
   }
 
@@ -200,7 +200,7 @@ inline void to_block_style_yaml(
       out << std::string(indentation, ' ');
     }
     out << "direction: ";
-    rosidl_generator_traits::character_value_to_yaml(msg.direction, out);
+    rosidl_generator_traits::value_to_yaml(msg.direction, out);
     out << "\n";
   }
 
@@ -210,7 +210,7 @@ inline void to_block_style_yaml(
       out << std::string(indentation, ' ');
     }
     out << "weather_type: ";
-    rosidl_generator_traits::character_value_to_yaml(msg.weather_type, out);
+    rosidl_generator_traits::value_to_yaml(msg.weather_type, out);
     out << "\n";
   }
 

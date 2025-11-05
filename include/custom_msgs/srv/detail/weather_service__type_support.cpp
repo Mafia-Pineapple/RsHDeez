@@ -210,7 +210,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember WeatherServic
   },
   {
     "direction",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_OCTET,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
@@ -227,7 +227,7 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember WeatherServic
   },
   {
     "weather_type",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_OCTET,  // type
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_UINT16,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
