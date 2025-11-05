@@ -25,6 +25,7 @@
 #   direction: GZ_TO_ROS
 
 # Intertial Measurement Unit
+# Inertial Measurement Unit (CRITICAL for odometry)
 - ros_topic_name: '/imu'
   gz_topic_name: '/model/scout/imu'
   ros_type_name: 'sensor_msgs/msg/Imu'

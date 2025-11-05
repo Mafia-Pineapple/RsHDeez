@@ -6,7 +6,6 @@ from launch_ros.actions import Node
 def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     
-    # RTAB-Map core SLAM node - LIDAR ONLY
     rtabmap = Node(
         package='rtabmap_slam',
         executable='rtabmap',
@@ -16,63 +15,83 @@ def generate_launch_description():
             'use_sim_time': use_sim_time,
             'frame_id': 'base_link',
             
-            # DISABLE CAMERA
-            'subscribe_depth': False,           # Changed to False
-            'subscribe_rgb': False,             # Changed to False
-            'subscribe_scan': True,             # Keep LIDAR
-            'subscribe_scan_cloud': False,      # Changed to False (no converter yet)
+            # Subscriptions (native ROS params - use Python types)
+            'subscribe_depth': False,
+            'subscribe_rgb': False,
+            'subscribe_scan': True,
+            'subscribe_scan_cloud': False,
+            'subscribe_odom_info': False,
             
-            'approx_sync': False,               # Not needed without camera
-            'queue_size': 10,
+            'approx_sync': False,
+            'sync_queue_size': 10,
             
-            # USE PROVIDED ODOMETRY (don't compute visual odom)
-            'Odom/Strategy': '0',               # Use external odometry
-            'Reg/Strategy': '1',                # ICP registration (LIDAR-based)
-            'Reg/Force3DoF': 'false',           # Allow 6DOF for drone
+            # Use external odometry (from your ICP node)
+            'Odom/Strategy': '0',  # 0 = Frame-to-Map, accepts external odom
+            'Odom/GuessMotion': 'true',  # Use odometry for motion prediction
+            'Odom/ResetCountdown': '1',  # Reset if odometry jumps
             
-            # ICP PARAMETERS
-            'Icp/VoxelSize': '0.1',
-            'Icp/MaxTranslation': '2.0',
-            'Icp/MaxCorrespondenceDistance': '1.0',
-            'Icp/PointToPlane': 'true',
-            'Icp/PointToPlaneK': '5',
+            # ICP parameters
+            'Icp/VoxelSize': '0.05',
+            'Icp/MaxTranslation': '0.5',
+            'Icp/MaxRotation': '0.785',
+            'Icp/CorrespondenceRatio': '0.3',
+            'Icp/MaxCorrespondenceDistance': '0.5',
             'Icp/Iterations': '30',
             'Icp/Epsilon': '0.001',
+            'Icp/PointToPlane': 'true',
+            'Icp/PointToPlaneK': '20',
+            'Icp/PointToPlaneRadius': '0.3',
             
-            # MEMORY MANAGEMENT
+            # Registration
+            'Reg/Strategy': '1',
+            'Reg/Force3DoF': 'false',
+            
+            # Memory
             'Mem/IncrementalMemory': 'true',
             'Mem/InitWMWithAllNodes': 'false',
+            'Mem/STMSize': '30',
             
-            # SLAM PARAMETERS
-            'RGBD/AngularUpdate': '0.01',        # Update every 6 degrees
-            'RGBD/LinearUpdate': '0.01',         # Update every 10cm
+            # SLAM updates
+            'RGBD/AngularUpdate': '0.05',
+            'RGBD/LinearUpdate': '0.05',
             'RGBD/OptimizeFromGraphEnd': 'false',
             'RGBD/ProximityBySpace': 'true',
             'RGBD/ProximityPathMaxNeighbors': '10',
+            'RGBD/CreateOccupancyGrid': 'true',
             
-            # LOOP CLOSURE
-            'Rtabmap/DetectionRate': '1.0',     # Check for loops every second
+            # Loop closure
+            'Rtabmap/DetectionRate': '1.0',
             'Rtabmap/TimeThr': '0',
             
-            # 3D MAPPING FROM LIDAR
-            'Grid/3D': 'true',                  # Create 3D occupancy grid
-            'Grid/RayTracing': 'true',          # Ray trace to clear space
-            'Grid/RangeMax': '15.0',            # Max LIDAR range
-            'Grid/CellSize': '0.1',             # 10cm voxels
-            'Grid/GroundIsObstacle': 'false',   # Ground is not obstacle for drone
-            'Grid/MaxObstacleHeight': '20.0',   # Trees can be tall
-            'Grid/MinGroundHeight': '-10.0',    # Allow terrain below
-            'Grid/FromDepth': 'false',          # Don't use depth camera
+            # 3D Mapping
+            'Grid/3D': 'true',
+            'Grid/RayTracing': 'true',
+            'Grid/RangeMax': '15.0',
+            'Grid/RangeMin': '0.2',
+            'Grid/CellSize': '0.1',
+            'Grid/GroundIsObstacle': 'false',
+            'Grid/MaxObstacleHeight': '20.0',
+            'Grid/MinGroundHeight': '-10.0',
+            'Grid/MaxGroundHeight': '0.5',
+            'Grid/NormalsSegmentation': 'false',
+            'Grid/ClusterRadius': '0.3',
+            'Grid/FlatObstacleDetected': 'false',
+            'Grid/FromDepth': 'false',
+            
+            # TF publishing (native ROS param)
+            'publish_tf': True,
+            'tf_delay': 0.05,
+            'tf_tolerance': 0.1,
         }],
         remappings=[
             ('scan', '/scan'),
-            ('odom', '/odometry'),
+            ('imu', '/imu'),
+            ('odom', '/odometry'),  # CRITICAL: Map to your odometry topic
             ('grid_map', '/map'),
         ],
         arguments=['--delete_db_on_start']
     )
     
-    # RTAB-Map visualization - LIDAR ONLY
     rtabmap_viz = Node(
         package='rtabmap_viz',
         executable='rtabmap_viz',
@@ -81,18 +100,17 @@ def generate_launch_description():
         parameters=[{
             'use_sim_time': use_sim_time,
             'frame_id': 'base_link',
-            
-            # DISABLE CAMERA VISUALIZATION
-            'subscribe_depth': False,           # Changed to False
-            'subscribe_rgb': False,             # Changed to False
-            'subscribe_scan': True,             # Keep LIDAR
+            'subscribe_depth': False,
+            'subscribe_rgb': False,
+            'subscribe_scan': True,
+            'subscribe_odom_info': True,
             'approx_sync': False,
-            'queue_size': 10,
+            'sync_queue_size': 10,
         }],
         remappings=[
             ('scan', '/scan'),
-            ('odom', '/odometry'),
-            ('grid_map', '/map'),
+            ('imu', '/imu'),
+            ('odom', '/odometry'),  # CRITICAL: Map to your odometry topic
         ]
     )
     

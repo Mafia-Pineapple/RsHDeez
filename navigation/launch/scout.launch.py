@@ -119,13 +119,13 @@ def generate_launch_description():
                     'use_sim_time': use_sim_time}]
     )
 
-    # Pose to odom converter
-    pose_to_odom = Node(
-        package='navigation',
-        executable='pose_to_odom',
-        name='pose_to_odom',
-        output='screen',
-    )
+    # # Pose to odom converter
+    # pose_to_odom = Node(
+    #     package='navigation',
+    #     executable='pose_to_odom',
+    #     name='pose_to_odom',
+    #     output='screen',
+    # )
 
     # AGL parser node
     agl_parser = Node(
@@ -165,7 +165,7 @@ def generate_launch_description():
         joint_state_publisher,
         spawn_drone,
         gazebo_bridge,
-        pose_to_odom,
+     #   pose_to_odom,
         agl_parser,
         quadcopter_node, 
         slam_toolbox,
