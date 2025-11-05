@@ -15,10 +15,18 @@ class BearDetector : public rclcpp::Node {
 public:
     BearDetector() : Node("bear_detector") {
         this->declare_parameter("min_area", 3000);           // Min pixels
+        this->declare_parameter("max_area", 200000);         // Max pixels (reject full-screen white)
+        this->declare_parameter("min_aspect_ratio", 0.3);    // Reject very elongated shapes
+        this->declare_parameter("max_aspect_ratio", 3.0);    // Reject very elongated shapes
+        this->declare_parameter("max_white_percentage", 50.0); // Reject if >50% of image is white
         this->declare_parameter("max_distance", 15.0);       // Max meters
         this->declare_parameter("detection_cooldown", 5.0);  // Seconds between detections
         
         min_area_ = this->get_parameter("min_area").as_int();
+        max_area_ = this->get_parameter("max_area").as_int();
+        min_aspect_ratio_ = this->get_parameter("min_aspect_ratio").as_double();
+        max_aspect_ratio_ = this->get_parameter("max_aspect_ratio").as_double();
+        max_white_percentage_ = this->get_parameter("max_white_percentage").as_double();
         max_distance_ = this->get_parameter("max_distance").as_double();
         detection_cooldown_ = this->get_parameter("detection_cooldown").as_double();
         
@@ -107,16 +115,41 @@ private:
             // cv::imshow("White Bear Detection", mask);
             // cv::waitKey(1);
             
+            // Calculate white percentage of image
+            int white_pixels = cv::countNonZero(mask);
+            double white_percentage = (white_pixels * 100.0) / (mask.rows * mask.cols);
+            
+            // REJECT if too much of the image is white (thermal saturation/noise)
+            if (white_percentage > max_white_percentage_) {
+                RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 5000,
+                    "Rejecting detection: %.1f%% of image is white (thermal saturation?)", 
+                    white_percentage);
+                return;
+            }
+            
             // Find contours
             std::vector<std::vector<cv::Point>> contours;
             cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
             
-            // Find largest white region
+            // Find largest white region that passes validation
             double max_area = 0;
             int best_idx = -1;
             for (size_t i = 0; i < contours.size(); ++i) {
                 double area = cv::contourArea(contours[i]);
-                if (area > max_area && area > min_area_) {
+                
+                // Check area bounds
+                if (area < min_area_ || area > max_area_) {
+                    continue;
+                }
+                
+                // Check aspect ratio (bears should be roughly compact)
+                cv::Rect bbox = cv::boundingRect(contours[i]);
+                double aspect_ratio = static_cast<double>(bbox.width) / bbox.height;
+                if (aspect_ratio < min_aspect_ratio_ || aspect_ratio > max_aspect_ratio_) {
+                    continue;
+                }
+                
+                if (area > max_area) {
                     max_area = area;
                     best_idx = i;
                 }
@@ -227,6 +260,10 @@ private:
     double fx_, fy_, cx_, cy_;
     
     int min_area_;
+    int max_area_;
+    double min_aspect_ratio_;
+    double max_aspect_ratio_;
+    double max_white_percentage_;
     double max_distance_;
     double detection_cooldown_;
     rclcpp::Time last_detection_time_{0, 0, RCL_ROS_TIME};

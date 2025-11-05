@@ -22,8 +22,11 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(laser_geometry REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(octomap REQUIRED)
+find_package(octomap_msgs REQUIRED)
+find_package(pcl_conversions REQUIRED)
 
-include_directories(include ${OpenCV_INCLUDE_DIRS})
+include_directories(include ${OpenCV_INCLUDE_DIRS} ${OCTOMAP_INCLUDE_DIRS})
 
 # ============================================
 # CORE NODES - Low-level drone control
@@ -34,7 +37,6 @@ add_executable(quadcopter_node
   src/core/quadcopter.cpp
   src/core/controller_base.cpp
   src/core/decision_making.cpp
-  # REMOVE simpleController.cpp - has errors
 )
 ament_target_dependencies(quadcopter_node
   rclcpp std_msgs geometry_msgs nav_msgs std_srvs sensor_msgs
@@ -57,7 +59,7 @@ ament_target_dependencies(autonomous_explorer_node
 # ============================================
 # DETECTION NODES - Animal/object detection
 # ============================================
-# bear_detector_node - Detects white bear using camera + depth
+# bear_detector_node - Detects white bear using thermal camera + depth
 add_executable(bear_detector_node src/detection/bear_detector.cpp)
 ament_target_dependencies(bear_detector_node 
   rclcpp geometry_msgs sensor_msgs std_msgs visualization_msgs 
@@ -66,11 +68,19 @@ target_link_libraries(bear_detector_node ${OpenCV_LIBS})
 
 # ============================================
 # NAVIGATION NODES - 3D path planning
-# ============================================
-# COMMENTED OUT - needs octomap_msgs dependency
-# add_executable(simple_3d_navigator_node src/navigation/simple_3d_navigator.cpp)
-# ament_target_dependencies(simple_3d_navigator_node 
-#   rclcpp geometry_msgs nav_msgs sensor_msgs tf2_ros tf2_geometry_msgs)
+# # ============================================
+# # bear_navigator_node - LIDAR-based 2D collision avoidance with bear detection
+# add_executable(bear_navigator_node src/navigation/complete_bear_navigator.cpp)
+# ament_target_dependencies(bear_navigator_node 
+#   rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs
+#   tf2_ros tf2_geometry_msgs)
+
+# octomap_3d_navigator_node - Full 3D collision avoidance using Octomap
+add_executable(octomap_3d_navigator_node src/navigation/octomap_3d_navigator.cpp)
+ament_target_dependencies(octomap_3d_navigator_node 
+  rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs
+  tf2_ros tf2_geometry_msgs octomap_msgs pcl_conversions)
+target_link_libraries(octomap_3d_navigator_node ${OCTOMAP_LIBRARIES})
 
 # ============================================
 # UTILITY NODES - Tools and converters
@@ -100,11 +110,6 @@ add_executable(laserscan_to_pointcloud_node src/utils/laserscan_to_pointcloud.cp
 ament_target_dependencies(laserscan_to_pointcloud_node 
   rclcpp sensor_msgs laser_geometry)
 
-# COMMENTED OUT - needs rclcpp_action dependency
-# add_executable(local_goal_publisher_node src/utils/local_goal_publisher.cpp)
-# ament_target_dependencies(local_goal_publisher_node
-#   rclcpp geometry_msgs)
-
 # ============================================
 # INSTALL
 # ============================================
@@ -118,6 +123,10 @@ install(TARGETS
   
   # Detection
   bear_detector_node
+  
+  # Navigation
+  #bear_navigator_node
+  octomap_3d_navigator_node
   
   # Utils
   agl_parser
