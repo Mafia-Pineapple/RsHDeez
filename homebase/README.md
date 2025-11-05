@@ -1,22 +1,12 @@
-to save sightings, publish to:
+To start, run:
+ros2 run homebase homebaser
 
-/homebase/sightings
+header files are found in include for root folder of repository, add ${workspaceFolder}/include/** to your vscode include path if youre using vscode (CTRL+SHIFT+P --> Edit Configurations)
 
 
-header files are found in include for root folder of repository
-
-add
-
-${workspaceFolder}/include/**
-
-to your vscode include path if youre using vscode (CTRL+SHIFT+P --> Edit Configurations)
-
-with THIS message format
-save defaults to true,
-save_dir defaults to /tmp/sightings.csv
-you can CHANGE THESE by specifying a custom value for them in your message.
-
----
+        to save sightings, publish custom_msgs::msg::Sightings to /homebase/sightings
+(type, name, default)
+||||||||||||||||||||||||||||||||||||||||||||
 uint32 sighting_count
 
 uint16[] animal_type
@@ -28,6 +18,22 @@ float64[] z
 
 bool save true
 string save_dir /tmp/sightings.csv
----
+||||||||||||||||||||||||||||||||||||||||||||
+
+        For weather service, publish custom_msgs::srv::WeatherService to homebase_weather_report
+(type, name, default)
+||||||||||||||||||||||||||||||||||||||||||||
+--- Request:
+float64 lat -33.725117
+float64 lon 150.320997
+--- Response:
+int32 temperature 20
+float32 wind 0
+byte direction 0
+byte weather_type 0
+string weather_message "Clear sky"
+||||||||||||||||||||||||||||||||||||||||||||
+
+(this uses REAL http requests using REAL curl with REAL c++ memory management)
 
 
