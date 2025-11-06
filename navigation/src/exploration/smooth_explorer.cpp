@@ -44,7 +44,7 @@ public:
             std::bind(&SmoothExplorer::scanCallback, this, std::placeholders::_1));
 
         thermal_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/camera/thermal/image_raw", 10,
+            "/model/scout/thermal/image", 10,
             std::bind(&SmoothExplorer::thermalCallback, this, std::placeholders::_1));
 
         

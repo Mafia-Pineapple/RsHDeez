@@ -40,6 +40,11 @@ public:
         scan_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
             "/scan", 10,
             std::bind(&AutonomousExplorer::scanCallback, this, std::placeholders::_1));
+
+        bear_sub_ = this->create_subscription<geometry_msgs::msg::PointStamped>(
+            "/bear_detection", 10,
+            std::bind(&AutonomousExplorer::bearCallback, this, std::placeholders::_1));
+
         
         // Service client
         reach_goal_client_ = this->create_client<std_srvs::srv::SetBool>("/reach_goal");
@@ -53,9 +58,28 @@ public:
             std::bind(&AutonomousExplorer::checkInitialization, this));
         
         RCLCPP_INFO(this->get_logger(), "Autonomous Explorer initialized");
+
+        
     }
 
 private:
+    void bearCallback(const geometry_msgs::msg::PointStamped::SharedPtr msg) {
+    RCLCPP_INFO(this->get_logger(),
+                "Bear detected at (%.2f, %.2f, %.2f)! Pausing exploration.",
+                msg->point.x, msg->point.y, msg->point.z);
+    tracking_bear_ = true;
+    last_bear_time_ = this->now();
+
+    // Cancel current exploration goal
+    current_goal_set_ = false;
+
+    // Send new goal directly at detection point
+    geometry_msgs::msg::Point goal = msg->point;
+    goal.z = start_position_.z + flight_height_; // Maintain consistent altitude
+    sendGoal(goal);
+    }
+
+
     void checkInitialization() {
         if (!has_odom_) {
             return;
@@ -112,6 +136,20 @@ private:
             return;
         }
         
+        // Check if we're currently tracking a bear
+        if (tracking_bear_) {
+            double since_detection = (this->now() - last_bear_time_).seconds();
+
+            if (since_detection > bear_timeout_) {
+                RCLCPP_INFO(this->get_logger(),
+                            "No new bear detections for %.1fs — resuming exploration.", since_detection);
+                tracking_bear_ = false;
+            } else {
+                // Still tracking — skip normal exploration
+                return;
+            }
+        }
+
         // Check if exploration time is up
         auto elapsed = (this->now() - start_time_).seconds();
         if (elapsed > exploration_time_) {
@@ -169,6 +207,7 @@ private:
                        "Progress: %.1f%% | Goals: %d | Time: %.0f/%.0fs",
                        progress, goals_reached_, elapsed, exploration_time_);
         }
+
     }
     
     geometry_msgs::msg::Point generateSpiralGoal() {
@@ -283,6 +322,7 @@ private:
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
     rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr scan_sub_;
     rclcpp::Client<std_srvs::srv::SetBool>::SharedPtr reach_goal_client_;
+    rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr bear_sub_;
     rclcpp::TimerBase::SharedPtr timer_;
     rclcpp::TimerBase::SharedPtr init_timer_;
     
@@ -300,6 +340,12 @@ private:
     bool grid_forward_ = true;
     
     int goals_reached_ = 0;
+
+    // Bear detection state
+    bool tracking_bear_ = false;
+    rclcpp::Time last_bear_time_;
+    double bear_timeout_ = 10.0; // seconds to wait before resuming exploration
+
     
     rclcpp::Time start_time_;
     rclcpp::Time goal_start_time_;
