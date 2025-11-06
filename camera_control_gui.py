@@ -13,8 +13,6 @@ Usage:
   1) Run from a terminal, or fill the "Setup prefix" so each command sources your env.
   2) Edit topics/commands as needed, click "Apply Topics".
   3) Press Start and watch the per-row log.
-
-Author: ChatGPT (2025-11-04)
 """
 import os, sys, json, signal, subprocess
 from dataclasses import dataclass
