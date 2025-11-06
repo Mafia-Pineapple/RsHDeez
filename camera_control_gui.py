@@ -13,8 +13,6 @@ Usage:
   1) Run from a terminal, or fill the "Setup prefix" so each command sources your env.
   2) Edit topics/commands as needed, click "Apply Topics".
   3) Press Start and watch the per-row log.
-
-Author: ChatGPT (2025-11-04)
 """
 import os, sys, json, signal, subprocess
 from dataclasses import dataclass
@@ -30,6 +28,8 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+import psutil
+import uuid
 
 APP_NAME = "Camera Control GUI"
 CONFIG_FILE = os.path.join(os.path.dirname(__file__), "camera_control_gui.config.json")
@@ -215,15 +215,77 @@ class ProcessRow(QtWidgets.QWidget):
         hl.addWidget(self.combo, 1); hl.addWidget(self.cmd_edit, 3)
         hl.addWidget(self.btn_start); hl.addWidget(self.btn_stop); hl.addWidget(self.status)
 
+
+        hlogbuttons = QtWidgets.QHBoxLayout()
+        vert = QtWidgets.QVBoxLayout()
+        self.btn_start_nav = QtWidgets.QPushButton("Start Navigation")
+        self.btn_stop_nav = QtWidgets.QPushButton("Stop Navigation")
+        vert.addWidget(self.btn_start_nav)
+        vert.addWidget(self.btn_stop_nav)
+        hlogbuttons.addWidget(self.log)
+        hlogbuttons.addLayout(vert)
+        
+
         layout = QtWidgets.QVBoxLayout(self)
-        layout.addLayout(hl); layout.addWidget(self.log)
+        layout.addLayout(hl); layout.addLayout(hlogbuttons)
 
         self.combo.currentIndexChanged.connect(lambda i: self.cmd_edit.setText(self.combo.itemData(i)))
         self.btn_start.clicked.connect(self.on_start)
         self.btn_stop.clicked.connect(self.on_stop)
 
+        my_uuid = str(uuid.uuid4())
+
+        self.btn_start_nav.clicked.connect(lambda: self.start_navigation(my_uuid))
+        self.btn_stop_nav.clicked.connect(lambda: self.stop_navigation(my_uuid))
+
     def append_log(self, text: str):
         self.log.append(text); self.log.moveCursor(QtGui.QTextCursor.End)
+
+    def start_navigation(self, number):
+        self.append_log("[Navigation] Starting navigation...")
+        
+        #Fire ROS2 navigation command here
+        #From docs:
+#         ros2 run navigation smooth_explorer_node --ros-args \
+#   -p exploration_time:=120.0 \
+#   -p cruise_speed:=0.8 \
+#   -p survey_pattern:=spiral
+
+        cmd = ['ros2', 'run', 'navigation', 'smooth_explorer_node',
+               '--ros-args',
+               '-p', 'exploration_time:=120.0',
+               '-p', 'cruise_speed:=0.8',
+               '-p', 'survey_pattern:=spiral']
+        self.append_log(f"Starting ROS 2 node: {' '.join(cmd)}")
+        try:
+            my_env = os.environ.copy()
+            
+            my_env["I_AM_NAV_NODE"] = number
+            process = subprocess.Popen(cmd, env=my_env)
+            print("aoag")
+            self.append_log(f"Node started with UUID: {number} and PID: {process.pid}")
+
+            # Disable start button to prevent multiple starts
+            self.btn_start_nav.setEnabled(False)
+            # # Example of how to stop the node
+            # print(f"Terminating node with PID: {process.pid}")
+            # # Kill the entire process group
+            # os.killpg(os.getpgid(process.pid), signal.SIGTERM)
+            # print("Node terminated.")
+        except Exception as e:
+            self.append_log(f"An error occurred: {e}")
+            self.btn_start_nav.setEnabled(True)
+        self.append_log("[Navigation] Navigation started.") 
+
+    def stop_navigation(self, number):
+        self.append_log("[Navigation] Stopping navigation...")
+        # Placeholder for actual navigation stop logic
+
+        for proc in psutil.process_iter(['pid', 'environ']):
+            if proc.info['environ'] and proc.info['environ'].get("I_AM_NAV_NODE") == number:
+                os.kill(proc.info['pid'],signal.SIGTERM)
+        self.btn_start_nav.setEnabled(True)
+        self.append_log("[Navigation] Navigation stopped.")
 
     def on_start(self):
         if self.proc and self.proc.poll() is None:

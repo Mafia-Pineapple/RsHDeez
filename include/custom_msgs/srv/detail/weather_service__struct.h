@@ -46,8 +46,8 @@ typedef struct custom_msgs__srv__WeatherService_Response
 {
   int32_t temperature;
   float wind;
-  uint8_t direction;
-  uint8_t weather_type;
+  uint16_t direction;
+  uint16_t weather_type;
   rosidl_runtime_c__String weather_message;
 } custom_msgs__srv__WeatherService_Response;
 

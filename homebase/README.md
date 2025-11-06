@@ -24,13 +24,13 @@ string save_dir /tmp/sightings.csv
 (type, name, default)
 ||||||||||||||||||||||||||||||||||||||||||||
 --- Request:
-float64 lat -33.725117
+float64 lat -33.725117 (these lat long values correspond to the terrain tile's real world location)
 float64 lon 150.320997
 --- Response:
 int32 temperature 20
 float32 wind 0
-byte direction 0
-byte weather_type 0
+uint16 direction 0
+uint16 weather_type 0
 string weather_message "Clear sky"
 ||||||||||||||||||||||||||||||||||||||||||||
 

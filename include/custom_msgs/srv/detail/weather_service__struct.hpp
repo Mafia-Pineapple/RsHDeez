@@ -214,10 +214,10 @@ struct WeatherService_Response_
     float;
   _wind_type wind;
   using _direction_type =
-    unsigned char;
+    uint16_t;
   _direction_type direction;
   using _weather_type_type =
-    unsigned char;
+    uint16_t;
   _weather_type_type weather_type;
   using _weather_message_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
@@ -237,13 +237,13 @@ struct WeatherService_Response_
     return *this;
   }
   Type & set__direction(
-    const unsigned char & _arg)
+    const uint16_t & _arg)
   {
     this->direction = _arg;
     return *this;
   }
   Type & set__weather_type(
-    const unsigned char & _arg)
+    const uint16_t & _arg)
   {
     this->weather_type = _arg;
     return *this;

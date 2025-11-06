@@ -144,13 +144,16 @@ private:
         auto result = std::string(chunk.memory); // convert to string
         //find weather variable
 
+        
+
         auto current_weather = std::strstr(result.c_str(),"\"current\":");
+        std::cout << "Received data: " << current_weather << std::endl;
         //example response: "current":{"time":"2025-11-05T17:00","interval":900,"temperature_2m":17.6,"apparent_temperature":13.9,"relative_humidity_2m":39,"precipitation":0.00,"weather_code":0,"wind_speed_10m":15.3,"wind_direction_10m":262}}
         //extract temperature
         response->temperature = static_cast<int32_t>(extract_number_from_json(std::strstr(current_weather, "\"temperature_2m\":") + 17));
         response->wind = extract_number_from_json(std::strstr(current_weather, "\"wind_speed_10m\":") + 17);
-        response->direction = static_cast<uint8_t>(extract_number_from_json(std::strstr(current_weather, "\"wind_direction_10m\":") + 21));
-        response->weather_type = static_cast<uint8_t>(extract_number_from_json(std::strstr(current_weather, "\"weather_code\":") + 15));
+        response->direction = static_cast<uint16_t>(extract_number_from_json(std::strstr(current_weather, "\"wind_direction_10m\":") + 21));
+        response->weather_type = static_cast<uint16_t>(extract_number_from_json(std::strstr(current_weather, "\"weather_code\":") + 15));
         // for simplicity, just a few weather types
         switch (response->weather_type) {
     case 0:
@@ -211,7 +214,7 @@ private:
         response->weather_message = "Unknown weather condition";
         break;
 }
-        std::cout << "Received data: " << current_weather << std::endl;
+        
         printf("%lu bytes retrieved\n", (unsigned long)chunk.size);
       }
       curl_easy_cleanup(curl);
@@ -229,7 +232,7 @@ private:
       
       i++;
     }
-    std::cout << num_str << std::endl;
+    std::cout << num_str << " RETURN: " << std::stof(num_str) << std::endl;
     return std::stof(num_str);
   }
 
