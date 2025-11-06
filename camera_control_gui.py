@@ -251,18 +251,13 @@ class ProcessRow(QtWidgets.QWidget):
 #   -p cruise_speed:=0.8 \
 #   -p survey_pattern:=spiral
 
-        cmd = ['ros2', 'run', 'navigation', 'smooth_explorer_node',
-               '--ros-args',
-               '-p', 'exploration_time:=120.0',
-               '-p', 'cruise_speed:=0.8',
-               '-p', 'survey_pattern:=spiral']
+        cmd = ['ros2', 'run', 'navigation', 'grid_explorer_node']
         self.append_log(f"Starting ROS 2 node: {' '.join(cmd)}")
         try:
             my_env = os.environ.copy()
             
             my_env["I_AM_NAV_NODE"] = number
             process = subprocess.Popen(cmd, env=my_env)
-            print("aoag")
             self.append_log(f"Node started with UUID: {number} and PID: {process.pid}")
 
             # Disable start button to prevent multiple starts
