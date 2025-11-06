@@ -5,242 +5,383 @@
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <visualization_msgs/msg/marker.hpp>
+#include <std_srvs/srv/trigger.hpp>
+
 #include <tf2_ros/transform_listener.h>
 #include <tf2_ros/buffer.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
-#include <cv_bridge/cv_bridge.h>
-#include <opencv2/opencv.hpp>
+
+#include <chrono>
+#include <string>
+#include <vector>
+#include <filesystem>
+#include <fstream>
+#include <mutex>
+#include <optional>
+#include <cmath>
+
+namespace fs = std::filesystem;
+
+struct Intrinsics {
+  double fx{0}, fy{0}, cx{0}, cy{0};
+  bool valid() const { return fx > 0 && fy > 0; }
+};
 
 class BearDetector : public rclcpp::Node {
 public:
-    BearDetector() : Node("bear_detector") {
-        this->declare_parameter("min_area", 3000);
-        this->declare_parameter("max_area", 200000);
-        this->declare_parameter("min_aspect_ratio", 0.3);
-        this->declare_parameter("max_aspect_ratio", 3.0);
-        this->declare_parameter("max_white_percentage", 50.0);
-        this->declare_parameter("max_distance", 15.0);
-        this->declare_parameter("detection_cooldown", 5.0);
+  BearDetector() : Node("bear_detector"),
+                   tf_buffer_(this->get_clock()),
+                   tf_listener_(tf_buffer_) {
+    // ---- Parameters ----
+    thermal_topic_ = declare_parameter<std::string>("thermal_topic", "/camera/thermal/image");
+    depth_topic_   = declare_parameter<std::string>("depth_topic",   "/camera/depth/image");
+    camera_info_topic_ = declare_parameter<std::string>("camera_info_topic", "/camera/camera_info");
+    camera_frame_  = declare_parameter<std::string>("camera_frame", "camera_thermal_optical_frame");
+    map_frame_     = declare_parameter<std::string>("map_frame", "map");
 
-        min_area_ = this->get_parameter("min_area").as_int();
-        max_area_ = this->get_parameter("max_area").as_int();
-        min_aspect_ratio_ = this->get_parameter("min_aspect_ratio").as_double();
-        max_aspect_ratio_ = this->get_parameter("max_aspect_ratio").as_double();
-        max_white_percentage_ = this->get_parameter("max_white_percentage").as_double();
-        max_distance_ = this->get_parameter("max_distance").as_double();
-        detection_cooldown_ = this->get_parameter("detection_cooldown").as_double();
+    threshold_8u_  = declare_parameter<int>("threshold_8u", 220);
+    threshold_16u_ = declare_parameter<int>("threshold_16u", 50000); // for 16-bit cameras
+    min_hot_pixels_ = declare_parameter<int>("min_hot_pixels", 800);
+    max_distance_m_ = declare_parameter<double>("max_distance", 50.0);
+    detection_cooldown_s_ = declare_parameter<double>("detection_cooldown", 5.0);
+    publish_goal_  = declare_parameter<bool>("publish_goal", true);
+    standoff_m_    = declare_parameter<double>("standoff_distance", 2.5);
+    save_dir_      = declare_parameter<std::string>("save_dir", (fs::path(getenv("HOME")) / "41068_ws/bears").string());
 
-        tf_buffer_ = std::make_shared<tf2_ros::Buffer>(this->get_clock());
-        tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+    fs::create_directories(save_dir_);
 
-        rgb_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/camera/thermal/image", 10,
-            std::bind(&BearDetector::imageCallback, this, std::placeholders::_1));
+    // ---- Publishers ----
+    det_pub_   = create_publisher<geometry_msgs::msg::PointStamped>("/bear_detection", 10);
+    marker_pub_= create_publisher<visualization_msgs::msg::Marker>("/bear_marker", 10);
+    status_pub_= create_publisher<std_msgs::msg::String>("/detection_status", 10);
+    goal_pub_  = create_publisher<geometry_msgs::msg::PoseStamped>("/bear_goal", 10);
 
-        depth_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/camera/depth/image", 10,
-            std::bind(&BearDetector::depthCallback, this, std::placeholders::_1));
+    // ---- Services ----
+    photo_srv_ = create_service<std_srvs::srv::Trigger>(
+      "/bear/save_photo",
+      std::bind(&BearDetector::savePhoto, this, std::placeholders::_1, std::placeholders::_2));
 
-        camera_info_sub_ = this->create_subscription<sensor_msgs::msg::CameraInfo>(
-            "/camera/camera_info", 10,
-            std::bind(&BearDetector::cameraInfoCallback, this, std::placeholders::_1));
+    // ---- Subs ----
+    thermal_sub_ = create_subscription<sensor_msgs::msg::Image>(
+      thermal_topic_, 10, std::bind(&BearDetector::thermalCb, this, std::placeholders::_1));
 
-        detection_pub_ = this->create_publisher<geometry_msgs::msg::PointStamped>(
-            "/bear_detection", 10);
-        marker_pub_ = this->create_publisher<visualization_msgs::msg::Marker>(
-            "/bear_marker", 10);
-        status_pub_ = this->create_publisher<std_msgs::msg::String>(
-            "/detection_status", 10);
-
-        goal_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>(
-            "/bear_goal", 10);
-
-        RCLCPP_INFO(this->get_logger(), "Bear Detector initialized");
+    if (!depth_topic_.empty()) {
+      depth_sub_ = create_subscription<sensor_msgs::msg::Image>(
+        depth_topic_, 10, std::bind(&BearDetector::depthCb, this, std::placeholders::_1));
     }
+
+    cam_info_sub_ = create_subscription<sensor_msgs::msg::CameraInfo>(
+      camera_info_topic_, 10, std::bind(&BearDetector::camInfoCb, this, std::placeholders::_1));
+
+    RCLCPP_INFO(get_logger(), "bear_detector started. thermal=%s depth=%s map=%s",
+                thermal_topic_.c_str(), depth_topic_.c_str(), map_frame_.c_str());
+  }
 
 private:
-    void cameraInfoCallback(const sensor_msgs::msg::CameraInfo::SharedPtr msg) {
-        if (!has_camera_info_) {
-            fx_ = msg->k[0];
-            fy_ = msg->k[4];
-            cx_ = msg->k[2];
-            cy_ = msg->k[5];
-            has_camera_info_ = true;
-            RCLCPP_INFO(this->get_logger(), "Camera calibrated");
+  // ---- Helpers: encoding accessors ----
+  template<typename T>
+  inline const T* ptrAt(const sensor_msgs::msg::Image& img, int x, int y) const {
+    return reinterpret_cast<const T*>(&img.data[y * img.step + x * sizeof(T)]);
+  }
+
+  static bool is8u(const std::string& enc) {
+    return enc == "mono8" || enc == "8UC1" || enc == "rgb8" || enc == "bgr8";
+  }
+  static bool is16u(const std::string& enc) {
+    return enc == "mono16" || enc == "16UC1";
+  }
+  static bool isFloatDepth(const std::string& enc) {
+    return enc == "32FC1";
+  }
+
+  // ---- Callbacks ----
+  void camInfoCb(const sensor_msgs::msg::CameraInfo::SharedPtr msg) {
+    if (!intr_.valid()) {
+      intr_.fx = msg->k[0]; intr_.fy = msg->k[4];
+      intr_.cx = msg->k[2]; intr_.cy = msg->k[5];
+      if (intr_.valid()) {
+        camera_frame_ = msg->header.frame_id;
+        RCLCPP_INFO(get_logger(), "Camera intrinsics: fx=%.1f fy=%.1f cx=%.1f cy=%.1f frame=%s",
+                    intr_.fx, intr_.fy, intr_.cx, intr_.cy, camera_frame_.c_str());
+      }
+    }
+  }
+
+  void depthCb(const sensor_msgs::msg::Image::SharedPtr msg) {
+    std::lock_guard<std::mutex> lk(depth_mtx_);
+    last_depth_ = *msg;
+  }
+
+  void thermalCb(const sensor_msgs::msg::Image::SharedPtr msg) {
+    last_thermal_time_ = msg->header.stamp;
+    last_thermal_copy_ = *msg; // for save-photo service
+
+    if (!intr_.valid()) {
+      RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 2000, "No CameraInfo yet; skipping");
+      return;
+    }
+
+    // Cooldown
+    auto now = this->get_clock()->now();
+    if ((now - last_detection_time_).seconds() < detection_cooldown_s_) {
+      return;
+    }
+
+    const int W = msg->width;
+    const int H = msg->height;
+    const std::string enc = msg->encoding;
+
+    // Scan hot pixels and compute centroid + bounding box
+    uint64_t sum_x = 0, sum_y = 0;
+    uint32_t hot = 0;
+    int minx = W, miny = H, maxx = -1, maxy = -1;
+
+    auto testPixelHot = [&](int x, int y)->bool{
+      if (is8u(enc)) {
+        uint8_t v;
+        if (enc=="rgb8"||enc=="bgr8") {
+          // average channels
+          const uint8_t* p = reinterpret_cast<const uint8_t*>(&msg->data[y*msg->step + x*3]);
+          v = static_cast<uint8_t>((uint16_t(p[0]) + p[1] + p[2]) / 3);
+        } else {
+          v = *ptrAt<uint8_t>(*msg, x, y);
         }
-    }
+        return v >= threshold_8u_;
+      } else if (is16u(enc)) {
+        uint16_t v = *ptrAt<uint16_t>(*msg, x, y);
+        return v >= threshold_16u_;
+      } else {
+        // Unknown encoding; try treat as 8u
+        uint8_t v = *ptrAt<uint8_t>(*msg, x, y);
+        return v >= threshold_8u_;
+      }
+    };
 
-    void depthCallback(const sensor_msgs::msg::Image::SharedPtr msg) {
-        try {
-            cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg,
-                sensor_msgs::image_encodings::TYPE_32FC1);
-            depth_image_ = cv_ptr->image;
-            has_depth_ = true;
-        } catch (cv_bridge::Exception& e) {
-            RCLCPP_ERROR(this->get_logger(), "Depth error: %s", e.what());
+    for (int y=0; y<H; ++y) {
+      for (int x=0; x<W; ++x) {
+        if (testPixelHot(x,y)) {
+          sum_x += x;
+          sum_y += y;
+          hot++;
+          if (x < minx) minx = x;
+          if (x > maxx) maxx = x;
+          if (y < miny) miny = y;
+          if (y > maxy) maxy = y;
         }
+      }
     }
 
-    void imageCallback(const sensor_msgs::msg::Image::SharedPtr msg) {
-    if (!has_camera_info_ || !has_depth_) return;
-
-    auto now = this->now();
-    if ((now - last_detection_time_).seconds() < detection_cooldown_) {
-        return;
+    if (hot < (uint32_t)min_hot_pixels_) {
+      return; // nothing meaningful
     }
 
+    const double cxp = double(sum_x)/double(hot);
+    const double cyp = double(sum_y)/double(hot);
+    const int u = static_cast<int>(std::round(cxp));
+    const int v = static_cast<int>(std::round(cyp));
+
+    // Depth lookup: use mean depth over a small window to be robust
+    double Z = std::numeric_limits<double>::quiet_NaN();
+    if (last_depth_.has_value()) {
+      Z = depthAt(*last_depth_, u, v);
+    }
+
+    if (!std::isfinite(Z) || Z <= 0.05 || Z > max_distance_m_) {
+      RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 2000,
+                           "Invalid depth at centroid (u=%d v=%d): %.3f", u, v, Z);
+      // Could add AGL fallback here if you want
+      return;
+    }
+
+    // Back-project
+    double Xc = ( (cxp - intr_.cx) * Z ) / intr_.fx;
+    double Yc = ( (cyp - intr_.cy) * Z ) / intr_.fy;
+
+    geometry_msgs::msg::PointStamped cam_pt;
+    cam_pt.header = msg->header;
+    cam_pt.header.frame_id = camera_frame_;
+    cam_pt.point.x = Xc;
+    cam_pt.point.y = Yc;
+    cam_pt.point.z = Z;
+
+    geometry_msgs::msg::PointStamped map_pt;
     try {
-        cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(msg,
-            sensor_msgs::image_encodings::BGR8);
-        cv::Mat rgb = cv_ptr->image;
-
-        // Convert to grayscale
-        cv::Mat gray;
-        cv::cvtColor(rgb, gray, cv::COLOR_BGR2GRAY);
-
-        // Threshold for white
-        cv::Mat mask;
-        cv::threshold(gray, mask, 220, 255, cv::THRESH_BINARY);
-
-        // Morphology to clean up noise
-        cv::Mat kernel = cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(7,7));
-        cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
-        cv::morphologyEx(mask, mask, cv::MORPH_OPEN, kernel);
-
-        int white_pixels = cv::countNonZero(mask);
-        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
-            "White pixels: %d / %d", white_pixels, mask.rows*mask.cols);
-
-        // Find contours
-        std::vector<std::vector<cv::Point>> contours;
-        cv::findContours(mask, contours, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
-
-        double max_area = 0;
-        int best_idx = -1;
-        for (size_t i = 0; i < contours.size(); ++i) {
-            double area = cv::contourArea(contours[i]);
-            if (area < min_area_ || area > max_area_) continue;
-
-            cv::Rect bbox = cv::boundingRect(contours[i]);
-            double aspect_ratio = static_cast<double>(bbox.width) / bbox.height;
-            if (aspect_ratio < min_aspect_ratio_ || aspect_ratio > max_aspect_ratio_)
-                continue;
-
-            if (area > max_area) {
-                max_area = area;
-                best_idx = i;
-            }
-        }
-
-        if (best_idx >= 0) {
-            processBearDetection(contours[best_idx], msg->header.stamp);
-            RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
-                "White region detected! Area: %.0f pixels", max_area);
-        }
-
-    } catch (cv_bridge::Exception& e) {
-        RCLCPP_ERROR(this->get_logger(), "Image error: %s", e.what());
-    }
-}
-
-
-    void processBearDetection(const std::vector<cv::Point>& contour,
-                             const rclcpp::Time& timestamp) {
-        cv::Rect bbox = cv::boundingRect(contour);
-        int cx = bbox.x + bbox.width / 2;
-        int cy = bbox.y + bbox.height / 2;
-
-        if (cx >= depth_image_.cols || cy >= depth_image_.rows) return;
-        float depth = depth_image_.at<float>(cy, cx);
-        if (!std::isfinite(depth) || depth <= 0.1 || depth > max_distance_) return;
-
-        geometry_msgs::msg::PointStamped point_camera;
-        point_camera.header.stamp = timestamp;
-        point_camera.header.frame_id = "camera_depth_optical_frame";
-        point_camera.point.x = (cx - cx_) * depth / fx_;
-        point_camera.point.y = (cy - cy_) * depth / fy_;
-        point_camera.point.z = depth;
-
-        try {
-            geometry_msgs::msg::PointStamped point_map;
-            tf_buffer_->transform(point_camera, point_map, "map",
-                                  tf2::durationFromSec(0.5));
-
-            detection_pub_->publish(point_map);
-            publishMarker(point_map);
-
-            std_msgs::msg::String status;
-            status.data = "BEAR_DETECTED";
-            status_pub_->publish(status);
-
-            geometry_msgs::msg::PoseStamped goal;
-            goal.header = point_map.header;
-            goal.pose.position = point_map.point;
-            goal.pose.orientation.w = 1.0;
-            goal_pub_->publish(goal);
-
-            last_detection_time_ = this->now();
-
-            RCLCPP_INFO(this->get_logger(),
-                "BEAR DETECTED at (%.2f, %.2f, %.2f) - distance: %.2fm",
-                point_map.point.x, point_map.point.y, point_map.point.z, depth);
-            RCLCPP_INFO(this->get_logger(), "Published bear goal for navigation.");
-
-        } catch (tf2::TransformException& ex) {
-            RCLCPP_WARN(this->get_logger(), "TF error: %s", ex.what());
-        }
+      auto tf = tf_buffer_.lookupTransform(map_frame_, cam_pt.header.frame_id, cam_pt.header.stamp, tf2::durationFromSec(0.2));
+      tf2::doTransform(cam_pt, map_pt, tf);
+    } catch (const tf2::TransformException& ex) {
+      RCLCPP_WARN_THROTTLE(get_logger(), *get_clock(), 2000, "TF error: %s", ex.what());
+      return;
     }
 
-    void publishMarker(const geometry_msgs::msg::PointStamped& point) {
-        visualization_msgs::msg::Marker marker;
-        marker.header = point.header;
-        marker.ns = "bears";
-        marker.id = detection_count_++;
-        marker.type = visualization_msgs::msg::Marker::CUBE;
-        marker.action = visualization_msgs::msg::Marker::ADD;
-        marker.pose.position = point.point;
-        marker.pose.orientation.w = 1.0;
-        marker.scale.x = 0.8;
-        marker.scale.y = 0.8;
-        marker.scale.z = 1.5;
-        marker.color.r = 0.6;
-        marker.color.g = 0.3;
-        marker.color.b = 0.0;
-        marker.color.a = 0.8;
-        marker.lifetime = rclcpp::Duration::from_seconds(0);
-        marker_pub_->publish(marker);
+    // Publish detection
+    det_pub_->publish(map_pt);
+
+    // Marker
+    visualization_msgs::msg::Marker mk;
+    mk.header.frame_id = map_frame_;
+    mk.header.stamp = msg->header.stamp;
+    mk.ns = "bears";
+    mk.id = ++marker_id_;
+    mk.type = visualization_msgs::msg::Marker::SPHERE;
+    mk.action = visualization_msgs::msg::Marker::ADD;
+    mk.pose.position.x = map_pt.point.x;
+    mk.pose.position.y = map_pt.point.y;
+    mk.pose.position.z = map_pt.point.z;
+    mk.pose.orientation.w = 1.0;
+    mk.scale.x = 0.8; mk.scale.y = 0.8; mk.scale.z = 0.8;
+    mk.color.r = 1.0f; mk.color.g = 0.3f; mk.color.b = 0.0f; mk.color.a = 0.9f;
+    mk.lifetime = rclcpp::Duration(0,0);
+    marker_pub_->publish(mk);
+
+    // Optional: publish a goal at the bear position (your motion stack decides what to do)
+    if (publish_goal_) {
+      geometry_msgs::msg::PoseStamped goal;
+      goal.header.frame_id = map_frame_;
+      goal.header.stamp = msg->header.stamp;
+      goal.pose.position = mk.pose.position;
+      goal.pose.orientation.w = 1.0;
+      goal_pub_->publish(goal);
     }
 
-    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr rgb_sub_;
-    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr depth_sub_;
-    rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr camera_info_sub_;
+    // Human-readable status
+    std_msgs::msg::String s;
+    s.data = "bear_detected at [" + std::to_string(map_pt.point.x) + "," +
+             std::to_string(map_pt.point.y) + "," + std::to_string(map_pt.point.z) +
+             "], hot_px=" + std::to_string(hot) + " box=(" + std::to_string(minx) + "," +
+             std::to_string(miny) + ")-(" + std::to_string(maxx) + "," + std::to_string(maxy) + ")";
+    status_pub_->publish(s);
 
-    rclcpp::Publisher<geometry_msgs::msg::PointStamped>::SharedPtr detection_pub_;
-    rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
-    rclcpp::Publisher<std_msgs::msg::String>::SharedPtr status_pub_;
-    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr goal_pub_;
+    last_detection_time_ = now;
+  }
 
-    std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
-    std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
+  double depthAt(const sensor_msgs::msg::Image& depth, int u, int v) {
+    const int W = depth.width, H = depth.height;
+    if (u < 0 || v < 0 || u >= W || v >= H) return std::numeric_limits<double>::quiet_NaN();
 
-    cv::Mat depth_image_;
-    bool has_camera_info_ = false;
-    bool has_depth_ = false;
-    double fx_, fy_, cx_, cy_;
-    int min_area_;
-    int max_area_;
-    double min_aspect_ratio_;
-    double max_aspect_ratio_;
-    double max_white_percentage_;
-    double max_distance_;
-    double detection_cooldown_;
-    rclcpp::Time last_detection_time_{0, 0, RCL_ROS_TIME};
-    int detection_count_ = 0;
+    int win = 3; // 7x7 window
+    int u0 = std::max(0, u - win), v0 = std::max(0, v - win);
+    int u1 = std::min(W-1, u + win), v1 = std::min(H-1, v + win);
+
+    double sum = 0.0; int count = 0;
+    if (isFloatDepth(depth.encoding)) {
+      for (int y=v0; y<=v1; ++y) {
+        for (int x=u0; x<=u1; ++x) {
+          float z = *ptrAt<float>(depth, x, y);
+          if (std::isfinite(z) && z > 0.05) { sum += z; count++; }
+        }
+      }
+    } else if (is16u(depth.encoding)) { // assume millimeters
+      for (int y=v0; y<=v1; ++y) {
+        for (int x=u0; x<=u1; ++x) {
+          uint16_t zmm = *ptrAt<uint16_t>(depth, x, y);
+          if (zmm > 50) { sum += double(zmm) / 1000.0; count++; }
+        }
+      }
+    } else {
+      return std::numeric_limits<double>::quiet_NaN();
+    }
+    if (count == 0) return std::numeric_limits<double>::quiet_NaN();
+    return sum / double(count);
+  }
+
+  // ---- Service: save last thermal frame to PGM ----
+  void savePhoto(const std::shared_ptr<std_srvs::srv::Trigger::Request>,
+                 std::shared_ptr<std_srvs::srv::Trigger::Response> res) {
+    if (!last_thermal_copy_.has_value()) {
+      res->success = false;
+      res->message = "No thermal frame received yet";
+      return;
+    }
+    const auto& img = *last_thermal_copy_;
+    std::string ts = std::to_string(this->now().seconds());
+    fs::path out = fs::path(save_dir_) / ("bear_" + ts + ".pgm");
+
+    bool ok = false;
+    if (is8u(img.encoding)) {
+      ok = writePGM8(img, out.string());
+    } else if (is16u(img.encoding)) {
+      ok = writePGM16(img, out.string());
+    } else {
+      // fallback: dump as 8u
+      ok = writePGM8(img, out.string());
+    }
+    res->success = ok;
+    res->message = ok ? ("saved " + out.string()) : "failed to save image";
+  }
+
+  bool writePGM8(const sensor_msgs::msg::Image& img, const std::string& path) {
+    std::ofstream f(path, std::ios::binary);
+    if (!f) return false;
+    f << "P5\n" << img.width << " " << img.height << "\n255\n";
+    if (img.encoding == "rgb8" || img.encoding == "bgr8") {
+      // convert to grayscale
+      std::vector<uint8_t> row(img.width);
+      for (uint32_t y=0; y<img.height; ++y) {
+        const uint8_t* p = &img.data[y*img.step];
+        for (uint32_t x=0; x<img.width; ++x) {
+          row[x] = uint8_t( (uint16_t(p[0]) + p[1] + p[2]) / 3 );
+          p += 3;
+        }
+        f.write(reinterpret_cast<const char*>(row.data()), row.size());
+      }
+    } else {
+      for (uint32_t y=0; y<img.height; ++y) {
+        const uint8_t* p = &img.data[y*img.step];
+        f.write(reinterpret_cast<const char*>(p), img.width);
+      }
+    }
+    return true;
+  }
+
+  bool writePGM16(const sensor_msgs::msg::Image& img, const std::string& path) {
+    std::ofstream f(path, std::ios::binary);
+    if (!f) return false;
+    f << "P5\n" << img.width << " " << img.height << "\n65535\n";
+    for (uint32_t y=0; y<img.height; ++y) {
+      const uint8_t* p = &img.data[y*img.step];
+      f.write(reinterpret_cast<const char*>(p), img.width*2);
+    }
+    return true;
+  }
+
+private:
+  // Params
+  std::string thermal_topic_, depth_topic_, camera_info_topic_;
+  std::string camera_frame_, map_frame_;
+  int threshold_8u_{220}, threshold_16u_{50000}, min_hot_pixels_{800};
+  double max_distance_m_{50.0};
+  double detection_cooldown_s_{5.0};
+  bool publish_goal_{true};
+  double standoff_m_{2.5};
+  std::string save_dir_;
+
+  // State
+  Intrinsics intr_;
+  tf2_ros::Buffer tf_buffer_;
+  tf2_ros::TransformListener tf_listener_;
+  rclcpp::Time last_detection_time_{0,0,RCL_ROS_TIME};
+  int marker_id_{0};
+
+  // Last frames
+  std::mutex depth_mtx_;
+  std::optional<sensor_msgs::msg::Image> last_depth_;
+  std::optional<sensor_msgs::msg::Image> last_thermal_copy_;
+  rclcpp::Time last_thermal_time_;
+
+  // ROS I/O
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr thermal_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr depth_sub_;
+  rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr cam_info_sub_;
+  rclcpp::Publisher<geometry_msgs::msg::PointStamped>::SharedPtr det_pub_;
+  rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
+  rclcpp::Publisher<std_msgs::msg::String>::SharedPtr status_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr goal_pub_;
+  rclcpp::Service<std_srvs::srv::Trigger>::SharedPtr photo_srv_;
 };
 
 int main(int argc, char** argv) {
-    rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<BearDetector>());
-    rclcpp::shutdown();
-    return 0;
+  rclcpp::init(argc, argv);
+  rclcpp::spin(std::make_shared<BearDetector>());
+  rclcpp::shutdown();
+  return 0;
 }

@@ -66,11 +66,10 @@ ament_target_dependencies(autonomous_explorer_node
 # DETECTION NODES - Animal/object detection
 # ============================================
 # bear_detector_node - Detects white bear using thermal camera + depth
-add_executable(bear_detector_node src/detection/bear_detector.cpp)
-ament_target_dependencies(bear_detector_node 
-  rclcpp geometry_msgs sensor_msgs std_msgs visualization_msgs 
-  tf2_ros tf2_geometry_msgs cv_bridge custom_msgs)
-target_link_libraries(bear_detector_node ${OpenCV_LIBS})
+add_executable(bear_detector src/detection/bear_detector.cpp)
+ament_target_dependencies(bear_detector
+  rclcpp sensor_msgs geometry_msgs std_msgs visualization_msgs std_srvs
+  tf2 tf2_ros tf2_geometry_msgs)
 
 # ============================================
 # NAVIGATION NODES - 3D path planning
@@ -133,7 +132,7 @@ install(TARGETS
   autonomous_explorer_node
   
   # Detection
-  bear_detector_node
+  bear_detector
   
   # Navigation
   bear_navigator_node
