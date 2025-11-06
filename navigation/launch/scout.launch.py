@@ -23,7 +23,7 @@ import random
 import xacro
 
 def generate_launch_description():
-    james_randomiser = LaunchConfiguration('james_randomiser', default='false')
+    james_randomiser = LaunchConfiguration('james_randomiser', default='true')
     # Your package name
     pkg_name = 'navigation'
     share_dir = FindPackageShare(pkg_name)
@@ -205,7 +205,7 @@ def generate_launch_description():
         launch.actions.DeclareLaunchArgument(
             name='use_sim_time', default_value='true', description='Use simulation time'
         ),
-        DeclareLaunchArgument('james_randomiser', default_value='false'),
+        DeclareLaunchArgument('james_randomiser', default_value='true'),
         set_paths_ign,
         set_paths_gz,
         ignition_gazebo,
