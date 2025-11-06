@@ -199,7 +199,12 @@ def generate_launch_description():
             {'offset_z': 567.651}
         ]
     )
-        
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    rtabmap_launch = IncludeLaunchDescription(
+    PythonLaunchDescriptionSource(
+        os.path.join(current_dir, 'rtabmap_launch.py')
+    )
+)    
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
@@ -217,4 +222,5 @@ def generate_launch_description():
         quadcopter_node,
         slam_toolbox,
         odometry_offset_node,
+        rtabmap_launch,
     ])
