@@ -1,0 +1,644 @@
+<?xml version="1.0"?>
+<sdf version="1.8">
+	<world name="earth">
+		<plugin
+			filename="ignition-gazebo-physics-system"
+			name="gz::sim::systems::Physics">
+		</plugin>
+		<plugin
+			filename="ignition-gazebo-user-commands-system"
+			name="gz::sim::systems::UserCommands">
+		</plugin>
+		<plugin
+			filename="ignition-gazebo-scene-broadcaster-system"
+			name="gz::sim::systems::SceneBroadcaster">
+		</plugin>
+		<light name="sun" type="directional">
+			<cast_shadows>0</cast_shadows>
+			<pose>0 0 100 0 0 0</pose>
+			<diffuse>0.8 0.8 0.8 1</diffuse>
+			<specular>0.8 0.8 0.8 1</specular>
+			<direction>-0.5 0.0 -0.9</direction>
+			<intensity>1</intensity>
+		</light>
+		<gravity>0 0 -9.81</gravity>
+		<magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+		<atmosphere type="adiabatic" />
+		<physics name="default_physics" type="ignored">
+			<max_step_size>0.01</max_step_size>
+			<real_time_factor>1</real_time_factor>
+			<real_time_update_rate>100</real_time_update_rate>
+		</physics>
+		<scene>
+			<ambient>1.0 1.0 1.0 1</ambient>
+			<background>0.6 0.8 1.0 1</background>
+			<shadows>0</shadows>
+			<grid>0</grid>
+		</scene>
+		<spherical_coordinates>
+			<latitude_deg>0.0</latitude_deg>
+			<longitude_deg>0.0</longitude_deg>
+			<elevation>10.0</elevation>
+			<heading_deg>0</heading_deg>
+			<surface_model>EARTH_WGS84</surface_model>
+		</spherical_coordinates>
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_1</name>
+			<pose>-449.465 -7503.91 814.081420898438 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_2</name>
+			<pose>-68.6016 -7513.99 795.373291015625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_3</name>
+			<pose>-127.05 -7508.54 756.898315429688 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_4</name>
+			<pose>-268.317 -7516.73 800.373291015625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_5</name>
+			<pose>-461.661 -7517.57 801.60205078125 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_6</name>
+			<pose>-377.652 -7515.89 842.671875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_7</name>
+			<pose>-121.238 -7522.46 755.244384765625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_8</name>
+			<pose>-152.62 -7532.82 789.968322753906 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_9</name>
+			<pose>-41.6683 -7534.61 804.385498046875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_10</name>
+			<pose>-301.609 -7533.84 832.765930175781 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_11</name>
+			<pose>-373.339 -7549.71 813.060913085938 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_12</name>
+			<pose>-165.351 -7559.39 768.339111328125 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_13</name>
+			<pose>-24.492 -7571.11 796.271789550781 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_14</name>
+			<pose>-359.055 -7581.86 805.1171875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_15</name>
+			<pose>-109.721 -7586.26 701.037292480469 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_16</name>
+			<pose>-493.223 -7594.7 787.199890136719 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_17</name>
+			<pose>-255.852 -7600.64 806.314086914062 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_18</name>
+			<pose>-112.525 -7598.26 699.370483398438 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_19</name>
+			<pose>-299.871 -7609.92 797.498779296875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_20</name>
+			<pose>-121.617 -7609.94 696.340454101562 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_21</name>
+			<pose>-260.266 -7611.42 800.318420410156 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_22</name>
+			<pose>-140.379 -7619.59 698.04052734375 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_23</name>
+			<pose>-275.35 -7635.02 774.935791015625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_24</name>
+			<pose>-489.072 -7634.33 807.281860351562 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_25</name>
+			<pose>-339.535 -7644.63 797.423889160156 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_26</name>
+			<pose>-327.951 -7642.52 803.457153320312 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_27</name>
+			<pose>-105.163 -7648.14 690.167846679688 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_28</name>
+			<pose>-439.063 -7648.65 729.177978515625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_29</name>
+			<pose>-110.198 -7650.26 688.420654296875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_30</name>
+			<pose>-271.266 -7668.68 756.875305175781 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_31</name>
+			<pose>-28.4548 -7691.46 735.556640625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_32</name>
+			<pose>-48.2995 -7714.96 779.665283203125 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_33</name>
+			<pose>-285.113 -7718.65 795.826110839844 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_34</name>
+			<pose>-291.594 -7724.84 791.669799804688 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_35</name>
+			<pose>-116.769 -7751.35 646.906005859375 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_36</name>
+			<pose>-60.2688 -7760.3 795.615600585938 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_37</name>
+			<pose>-148.803 -7802.51 618.792358398438 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_38</name>
+			<pose>-492.761 -7805.36 818.91845703125 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_39</name>
+			<pose>-158.576 -7803.27 611.449340820312 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_40</name>
+			<pose>-488.043 -7816.63 822.823974609375 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_41</name>
+			<pose>-480.01 -7815.57 819.439208984375 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_42</name>
+			<pose>-156.123 -7828.18 606.240661621094 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_43</name>
+			<pose>-206.629 -7857.8 580.758911132812 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_44</name>
+			<pose>-190.98 -7856.06 583.406127929688 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_45</name>
+			<pose>-3.93529 -7876.34 704.43310546875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_46</name>
+			<pose>-187.849 -7882.98 577.023742675781 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_47</name>
+			<pose>-212.411 -7898.98 573.846923828125 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_48</name>
+			<pose>-213.576 -7906.59 573.925598144531 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_49</name>
+			<pose>-167.618 -7900.46 582.729675292969 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_50</name>
+			<pose>-199.513 -7890.69 571.094848632812 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_51</name>
+			<pose>-489.185 -7910.95 844.405029296875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_52</name>
+			<pose>-210.988 -7910.62 572.861694335938 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_53</name>
+			<pose>-225.006 -7916.5 577.471374511719 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_54</name>
+			<pose>-44.2676 -7913.88 614.329223632812 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_55</name>
+			<pose>-254.372 -7929.47 587.097717285156 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_56</name>
+			<pose>-485.95 -7931.14 836.754455566406 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_57</name>
+			<pose>-248.546 -7930.96 585.455505371094 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_58</name>
+			<pose>-158.012 -7936.76 573.107666015625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_59</name>
+			<pose>-52.1329 -7926.25 607.050537109375 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_60</name>
+			<pose>-125.504 -7935.29 583.874694824219 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_61</name>
+			<pose>-239.136 -7938.57 586.101135253906 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_62</name>
+			<pose>-474.909 -7938.95 830.990783691406 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_63</name>
+			<pose>-499.341 -7949.56 827.01123046875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_64</name>
+			<pose>-158.925 -7941.3 571.751525878906 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_65</name>
+			<pose>-251.561 -7955.05 590.158325195312 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_66</name>
+			<pose>-209.478 -7946.6 575.204467773438 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_67</name>
+			<pose>-52.6893 -7958.41 585.157531738281 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_68</name>
+			<pose>-110.61 -7975.97 571.883544921875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_69</name>
+			<pose>-271.513 -7973.71 593.5810546875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_70</name>
+			<pose>-327.929 -7971.84 613.305297851562 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_71</name>
+			<pose>-286.832 -7978.62 595.876586914062 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_72</name>
+			<pose>-230.782 -7979.33 573.624572753906 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_73</name>
+			<pose>-336.68 -7986.13 613.181640625 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/tree_rs1
+			</uri>
+			<name>tree_74</name>
+			<pose>-208.273 -7987.74 567.6513671875 0 0 0</pose>
+		</include>
+
+		<include>
+			<uri>
+				model://models/large_scan_obj_small
+			</uri>
+			<pose>-252.5 -7742.5 1 0 0 0</pose>
+		</include>
+
+

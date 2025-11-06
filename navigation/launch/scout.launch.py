@@ -1,7 +1,10 @@
 import os
 import sys
 
+import csv
+
 import launch
+from launch.substitutions import LaunchConfiguration
 from launch.actions import IncludeLaunchDescription
 from launch.conditions import IfCondition
 from launch.substitutions import PythonExpression
@@ -13,10 +16,14 @@ from launch_ros.substitutions import FindPackageShare
 from launch_ros.parameter_descriptions import ParameterValue
 from launch.substitutions import Command
 from ament_index_python.packages import get_package_share_directory
+from launch.actions import DeclareLaunchArgument
+from launch.launch_context import LaunchContext
+import random
 
 import xacro
 
 def generate_launch_description():
+    james_randomiser = LaunchConfiguration('james_randomiser', default='false')
     # Your package name
     pkg_name = 'navigation'
     share_dir = FindPackageShare(pkg_name)
@@ -25,7 +32,65 @@ def generate_launch_description():
     
     # World file path - using terrainxl file
     terrain_xl_dir = FindPackageShare('terrainxl')
-    world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall.sdf'])
+    if james_randomiser:
+        print("Using james randomiser to generate world file with animals")
+        world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall_header.sdf'])
+#         <include>
+# 			<uri>
+# 				model://models/bear
+# 			</uri>
+# 			<name> bear_0</name>
+# 			<pose>-176.273 -7947.7400 567 0 0 0</pose>
+# 		</include>
+# 	</world>
+# </sdf>
+#spam these 
+        csv_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'animallocations_0001.csv'])
+        evilfakecontext = LaunchContext()
+        csv_path_string = csv_path.perform(evilfakecontext)
+        world_path_string = world_path.perform(evilfakecontext)
+        #CSV file has header row, x y z data starts from second row
+        animalx = []
+        animaly = []
+        animalz = []
+        with open(csv_path_string) as csvDataFile:
+            csvReader = csv.reader(csvDataFile)
+            next(csvReader)  # Skip header row
+            for row in csvReader:
+                if random.uniform(0,1) < 0.03:
+                    animalx.append(str(float(row[0]) - 252.5))
+                    animaly.append(str(float(row[1]) - 7742.5))
+                    animalz.append(str(float(row[2]) + 1))
+        #correct for coordinate system differences
+        #but apply nothing for now, just complete the earthsmall header sdf
+        #adjustment code here
+        #delete earthsmall generated first
+
+        if os.path.exists('/tmp/earthsmall_generated.sdf'):
+            try:
+                os.remove('/tmp/earthsmall_generated.sdf')
+            except OSError as e:
+                print()
+                
+        
+        with open('/tmp/earthsmall_generated.sdf', mode='w', newline='') as correctedFile:
+            with open(world_path_string, mode='r', newline='') as headerFile:
+                for line in headerFile:
+                    correctedFile.write(line) # copy header
+            for i in range(len(animalx)):
+                correctedFile.write('    <include>\n')
+                correctedFile.write('        <uri>\n')
+                correctedFile.write('            model://models/bear\n')
+                correctedFile.write('        </uri>\n')
+                correctedFile.write(f'        <static>true</static>\n')
+                correctedFile.write(f'        <name>bear_{i}</name>\n')
+                correctedFile.write(f'        <pose>{animalx[i]} {animaly[i]} {animalz[i]} 0 0 {random.uniform(0, 6.283)}</pose>\n')
+                correctedFile.write('    </include>\n')
+            correctedFile.write('</world>\n')
+            correctedFile.write('</sdf>\n')
+        world_path = '/tmp/earthsmall_generated.sdf'
+    else: 
+        world_path = PathJoinSubstitution([terrain_xl_dir, 'worlds', 'earthsmall.sdf'])
     print(world_path)
 
     # GUI config path - using terrainxl file
@@ -156,6 +221,7 @@ def generate_launch_description():
             default_value='true',
             description='Use simulation time'
         ),
+        DeclareLaunchArgument('james_randomiser', default_value='false'),
 
         # Set environment variable for Gazebo to find your models/worlds
         SetEnvironmentVariable('GZ_SIM_RESOURCE_PATH', [share_dir]),
