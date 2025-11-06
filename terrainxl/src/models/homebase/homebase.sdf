@@ -20,10 +20,10 @@
       </collision>
       
 	      <!-- Explicitly "cold" thermal definition -->
-	  <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal">
-	    <temperature>273.0</temperature>   <!-- ~0 °C -->
-	    <emissivity>0.0</emissivity>       <!-- no heat radiation -->
-	  </plugin>
+	 <!-- <plugin filename="gz-sim-thermal-system" name="gz::sim::systems::Thermal">
+	    <temperature>273.0</temperature>
+	    <emissivity>0.0</emissivity>
+      </plugin> -->
 	</link>     
   </model>
 </sdf>
