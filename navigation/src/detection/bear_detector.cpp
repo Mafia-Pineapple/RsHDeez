@@ -34,7 +34,7 @@ public:
         tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
 
         rgb_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
-            "/model/scout/thermal/image", 10,
+            "/camera/thermal/image", 10,
             std::bind(&BearDetector::imageCallback, this, std::placeholders::_1));
 
         depth_sub_ = this->create_subscription<sensor_msgs::msg::Image>(
