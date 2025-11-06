@@ -19,5 +19,22 @@
 				</geometry>
 			</collision>
 		</link>
+		<link name="southtile">
+			<pose>0 -500 0 0 0 0</pose>
+			<visual name="visual">
+				<geometry>
+					<mesh>
+					<uri>meshes/southtile.obj</uri>
+					</mesh>
+				</geometry>
+			</visual>
+			<collision name="collision">
+				<geometry>
+					<mesh>
+						<uri>meshes/southtile.obj</uri>
+					</mesh>
+				</geometry>
+			</collision>
+		</link>
 	</model>
 </sdf>

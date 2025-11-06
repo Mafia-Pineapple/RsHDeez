@@ -1,0 +1,12 @@
+# Blender 4.5.1 LTS MTL File: 'singletile.blend'
+# www.blender.org
+
+newmtl Terrain_Material_South
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd -o 0 0.099999994 0 -s 0.79999995 0.79999995 1 southtile.png
