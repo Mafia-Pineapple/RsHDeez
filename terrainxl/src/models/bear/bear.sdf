@@ -27,7 +27,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://bear/bear.obj</uri>
+            <uri>model://models/bear/bear.obj</uri>
             <scale>0.1 0.1 0.1</scale>
           </mesh>
         </geometry>
@@ -39,7 +39,7 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://bear/bear.obj</uri>
+            <uri>model://models/bear/bear.obj</uri>
             <scale>0.1 0.1 0.1</scale>
           </mesh>
         </geometry>
