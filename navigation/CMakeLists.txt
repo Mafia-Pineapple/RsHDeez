@@ -51,6 +51,11 @@ add_executable(smooth_explorer_node src/exploration/smooth_explorer.cpp)
 ament_target_dependencies(smooth_explorer_node 
   rclcpp geometry_msgs nav_msgs sensor_msgs)
 
+  # grid_explorer_node - Systematic grid-based explorer with AGL
+add_executable(grid_explorer_node src/exploration/grid_explorer.cpp)
+ament_target_dependencies(grid_explorer_node 
+  rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs)
+
 # autonomous_explorer_node - Goal-based explorer
 add_executable(autonomous_explorer_node src/exploration/autonomous_explorer.cpp)
 ament_target_dependencies(autonomous_explorer_node 
@@ -69,11 +74,11 @@ target_link_libraries(bear_detector_node ${OpenCV_LIBS})
 # ============================================
 # NAVIGATION NODES - 3D path planning
 # # ============================================
-# # bear_navigator_node - LIDAR-based 2D collision avoidance with bear detection
-# add_executable(bear_navigator_node src/navigation/complete_bear_navigator.cpp)
-# ament_target_dependencies(bear_navigator_node 
-#   rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs
-#   tf2_ros tf2_geometry_msgs)
+# bear_navigator_node - LIDAR-based 2D collision avoidance with bear detection
+add_executable(bear_navigator_node src/navigation/bear_navigator.cpp)
+ament_target_dependencies(bear_navigator_node 
+  rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs
+  tf2_ros tf2_geometry_msgs)
 
 # octomap_3d_navigator_node - Full 3D collision avoidance using Octomap
 add_executable(octomap_3d_navigator_node src/navigation/octomap_3d_navigator.cpp)
@@ -110,6 +115,11 @@ add_executable(laserscan_to_pointcloud_node src/utils/laserscan_to_pointcloud.cp
 ament_target_dependencies(laserscan_to_pointcloud_node 
   rclcpp sensor_msgs laser_geometry)
 
+  add_executable(intelligent_explorer src/navigation/intelligent_explorer.cpp)
+  ament_target_dependencies(intelligent_explorer
+    rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs
+    tf2 tf2_ros tf2_geometry_msgs)
+
 # ============================================
 # INSTALL
 # ============================================
@@ -125,16 +135,16 @@ install(TARGETS
   bear_detector_node
   
   # Navigation
-  #bear_navigator_node
+  bear_navigator_node
   octomap_3d_navigator_node
-  
+  grid_explorer_node
   # Utils
   agl_parser
   goal_publisher_node
   fake_world_node
   odometry_offset_node
   laserscan_to_pointcloud_node
-  
+  intelligent_explorer
   DESTINATION lib/${PROJECT_NAME}
 )
 
