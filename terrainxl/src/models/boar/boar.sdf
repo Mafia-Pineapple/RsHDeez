@@ -24,20 +24,17 @@
         <pose>0 0 0 0 0 0</pose>
         <geometry>
           <mesh>
-            <!-- Use your real mesh path & name -->
-            <!-- Your folder: model root /meshes/bear-obj.obj -->
             <uri>model://models/boar/boar.obj</uri>
             <scale>0.05 0.05 0.05</scale>
           </mesh>
         </geometry>
       </visual>
 
-      <!-- COLLISION: lower slightly if the mesh origin is at the belly -->
+      <!-- COLLISION -->
       <collision name="coll_mesh">
         <!-- Start with -0.35 to -0.45; tweak live with View→Collisions -->
         <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <!-- Option A: same triangle mesh (works; heavier) -->
           <mesh>
             <uri>model://models/boar/boar.obj</uri>
             <scale>0.05 0.05 0.05</scale>

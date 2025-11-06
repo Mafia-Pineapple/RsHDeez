@@ -25,6 +25,7 @@ find_package(OpenCV REQUIRED)
 find_package(octomap REQUIRED)
 find_package(octomap_msgs REQUIRED)
 find_package(pcl_conversions REQUIRED)
+find_package(custom_msgs REQUIRED)
 
 include_directories(include ${OpenCV_INCLUDE_DIRS} ${OCTOMAP_INCLUDE_DIRS})
 
@@ -40,7 +41,7 @@ add_executable(quadcopter_node
 )
 ament_target_dependencies(quadcopter_node
   rclcpp std_msgs geometry_msgs nav_msgs std_srvs sensor_msgs
-  tf2 tf2_geometry_msgs
+  tf2 tf2_geometry_msgs custom_msgs
 )
 
 # ============================================
@@ -49,17 +50,17 @@ ament_target_dependencies(quadcopter_node
 # smooth_explorer_node - Collision-avoiding continuous explorer
 add_executable(smooth_explorer_node src/exploration/smooth_explorer.cpp)
 ament_target_dependencies(smooth_explorer_node 
-  rclcpp geometry_msgs nav_msgs sensor_msgs)
+  rclcpp geometry_msgs nav_msgs sensor_msgs custom_msgs)
 
   # grid_explorer_node - Systematic grid-based explorer with AGL
 add_executable(grid_explorer_node src/exploration/grid_explorer.cpp)
 ament_target_dependencies(grid_explorer_node 
-  rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs)
+  rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs custom_msgs)
 
 # autonomous_explorer_node - Goal-based explorer
 add_executable(autonomous_explorer_node src/exploration/autonomous_explorer.cpp)
 ament_target_dependencies(autonomous_explorer_node 
-  rclcpp geometry_msgs nav_msgs sensor_msgs std_srvs)
+  rclcpp geometry_msgs nav_msgs sensor_msgs std_srvs custom_msgs)
 
 # ============================================
 # DETECTION NODES - Animal/object detection
@@ -68,7 +69,7 @@ ament_target_dependencies(autonomous_explorer_node
 add_executable(bear_detector_node src/detection/bear_detector.cpp)
 ament_target_dependencies(bear_detector_node 
   rclcpp geometry_msgs sensor_msgs std_msgs visualization_msgs 
-  tf2_ros tf2_geometry_msgs cv_bridge)
+  tf2_ros tf2_geometry_msgs cv_bridge custom_msgs)
 target_link_libraries(bear_detector_node ${OpenCV_LIBS})
 
 # ============================================
@@ -78,13 +79,13 @@ target_link_libraries(bear_detector_node ${OpenCV_LIBS})
 add_executable(bear_navigator_node src/navigation/bear_navigator.cpp)
 ament_target_dependencies(bear_navigator_node 
   rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs
-  tf2_ros tf2_geometry_msgs)
+  tf2_ros tf2_geometry_msgs custom_msgs)
 
 # octomap_3d_navigator_node - Full 3D collision avoidance using Octomap
 add_executable(octomap_3d_navigator_node src/navigation/octomap_3d_navigator.cpp)
 ament_target_dependencies(octomap_3d_navigator_node 
   rclcpp geometry_msgs nav_msgs sensor_msgs std_msgs
-  tf2_ros tf2_geometry_msgs octomap_msgs pcl_conversions)
+  tf2_ros tf2_geometry_msgs octomap_msgs pcl_conversions custom_msgs)
 target_link_libraries(octomap_3d_navigator_node ${OCTOMAP_LIBRARIES})
 
 # ============================================
@@ -93,32 +94,32 @@ target_link_libraries(octomap_3d_navigator_node ${OCTOMAP_LIBRARIES})
 # agl_parser - Processes altitude above ground sensor
 add_executable(agl_parser src/utils/agl_parser.cpp)
 ament_target_dependencies(agl_parser
-  rclcpp sensor_msgs std_msgs nav_msgs)
+  rclcpp sensor_msgs std_msgs nav_msgs custom_msgs)
 
 # goal_publisher_node - Manual goal setting tool
 add_executable(goal_publisher_node src/utils/goal_publisher.cpp)
 ament_target_dependencies(goal_publisher_node
-  rclcpp geometry_msgs)
+  rclcpp geometry_msgs custom_msgs)
 
 # fake_world_node - Simple dynamics simulator (testing)
 add_executable(fake_world_node src/utils/fake_world.cpp)
 ament_target_dependencies(fake_world_node
-  rclcpp geometry_msgs nav_msgs)
+  rclcpp geometry_msgs nav_msgs custom_msgs)
 
 # odometry_offset_node - Corrects odometry drift
 add_executable(odometry_offset_node src/utils/odometry_offset.cpp)
 ament_target_dependencies(odometry_offset_node 
-  rclcpp nav_msgs geometry_msgs tf2_ros)
+  rclcpp nav_msgs geometry_msgs tf2_ros custom_msgs)
 
 # laserscan_to_pointcloud_node - Converts LaserScan to PointCloud2
 add_executable(laserscan_to_pointcloud_node src/utils/laserscan_to_pointcloud.cpp)
 ament_target_dependencies(laserscan_to_pointcloud_node 
-  rclcpp sensor_msgs laser_geometry)
+  rclcpp sensor_msgs laser_geometry custom_msgs)
 
   add_executable(intelligent_explorer src/navigation/intelligent_explorer.cpp)
   ament_target_dependencies(intelligent_explorer
     rclcpp std_msgs geometry_msgs nav_msgs sensor_msgs
-    tf2 tf2_ros tf2_geometry_msgs)
+    tf2 tf2_ros tf2_geometry_msgs custom_msgs)
 
 # ============================================
 # INSTALL

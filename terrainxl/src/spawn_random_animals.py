@@ -1,73 +1,95 @@
 #!/usr/bin/env python3
-import random, subprocess, time, os
+import os, random, subprocess, time, shlex, math
 
-# ---- WORLD BOUNDS (meters) ----
-X_MIN, X_MAX = -499.0, -3     
-Y_MIN, Y_MAX =  -7975.0, -7495.0
+# -------------------------------
+# CONFIGURATION
+# -------------------------------
+WORLD_NAME = "earth"          # world to spawn into
+X_MIN, X_MAX = -499.0, -3.0   # map bounds
+Y_MIN, Y_MAX = -7975.0, -7495.0
+Z_MAX  = 835.0                # tallest point on map
+Z_HIGH = Z_MAX + 10.0         # spawn height above terrain
+SETTLE_SEC = 2.0
+MIN_SPACING = 6.0
 
-# ---- HEIGHT SETTINGS ----
-Z_MAX = 835.0
-Z_HIGH = Z_MAX + 10.0               # spawn above the tallest peak
-SETTLE_SEC = 2.0                    # time to fall & settle
-
-# ---- MODELS ----
-ANIMAL_MODELS = {
+# Models available
+ANIMALS = {
     "bear": "model://bear",
     "boar": "model://boar",
 }
 
-# ---- SPAWN CONTROL ----
-MARGIN_MIN_DIST = 6.0               # min spacing between spawns (m)
-WORLD_FILE = None                   # optional: set if you want to launch here
-WORLD_NAME = "singletile"           # set to your world name in Gazebo
+# Number of each species to spawn
+COUNT_PER_SPECIES = 6
 
-random.seed()  # change to a number for reproducibility
-
-def sample_xy(existing, tries=100):
-    """Sample an (x,y) with min spacing from existing points."""
+# -------------------------------
+# FUNCTIONS
+# -------------------------------
+def sample_xy(used, tries=100):
     for _ in range(tries):
         x = random.uniform(X_MIN, X_MAX)
         y = random.uniform(Y_MIN, Y_MAX)
-        if all(((x-ex)**2 + (y-ey)**2) ** 0.5 >= MARGIN_MIN_DIST for ex, ey in existing):
+        if all(((x-ux)**2 + (y-uy)**2) ** 0.5 >= MIN_SPACING for ux, uy in used):
             return x, y
-    # fallback: no spacing guarantee
     return random.uniform(X_MIN, X_MAX), random.uniform(Y_MIN, Y_MAX)
 
-def spawn_one(name, sdf_path, idx, used_xy):
-    x, y = sample_xy(used_xy)
-    yaw = random.uniform(0.0, 6.28318)
+def ign_spawn(name, uri, x, y, z, yaw):
+    """Spawn using Ignition /world/<name>/create service."""
+    half = yaw * 0.5
+    qx, qy = 0.0, 0.0
+    qz = math.sin(half)
+    qw = math.cos(half)
 
-    print(f"[INFO] Spawning {name}_{idx} at ({x:.2f}, {y:.2f}, {Z_HIGH:.2f}) yaw={yaw:.2f}")
+    req = (
+        f'sdf_filename:"{uri}", name:"{name}", '
+        f'pose:{{ position:{{x:{x}, y:{y}, z:{z}}}, '
+        f'orientation:{{ x:{qx}, y:{qy}, z:{qz}, w:{qw} }} }}'
+    )
     cmd = [
-        "gz", "sim", "-r",
-        "--spawn-file", sdf_path,
-        "--spawn-name", f"{name}_{idx}",
-        "--spawn-pose", f"{x} {y} {Z_HIGH} 0 0 {yaw}"
+        'ign', 'service',
+        '-s', f'/world/{WORLD_NAME}/create',
+        '--reqtype', 'ignition.msgs.EntityFactory',
+        '--reptype', 'ignition.msgs.Boolean',
+        '--timeout', '300',
+        '--req', req
     ]
+    print("[INFO]", shlex.join(cmd))
     subprocess.run(cmd, check=True)
-    used_xy.append((x, y))
+
+def check_model_discovery():
+    roots = (os.environ.get('IGN_GAZEBO_RESOURCE_PATH','').split(':') +
+             os.environ.get('GZ_SIM_RESOURCE_PATH','').split(':'))
+    roots = [r for r in roots if r]
+    print("[INFO] Model search roots:")
+    for r in roots:
+        print("   ", r)
+    found = False
+    for root in roots:
+        test_path = os.path.join(root, 'models', 'bear', 'bear.sdf')
+        if os.path.isfile(test_path):
+            print(f"[OK] Found bear.sdf at {test_path}")
+            found = True
+    if not found:
+        print("[WARN] Did not find bear.sdf in any search root!")
 
 def main():
-    # Optional: launch world if you want (otherwise launch separately)
-    if WORLD_FILE:
-        subprocess.Popen(["gz", "sim", "-v", "4", WORLD_FILE])
-        time.sleep(4)  # give Gazebo a moment to start
+    print(f"[INFO] GZ_SIM_RESOURCE_PATH={os.environ.get('GZ_SIM_RESOURCE_PATH','(unset)')}")
+    print(f"[INFO] IGN_GAZEBO_RESOURCE_PATH={os.environ.get('IGN_GAZEBO_RESOURCE_PATH','(unset)')}")
+    check_model_discovery()
 
-    used_xy = []
-    # one of each species
-    for name, sdf in ANIMAL_MODELS.items():
-        spawn_one(name, sdf, 0, used_xy)
-        time.sleep(0.3)
+    used = []
+    for species, uri in ANIMALS.items():
+        for i in range(COUNT_PER_SPECIES):
+            x, y = sample_xy(used)
+            yaw = random.uniform(0.0, 2 * math.pi)
+            print(f"[INFO] Spawning {species}_{i} at ({x:.2f}, {y:.2f}, {Z_HIGH:.2f}) yaw={yaw:.2f}")
+            ign_spawn(f"{species}_{i}", uri, x, y, Z_HIGH, yaw)
+            used.append((x, y))
+            time.sleep(0.2)
 
-    # let them drop to the ground
     print(f"[INFO] Letting animals settle for {SETTLE_SEC:.1f}s...")
     time.sleep(SETTLE_SEC)
-
-    # (Optional) Freeze them: simplest is to leave as-is.
-    # If you really want to freeze, you can set gravity=false on main link via a small helper plugin or service.
     print("[INFO] Done.")
 
 if __name__ == "__main__":
-    if "GZ_SIM_RESOURCE_PATH" not in os.environ:
-        print("[WARN] GZ_SIM_RESOURCE_PATH not set; textures may not resolve.")
+    random.seed()
     main()

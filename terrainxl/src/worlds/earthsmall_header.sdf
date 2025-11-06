@@ -641,5 +641,4 @@
 			<pose>-252.5 -7742.5 1 0 0 0</pose>
 		</include>
 
-	</world>
-</sdf>
+
