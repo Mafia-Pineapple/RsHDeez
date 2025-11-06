@@ -34,14 +34,14 @@ class GridExplorer : public rclcpp::Node {
 public:
     GridExplorer() : Node("grid_explorer") {
         // Parameters
-        this->declare_parameter("grid_spacing", 4.0);           // 2m between grid points
-        this->declare_parameter("grid_radius", 12);             // 25 cells (50m) in each direction
-        this->declare_parameter("cruise_speed", 1.5);           // 1.5 m/s
-        this->declare_parameter("goal_tolerance", 0.5);         // 0.5m to consider goal reached
-        this->declare_parameter("obstacle_distance", 1.5);      // 1.5m obstacle detection range
+        this->declare_parameter("grid_spacing", 15.0);           // 2m between grid points
+        this->declare_parameter("grid_radius", 2);             // 25 cells (50m) in each direction
+        this->declare_parameter("cruise_speed", 1.0);           // 1.5 m/s
+        this->declare_parameter("goal_tolerance", 2.0);         // 0.5m to consider goal reached
+        this->declare_parameter("obstacle_distance", 4.0);      // 1.5m obstacle detection range
         this->declare_parameter("max_deviation", 5.0);          // 5m max lateral deviation when avoiding
-        this->declare_parameter("target_agl", 10.0);            // 10m above ground
-        this->declare_parameter("blocked_timeout", 10.0);       // 10s to mark as unreachable
+        this->declare_parameter("target_agl", 15.0);            // 10m above ground
+        this->declare_parameter("blocked_timeout", 30.0);       // 10s to mark as unreachable
         this->declare_parameter("angular_speed", 0.5);          // Turn rate
         
         grid_spacing_ = this->get_parameter("grid_spacing").as_double();
