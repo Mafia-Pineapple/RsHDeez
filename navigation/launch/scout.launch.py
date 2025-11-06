@@ -75,14 +75,18 @@ def generate_launch_description():
                 for line in headerFile:
                     correctedFile.write(line) # copy header
             for i in range(len(animalx)):
+                # choose model once per spawn so name matches URI
+                model_choice = 'bear' if random.uniform(0, 1) < 0.5 else 'boar'
                 correctedFile.write('    <include>\n')
                 correctedFile.write('        <uri>\n')
-                correctedFile.write('            model://models/bear\n')
+                correctedFile.write(f'            model://models/{model_choice}\n')
                 correctedFile.write('        </uri>\n')
                 correctedFile.write(f'        <static>true</static>\n')
-                correctedFile.write(f'        <name>bear_{i}</name>\n')
+                correctedFile.write(f'        <name>{model_choice}_{i}</name>\n')
                 correctedFile.write(f'        <pose>{animalx[i]} {animaly[i]} {animalz[i]} 0 0 {random.uniform(0, 6.283)}</pose>\n')
                 correctedFile.write('    </include>\n')
+
+                
             correctedFile.write('</world>\n')
             correctedFile.write('</sdf>\n')
         world_path = '/tmp/earthsmall_generated.sdf'
