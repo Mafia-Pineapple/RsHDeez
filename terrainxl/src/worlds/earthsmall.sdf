@@ -641,5 +641,13 @@
 			<pose>-252.5 -7742.5 1 0 0 0</pose>
 		</include>
 
+		<include>
+-			<uri>
+-				model://models/homebase
+-			</uri>
+-			<name> homebase</name>
+-			<pose>-183.5290 -7938.1300 567.1350 1.5700 0 -2</pose>
+-		</include>
+
 	</world>
 </sdf>
