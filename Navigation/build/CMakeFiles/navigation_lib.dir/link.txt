@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnavigation_lib.a CMakeFiles/navigation_lib.dir/src/controller.cpp.o CMakeFiles/navigation_lib.dir/src/quadcopter.cpp.o
-/usr/bin/ranlib libnavigation_lib.a
