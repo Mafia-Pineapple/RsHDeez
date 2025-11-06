@@ -6,6 +6,7 @@
 #include <geometry_msgs/msg/point.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
+#include <sensor_msgs/msg/imu.hpp>
 #include <std_msgs/msg/empty.hpp>
 #include <std_msgs/msg/float64.hpp>
 #include <std_srvs/srv/set_bool.hpp>
@@ -65,6 +66,7 @@ public:
   // Callbacks
   void aglCallback(const std_msgs::msg::Float64::SharedPtr msg);
   void lidarCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg);
+  void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);  // NEW: IMU callback
 
   // Pattern mode functions
   void patternReset();
@@ -72,6 +74,10 @@ public:
   
   // Collision avoidance
   void applyCollisionAvoidance(double& vx, double& yaw_rate);
+  
+  // NEW: Attitude stabilization
+  void applyAttitudeStabilization(double& move_l_r, double& move_f_b);
+  bool needsEmergencyStabilization();
   
   // Inline accessors for LiDAR data
   float getMinAhead() const { return min_ahead_.load(std::memory_order_relaxed); }
@@ -97,6 +103,7 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr subGoal_;
   rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subAgl_;
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subLidar_;
+  rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr subImu_;  // NEW: IMU subscriber
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subOdom_;
   void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
@@ -127,6 +134,32 @@ private:
   double current_agl_ = 0.0;
   double target_agl_ = 1.5;
   bool agl_received_ = false;
+
+  // NEW: Attitude tracking (from IMU)
+  double current_roll_ = 0.0;
+  double current_pitch_ = 0.0;
+  double current_yaw_ = 0.0;
+  double roll_rate_ = 0.0;   // Angular velocity around x-axis
+  double pitch_rate_ = 0.0;  // Angular velocity around y-axis
+  double yaw_rate_ = 0.0;    // Angular velocity around z-axis
+  bool imu_received_ = false;
+  rclcpp::Time last_imu_time_;
+  
+  // NEW: Attitude stabilization PID parameters
+  double roll_kp_ = 2.0;      // Proportional gain for roll
+  double roll_kd_ = 0.5;      // Derivative gain for roll
+  double pitch_kp_ = 2.0;     // Proportional gain for pitch
+  double pitch_kd_ = 0.5;     // Derivative gain for pitch
+  
+  // NEW: Emergency stabilization thresholds
+  double max_safe_roll_ = 0.35;   // ~20 degrees max roll before emergency
+  double max_safe_pitch_ = 0.35;  // ~20 degrees max pitch before emergency
+  double emergency_roll_ = 0.52;  // ~30 degrees - CRITICAL recovery needed
+  double emergency_pitch_ = 0.52; // ~30 degrees - CRITICAL recovery needed
+  
+  // NEW: Stabilization state
+  bool in_emergency_stabilization_ = false;
+  rclcpp::Time emergency_stabilization_start_;
 
   // LiDAR collision avoidance (must match order in cpp)
   std::atomic<float> min_ahead_{std::numeric_limits<float>::infinity()};
