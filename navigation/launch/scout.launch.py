@@ -54,7 +54,7 @@ def generate_launch_description():
             csvReader = csv.reader(csvDataFile)
             next(csvReader)  # Skip header row
             for row in csvReader:
-                if random.uniform(0,1) < 0.03:
+                if random.uniform(0,1) < 1:
                     animalx.append(str(float(row[0]) - 252.5))
                     animaly.append(str(float(row[1]) - 7742.5))
                     animalz.append(str(float(row[2]) + 1))
