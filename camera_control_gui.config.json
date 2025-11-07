@@ -1,7 +1,7 @@
 {
   "topics": {
     "rgb": "/camera/image",
-    "depth": "/camera/depth/image",
+    "depth": "/camera/image",
     "thermal": "/camera/thermal/image"
   },
   "commands": {

@@ -25,7 +25,7 @@
         <geometry>
           <mesh>
             <uri>model://models/boar/boar.obj</uri>
-            <scale>0.05 0.05 0.05</scale>
+            <scale>0.075 0.075 0.075</scale>
           </mesh>
         </geometry>
       </visual>
@@ -37,7 +37,7 @@
         <geometry>
           <mesh>
             <uri>model://models/boar/boar.obj</uri>
-            <scale>0.05 0.05 0.05</scale>
+            <scale>0.075 0.075 0.075</scale>
           </mesh>
 
           
