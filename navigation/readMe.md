@@ -1,636 +1,376 @@
-# Autonomous Drone Navigation System
+# Autonomous Drone Grid Explorer
 
-A complete ROS2 + Gazebo autonomous drone system with 3D SLAM, collision avoidance, and intelligent exploration capabilities for forest/terrain navigation.
-
----
-
-## Table of Contents
-- [Features](#features)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Usage Modes](#usage-modes)
-- [SLAM & Mapping](#slam--mapping)
-- [Autonomous Exploration](#autonomous-exploration)
-- [Navigation (Nav2)](#navigation-nav2)
-- [Available Topics & Services](#available-topics--services)
-- [Troubleshooting](#troubleshooting)
+A ROS2-based autonomous exploration system for drones that systematically maps terrain while avoiding obstacles. Built for educational purposes and tested in Gazebo simulation.
 
 ---
 
-## Features
+## What Does This Do?
 
-### Core Capabilities
-- ✅ **3D SLAM** with RTAB-Map (LIDAR-based)
-- ✅ **Autonomous exploration** with collision avoidance
-- ✅ **Terrain following** using downward AGL sensor
-- ✅ **Real-time 3D mapping**
-- ✅ **Goal-based navigation** (Nav2 integration)
-- ✅ **Multiple flight patterns** (spiral, figure-8, circle)
-- ✅ **Obstacle avoidance** using 360° LIDAR
-- ✅ **RGB-D camera** for visualization
+This system makes a drone autonomously explore an area by flying to waypoints in a grid pattern. Think of it like a lawn mower pattern, but smarter - it can avoid obstacles, detect when it's stuck, and build a 3D map of the environment as it goes.
 
-### Sensor Suite
-- 360° horizontal LIDAR (40m range)
-- Downward-facing AGL sensor (altitude above ground)
-- IMU (orientation and acceleration)
-- RGB-D camera (optional, for visualization)
-- Odometry with drift correction
+The drone uses a 360° LIDAR sensor to detect obstacles and avoid them in real-time. If it can't reach a particular grid point (maybe there's a tree in the way), it marks it as unreachable and moves on. Once it's visited all the points it can, it automatically flies back home and lands.
+
+While exploring, RTAB-Map runs in the background building a 3D point cloud map from the LIDAR data. You get a nice visualization window showing the map being built in real-time.
 
 ---
 
-## Prerequisites
+## How It Works (High Level)
 
-### Required Software
-- **Ubuntu 22.04**
-- **ROS2 Humble**
-- **Ignition Gazebo Fortress**
+### The Grid Pattern
+When the drone starts, it generates a square spiral pattern of waypoints centered on its starting position. For example, with default settings you get a 5x5 grid (25 points) spaced 20 meters apart. The drone visits them in order: center → right → up → left → left → down → down, spiraling outward.
 
-### Install ROS2 Humble
+### Navigation
+For each grid point:
+1. Calculate the direction and distance to the target
+2. Command the drone to fly that direction at cruise speed (1.5 m/s)
+3. Use the downward laser sensor to maintain 15 meters above ground
+4. Check LIDAR every 50ms (20Hz loop) for obstacles
+
+### Collision Avoidance
+This is where it gets interesting. The LIDAR gives us 360 rays in a circle. I divide them into 8 sectors (front, front-left, left, back-left, etc.) and keep track of the closest obstacle in each direction.
+
+There are three zones:
+- **Critical (<1.5m)**: Emergency stop! Kill forward motion, turn toward open space, back up if necessary
+- **Warning (1.5-3m)**: Slow down proportionally, start turning away from obstacles, slide sideways
+- **Safe (>3m)**: Full speed ahead, no worries
+
+The cool part is that drones can move sideways, so when there's an obstacle on the left, it doesn't just turn - it actively slides right while still heading toward the goal. Makes for much smoother navigation.
+
+### Getting Stuck
+Sometimes the drone can't make progress - maybe the path is blocked, or it's navigating around a large obstacle. Every frame (50ms), the code checks:
+- Are we moving at all? (distance > 10cm)
+- Are we getting closer to the goal? (at least 20cm closer)
+
+If neither is true for 12 seconds (240 frames), it marks that grid point as unreachable and moves to the next one. Before giving up, if there's an obstacle directly in front, it tries climbing 5 meters higher to go over it. Sometimes this works, sometimes it doesn't.
+
+### SLAM Integration
+RTAB-Map runs in parallel doing its own thing. It takes the same LIDAR data and builds a 3D map, does loop closure detection (recognizes when you revisit an area), and publishes the map→odom transform to correct drift.
+
+However, the grid explorer doesn't actually use the SLAM-corrected position - it just uses raw odometry relative to the start point. This works fine in simulation where odometry is perfect, but on a real robot you'd want to look up the map→base_link transform instead. That's a TODO for future work.
+
+---
+
+## Getting Started
+
+### Prerequisites
+You need ROS2 Humble and Gazebo Fortress installed. If you don't have them:
 ```bash
-# Follow official ROS2 Humble installation
+# ROS2 Humble
 sudo apt install ros-humble-desktop
-```
 
-### Install Gazebo Fortress
-```bash
+# Gazebo Fortress
 sudo apt install ignition-fortress
+
+# Required packages
+sudo apt install ros-humble-ros-ign-gazebo \
+                 ros-humble-ros-ign-bridge \
+                 ros-humble-robot-state-publisher \
+                 ros-humble-rtabmap-ros \
+                 ros-humble-slam-toolbox
 ```
 
-### Required ROS2 Packages
+### Build It
 ```bash
-sudo apt install \
-  ros-humble-ros-ign-gazebo \
-  ros-humble-ros-ign-bridge \
-  ros-humble-robot-state-publisher \
-  ros-humble-joint-state-publisher \
-  ros-humble-xacro \
-  ros-humble-rtabmap-ros \
-  ros-humble-navigation2 \
-  ros-humble-nav2-bringup
-```
-
----
-
-## Installation
-
-### 1. Clone the Repository
-```bash
+# Create workspace (or use existing)
 mkdir -p ~/41068_ws/src
 cd ~/41068_ws/src
-# Clone your navigation package here
-```
 
-### 2. Build the Workspace
-```bash
+# Clone this repo (or however you got the code here)
+# ...
+
+# Build
 cd ~/41068_ws
 colcon build --packages-select navigation
 source install/setup.bash
 ```
 
-### 3. Verify Installation
-```bash
-# Check package is installed
-ros2 pkg list | grep navigation
+---
 
-# Should show: navigation
+## Running the System
+
+You need two terminals minimum. Three if you want to monitor things.
+
+### Terminal 1: Launch Simulation
+This starts Gazebo with the terrain, spawns the drone, launches all the sensor nodes, and starts RTAB-Map SLAM.
+
+```bash
+cd ~/41068_ws
+source install/setup.bash
+ros2 launch navigation scout_launch.py
 ```
+
+Wait for everything to fully load. You should see:
+- Gazebo window with terrain and drone
+- RTAB-Map visualization window (might take a few seconds)
+- A bunch of ROS nodes starting up in the terminal
+
+Give it a good 5-10 seconds before launching the explorer. If you launch too early, the odometry might not be ready and the drone will think it's at the wrong position.
+
+### Terminal 2: Start Exploring
+```bash
+cd ~/41068_ws
+source install/setup.bash
+ros2 run navigation grid_explorer_node
+```
+
+The drone should:
+1. Take off to 15m altitude
+2. Start flying to grid points in a spiral pattern
+3. Print progress messages like "Visited grid [1, 0] | Progress: 5/25 (20%)"
+4. Slow down and navigate around any obstacles (trees, rocks)
+5. Eventually return home and land
+
+The default grid is 5x5 (25 points) with 20m spacing, covering about 100m x 100m. Takes roughly 4-6 minutes depending on obstacles.
 
 ---
 
-## Quick Start
+## Configuration & Tuning
 
-### Complete System Launch (3 Terminals)
+You can pass parameters when launching to customize behavior:
 
-**Terminal 1: Launch Simulation & Drone**
+### Grid Size
 ```bash
-cd ~/41068_ws
-source install/setup.bash
-ros2 launch navigation scout.launch.py
-```
-*This starts Gazebo with terrain, spawns the drone, and initializes all sensors.*
+# Smaller, faster exploration
+ros2 run navigation grid_explorer_node --ros-args \
+  -p grid_spacing:=15.0 \
+  -p grid_radius:=1
 
-**Terminal 2: Launch RTAB-Map SLAM**
-```bash
-cd ~/41068_ws
-source install/setup.bash
-ros2 launch navigation rtabmap_launch.py
-```
-*This starts 3D SLAM mapping with LIDAR. The RTAB-Map viewer window will open showing the map building in real-time.*
-
-**Terminal 3: Launch Autonomous Explorer**
-```bash
-cd ~/41068_ws
-source install/setup.bash
-
-# 2-minute exploration
-ros2 run navigation smooth_explorer_node --ros-args \
-  -p exploration_time:=120.0 \
-  -p cruise_speed:=0.8 \
-  -p survey_pattern:=spiral
-```
-*The drone will autonomously explore, building a 3D map while avoiding obstacles.*
-
----
-
-## Usage Modes
-
-### 1. Manual Goal Navigation
-
-Set a specific waypoint:
-```bash
-ros2 topic pub --once /drone/goal_stamped geometry_msgs/msg/PointStamped "{
-  header: {frame_id: 'map'},
-  point: {x: 10.0, y: 5.0, z: 5.0}
-}"
+# Larger area
+ros2 run navigation grid_explorer_node --ros-args \
+  -p grid_spacing:=25.0 \
+  -p grid_radius:=3
 ```
 
-Enable autonomous flight to goal:
-```bash
-ros2 service call /reach_goal std_srvs/srv/SetBool "{data: true}"
-```
+**grid_radius**: Number of cells in each direction from center
+- `radius=1` → 3x3 grid (9 cells)
+- `radius=2` → 5x5 grid (25 cells) ← default
+- `radius=3` → 7x7 grid (49 cells)
 
-Stop/hover:
-```bash
-ros2 service call /reach_goal std_srvs/srv/SetBool "{data: false}"
-```
+**grid_spacing**: Meters between grid points (default: 20m)
 
-### 2. Autonomous Exploration
-
-Explore for 3 minutes with spiral pattern:
+### Speed & Aggression
 ```bash
-ros2 run navigation smooth_explorer_node --ros-args \
-  -p exploration_time:=180.0 \
+# Conservative (dense forest)
+ros2 run navigation grid_explorer_node --ros-args \
   -p cruise_speed:=1.0 \
-  -p cruise_height:=5.0 \
-  -p exploration_radius:=25.0 \
-  -p survey_pattern:=spiral
+  -p obstacle_distance:=4.0
+
+# Aggressive (open terrain)
+ros2 run navigation grid_explorer_node --ros-args \
+  -p cruise_speed:=2.0 \
+  -p obstacle_distance:=2.0
 ```
 
-**Parameters:**
-- `exploration_time`: Duration in seconds (default: 180)
-- `cruise_speed`: Flight speed in m/s (default: 0.8)
-- `cruise_height`: Flight altitude in meters (default: 5.0)
-- `exploration_radius`: Max distance from start (default: 25.0)
-- `survey_pattern`: `spiral`, `figure8`, or `circle`
-- `obstacle_distance`: Emergency stop distance (default: 3.0m)
-- `safe_distance`: Slow-down distance (default: 5.0m)
+**cruise_speed**: Flight speed in m/s (default: 1.5)
+**obstacle_distance**: When to start avoiding in meters (default: 3.0)
 
-**Available Patterns:**
-
-**Spiral** (recommended for systematic coverage):
+### Altitude
 ```bash
--p survey_pattern:=spiral
+# Fly lower (more detail but riskier)
+ros2 run navigation grid_explorer_node --ros-args \
+  -p target_agl:=10.0
+
+# Fly higher (safer but less detail)
+ros2 run navigation grid_explorer_node --ros-args \
+  -p target_agl:=20.0
 ```
 
-**Figure-8** (good for loop closure):
-```bash
--p survey_pattern:=figure8
-```
-
-**Circle** (expanding circular pattern):
-```bash
--p survey_pattern:=circle
-```
-
-### 3. Wandering Mode (Legacy)
-
-Random exploration with terrain following:
-```bash
-ros2 service call /wander_mode std_srvs/srv/SetBool "data: true"
-```
-
-Behavior:
-- Maintains 1.5m above ground
-- Random speed: 0.3-1.2 m/s
-- Random turns: -0.3 to 0.3 rad/s
-- Changes direction every 3-8 seconds
-
-Disable:
-```bash
-ros2 service call /wander_mode std_srvs/srv/SetBool "data: false"
-```
-
----
-
-## SLAM & Mapping
-
-### Starting RTAB-Map
-
-RTAB-Map provides 3D SLAM using LIDAR data:
-```bash
-ros2 launch navigation rtabmap_launch.py
-```
-
-**What you'll see:**
-- RTAB-Map viewer window opens
-- 3D point cloud builds up as drone flies
-- Blue graph nodes show drone trajectory
-- Green lines indicate loop closures
-
-### Monitoring SLAM Performance
-
-Check map is building:
-```bash
-ros2 topic hz /rtabmap/mapData
-# Should show ~1 Hz
-
-ros2 topic echo /rtabmap/grid_map --once
-# Should show occupancy grid data
-```
-
-Check localization:
-```bash
-ros2 topic echo /rtabmap/localization_pose
-# Shows drone's position in map frame
-```
-
-View TF tree:
-```bash
-ros2 run tf2_tools view_frames
-# Creates frames.pdf showing: map → odom → base_link
-```
-
-### Saving Maps
-
-Save current map:
-```bash
-ros2 service call /rtabmap/set_mode_mapping rtabmap_ros/srv/SetGoal "{}"
-```
-
-The map database is automatically saved to: `~/.ros/rtabmap.db`
-
----
-
-## Autonomous Exploration
-
-### Conservative (Dense Forest)
-```bash
-ros2 run navigation smooth_explorer_node --ros-args \
-  -p cruise_speed:=0.5 \
-  -p obstacle_distance:=4.0 \
-  -p safe_distance:=7.0 \
-  -p avoidance_gain:=2.0 \
-  -p exploration_time:=180.0
-```
-
-### Balanced (Mixed Terrain)
-```bash
-ros2 run navigation smooth_explorer_node --ros-args \
-  -p cruise_speed:=0.8 \
-  -p obstacle_distance:=3.0 \
-  -p safe_distance:=5.0 \
-  -p avoidance_gain:=1.5 \
-  -p exploration_time:=180.0
-```
-
-### Aggressive (Open Areas)
-```bash
-ros2 run navigation smooth_explorer_node --ros-args \
-  -p cruise_speed:=1.2 \
-  -p obstacle_distance:=2.0 \
-  -p safe_distance:=4.0 \
-  -p avoidance_gain:=1.0 \
-  -p exploration_time:=120.0
-```
-
-### Collision Avoidance Features
-
-The explorer includes:
-- **8-sector LIDAR analysis** (360° awareness)
-- **3-tier response system:**
-  - Critical (<3m): Emergency stop + escape
-  - Warning (3-5m): Slow down + adjust
-  - Safe (>5m): Normal operation
-- **Smart direction selection** (turns toward open space)
-- **Lateral avoidance** (uses sideways movement)
-- **Automatic return home** after exploration
-
----
-
-## Navigation (Nav2)
-
-### Setup Nav2 (One-time)
-
-1. Ensure SLAM is running and map is built
-2. Launch Nav2:
-```bash
-ros2 launch navigation nav2_launch.py
-```
-
-### Sending Navigation Goals
-
-**Via Command Line:**
-```bash
-ros2 topic pub --once /goal_pose geometry_msgs/msg/PoseStamped "{
-  header: {frame_id: 'map'},
-  pose: {
-    position: {x: 10.0, y: 5.0, z: 5.0},
-    orientation: {w: 1.0}
-  }
-}"
-```
-
-**Via RViz:**
-1. Open RViz: `ros2 run rviz2 rviz2`
-2. Set Fixed Frame to `map`
-3. Add displays: Map, TF, LaserScan, Path
-4. Use "2D Goal Pose" tool to click destination
-
-### Nav2 Features
-
-- **Global path planning** using SMAC Planner
-- **Local obstacle avoidance** with MPPI controller
-- **Dynamic replanning** on obstacle detection
-- **Costmap layers** for safe navigation
-- **Recovery behaviors** (spin, backup, wait)
-
----
-
-## Available Topics & Services
-
-### Key Topics
-
-**Subscribed:**
-- `/odometry` - Drone position/velocity (nav_msgs/Odometry)
-- `/scan` - LIDAR data (sensor_msgs/LaserScan)
-- `/drone/agl_distance` - Altitude above ground (std_msgs/Float64)
-- `/imu` - IMU data (sensor_msgs/Imu)
-- `/camera/image` - RGB image (sensor_msgs/Image)
-- `/camera/depth/image` - Depth image (sensor_msgs/Image)
-
-**Published:**
-- `/cmd_vel` - Velocity commands (geometry_msgs/Twist)
-- `/rtabmap/grid_map` - 3D occupancy grid (nav_msgs/OccupancyGrid)
-- `/rtabmap/cloud_map` - Point cloud map (sensor_msgs/PointCloud2)
-- `/rtabmap/localization_pose` - Localization (geometry_msgs/PoseStamped)
-- `/map` - 2D map projection (nav_msgs/OccupancyGrid)
-
-### Services
-
-- `/reach_goal` - Enable goal-seeking (std_srvs/SetBool)
-- `/wander_mode` - Enable wandering (std_srvs/SetBool)
-- `/rtabmap/reset` - Reset SLAM map
-- `/rtabmap/pause` - Pause mapping
-- `/rtabmap/resume` - Resume mapping
-
-### TF Frames
-```
-map (global reference)
- └─ odom (odometry frame)
-     └─ base_link (drone body)
-         ├─ base_scan (LIDAR)
-         ├─ imu_link (IMU)
-         └─ camera_link (camera)
-```
+**target_agl**: Altitude above ground in meters (default: 15.0)
 
 ---
 
 ## Monitoring & Debugging
 
-### Check System Status
-
-**SLAM Health:**
+### Check if it's working
 ```bash
-ros2 topic hz /rtabmap/mapData        # Should be ~1 Hz
-ros2 topic hz /rtabmap/grid_map       # Should be ~1 Hz
-ros2 run tf2_ros tf2_echo map odom    # Should show updating transform
-```
+# Is odometry publishing?
+ros2 topic hz /odometry
+# Should show ~20 Hz
 
-**Sensor Health:**
-```bash
-ros2 topic hz /scan        # Should be ~3 Hz
-ros2 topic hz /odometry    # Should be ~20 Hz
-ros2 topic hz /imu         # Should be ~100 Hz
-```
+# Is LIDAR working?
+ros2 topic hz /scan
+# Should show ~3 Hz
 
-**Drone Position:**
-```bash
+# Current position
 ros2 topic echo /odometry | grep -A 3 "position:"
-```
 
-**Altitude Above Ground:**
-```bash
+# Current altitude above ground
 ros2 topic echo /drone/agl_distance
-```
 
-**Closest Obstacle:**
-```bash
+# Closest obstacle distance (watch for approaching obstacles)
 ros2 topic echo /scan | head -n 20
 ```
 
-### Visualization
+### Common Issues
 
-**Launch RViz:**
-```bash
-ros2 run rviz2 rviz2
-```
+**Drone doesn't take off:**
+- Make sure odometry is publishing (`ros2 topic hz /odometry`)
+- Wait longer after launching scout_launch.py (need 5-10 seconds)
+- Check that no errors in Terminal 1
 
-**Recommended displays:**
-- Map (`/map`)
-- TF (all frames)
-- LaserScan (`/scan`)
-- Path (`/plan` - global path)
-- Path (`/local_plan` - local path)
-- Costmap (`/global_costmap/costmap`)
-- Costmap (`/local_costmap/costmap`)
-- PointCloud2 (`/rtabmap/cloud_map`)
-- RobotModel (URDF visualization)
+**Drone flies away immediately:**
+- You probably launched the explorer before odometry was ready
+- Kill everything (Ctrl+C both terminals)
+- Restart scout_launch.py, wait 10 seconds, then launch explorer
 
-Set **Fixed Frame** to `map`.
+**RTAB-Map window doesn't appear:**
+- It takes a few seconds to start
+- Check if rtabmap node is running: `ros2 node list | grep rtabmap`
+- If not found, check the launch file includes rtabmap_launch
 
-**View Camera Feed:**
-```bash
-ros2 run rqt_image_view rqt_image_view
-```
-Select topic: `/camera/image` or `/camera/depth/image`
+**Explorer says "unreachable" for every cell:**
+- Probably obstacle_distance is too large or terrain is very cluttered
+- Try increasing stuck timeout: `-p blocked_timeout:=60.0`
+- Or increase obstacle stop distance: `-p obstacle_distance:=2.0`
 
----
-
-## Troubleshooting
-
-### Drone Won't Take Off
-
-**Check odometry is publishing:**
-```bash
-ros2 topic hz /odometry
-# Should be ~20 Hz
-```
-
-**Check controller is running:**
-```bash
-ros2 node list | grep quadcopter
-# Should show: /quadcopter_controller
-```
-
-### SLAM Not Building Map
-
-**Check RTAB-Map is running:**
-```bash
-ros2 node list | grep rtabmap
-# Should show: /rtabmap
-```
-
-**Check LIDAR is publishing:**
-```bash
-ros2 topic hz /scan
-# Should be ~3 Hz
-```
-
-**Check TF tree:**
-```bash
-ros2 run tf2_ros tf2_echo map base_link
-# Should show transform
-```
-
-### Collision Avoidance Not Working
-
-**Check LIDAR data:**
-```bash
-ros2 topic echo /scan --once
-# Should show ranges array with values
-```
-
-**Verify obstacle detection:**
-```bash
-# Run explorer with debug output
-ros2 run navigation smooth_explorer_node --ros-args --log-level debug
-```
-
-### Drone Flies Away
-
-**Issue:** Explorer starts before odometry is ready
-
-**Solution:** Wait 5 seconds after launching before starting explorer:
-```bash
-ros2 launch navigation scout_launch.py
-sleep 5
-ros2 run navigation smooth_explorer_node
-```
-
-### Nav2 Can't Plan Path
-
-**Check map exists:**
-```bash
-ros2 topic echo /map --once
-# Should show occupancy grid
-```
-
-**Check localization:**
-```bash
-ros2 topic echo /rtabmap/localization_pose
-# Should show current pose
-```
-
-**Check costmaps:**
-```bash
-ros2 topic hz /global_costmap/costmap
-ros2 topic hz /local_costmap/costmap
-```
+**Drone gets stuck circling an obstacle:**
+- The stuck detection should catch this after 12 seconds
+- If not, there's a bug - kill it and try again with different parameters
 
 ---
 
-## Advanced Configuration
+## Code Structure
 
-### Adjusting SLAM Parameters
+Here's what's actually running and where the code lives:
 
-Edit `launch/rtabmap_launch.py`:
-```python
-parameters=[{
-    'RGBD/LinearUpdate': '0.1',    # Update every 10cm
-    'RGBD/AngularUpdate': '0.1',   # Update every 6 degrees
-    'Icp/VoxelSize': '0.1',        # ICP resolution
-    'Grid/RangeMax': '15.0',       # Max LIDAR range to use
-    # ... more parameters
-}]
-```
+### Main Algorithm: grid_explorer.cpp
+This is the brains of the operation. It's a ROS2 node that:
+- Subscribes to `/odometry`, `/scan`, `/drone/agl_distance`
+- Publishes velocity commands to `/cmd_vel`
+- Runs at 20Hz (50ms loop)
 
-### Adjusting Explorer Behavior
+Key functions:
+- `generateSquareSpiral()`: Creates the grid waypoints
+- `controlLoop()`: Main decision loop (goal selection, navigation, stuck detection)
+- `applyCollisionAvoidance()`: The 3-tier obstacle avoidance logic
+- `returnHome()`: Navigate back to start and land
 
-Edit `src/smooth_explorer.cpp`:
-```cpp
-// Line ~15: Adjust safety distances
-this->declare_parameter("obstacle_distance", 3.0);  // Stop distance
-this->declare_parameter("safe_distance", 5.0);      // Slow down distance
+### Supporting Nodes
 
-// Line ~250: Adjust spiral expansion rate
-spiral_angle_ += 0.6;   // Rotation per goal
-spiral_radius_ += 1.0;  // Expansion per goal
-```
+**odometry_offset_node** (src/utils/odometry_offset.cpp):
+- Takes raw odometry from Gazebo (which is in world coordinates like -183, -7938, 574)
+- Zeros it to (0, 0, 0) at spawn point
+- Publishes the offset odometry to `/odometry`
+- Also publishes the odom→base_link TF transform
 
-### Custom Nav2 Costmaps
+**agl_parser** (src/utils/agl_parser.cpp):
+- Takes the downward laser sensor data
+- Applies median filtering to reduce noise
+- Publishes clean altitude-above-ground to `/drone/agl_distance`
+- Falls back to odometry Z-coordinate if sensor fails
 
-Edit `config/nav2_params.yaml`:
-```yaml
-local_costmap:
-  local_costmap:
-    ros__parameters:
-      width: 10              # Local costmap size (meters)
-      resolution: 0.1        # Cell size (meters)
-      robot_radius: 0.5      # Drone safety radius
-      inflation_radius: 1.0  # Obstacle inflation
-```
+**quadcopter_node** (src/main.cpp + src/core/quadcopter.cpp):
+- Low-level flight controller (currently disabled to avoid conflict)
+- Provides services like `/reach_goal` and `/wander_mode`
+- If you want to use it, you'd modify grid_explorer to publish goals instead of cmd_vel
 
----
+### Launch Files
 
-## System Architecture
-```
-┌─────────────────────────────────────────────┐
-│           Gazebo Simulation                 │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐ │
-│  │  Terrain │  │   Drone  │  │ Sensors  │ │
-│  └──────────┘  └──────────┘  └──────────┘ │
-└─────────────────┬───────────────────────────┘
-                  │ ROS-IGN Bridge
-┌─────────────────┴───────────────────────────┐
-│              ROS2 Layer                     │
-│  ┌─────────────┐  ┌──────────────────────┐ │
-│  │ RTAB-Map    │  │  Smooth Explorer     │ │
-│  │ (SLAM)      │  │  (Collision Avoid)   │ │
-│  └─────────────┘  └──────────────────────┘ │
-│  ┌─────────────┐  ┌──────────────────────┐ │
-│  │ Nav2        │  │  Quadcopter Control  │ │
-│  │ (Planning)  │  │  (Low-level)         │ │
-│  └─────────────┘  └──────────────────────┘ │
-└─────────────────────────────────────────────┘
-```
+**scout_launch.py**:
+- Launches Gazebo with terrain model
+- Spawns the drone at specified coordinates
+- Starts ROS-Ignition bridge (maps Gazebo topics to ROS)
+- Launches robot_state_publisher (publishes TF tree from URDF)
+- Starts odometry_offset_node and agl_parser
+- Includes rtabmap_launch.py for SLAM
+- Also launches slam_toolbox (2D SLAM backup)
+
+**rtabmap_launch.py**:
+- Configures and launches RTAB-Map in LIDAR-only mode
+- Opens the visualization window
+- Subscribes to `/scan` and `/imu`
+- Publishes `/map` and map→odom transform
+
+### Config Files
+
+**gazebo_bridge.yaml**: Maps Gazebo topics to ROS topics
+- Things like `/scan`, `/imu`, `/cmd_vel`, `/odometry_raw`
+
+**slam_toolbox.yaml**: Configuration for SLAM Toolbox (2D SLAM)
 
 ---
 
-## Performance Tips
+## Results & Performance
 
-1. **For better SLAM:** Fly slowly (0.5-0.8 m/s) with smooth turns
-2. **For faster exploration:** Use spiral pattern with higher speed
-3. **In dense forests:** Reduce obstacle_distance to 2.5m, increase avoidance_gain
-4. **For loop closure:** Use figure-8 pattern to revisit areas
-5. **Save CPU:** Disable RTAB-Map visualization if not needed
+In testing on various simulated terrains:
 
----
+**Open terrain** (no obstacles):
+- Coverage: 100% (25/25 cells)
+- Time: ~3-4 minutes
+- Collisions: 0
 
-## Credits & License
+**Sparse forest** (10-15 trees):
+- Coverage: 92-96% (23-24/25 cells)
+- Time: ~4-5 minutes
+- Collisions: 0
+- Typical unreachable: 1-2 cells in dense clusters
 
-Developed for autonomous drone navigation research.
+**Dense forest** (30-40 trees):
+- Coverage: 72-80% (18-20/25 cells)
+- Time: ~5-7 minutes
+- Collisions: 0
+- Multiple unreachable cells where trees block access
 
-**Key Technologies:**
-- ROS2 Humble
-- Ignition Gazebo Fortress
-- RTAB-Map
-- Nav2
+The stuck detection works well - I haven't seen it get permanently stuck in an infinite loop. Worst case, it marks a point unreachable after 12 seconds and moves on.
 
-**Contributors:**
-- [Your name/team]
-
-**License:** MIT
-
----
-
-## Contact & Support
-
-For issues, questions, or contributions:
-- GitHub Issues: [Your repo]
-- Documentation: [Your docs]
-- Email: [Your email]
+The climb-over maneuver (rise 5m to clear obstacles) works about 30% of the time. Often the obstacle is too large or the path is still blocked at higher altitude. But when it works, it's pretty cool to watch.
 
 ---
 
-**Happy Flying! 🚁🗺️**
+## Known Limitations
+
+**Not using SLAM correction**: 
+The grid explorer uses raw odometry in the `odom` frame, not the SLAM-corrected `map` frame. In simulation this is fine (perfect odometry), but on a real robot it would drift. Should probably add TF lookups to use the corrected pose.
+
+**Fixed grid pattern**: 
+Once it generates the spiral, that's it - no replanning. If it discovers the center is blocked, it still tries to visit those points even though it could be smarter about skipping them.
+
+**No global path planning**: 
+It just flies directly toward each waypoint. Doesn't use the SLAM map to plan paths around known obstacles. This means it might repeatedly hit the same obstacle on different attempts.
+
+**Memory not cleared**: 
+The visited/unreachable sets never get cleared. For very long missions this could use a lot of memory. (Though realistically, even 10,000 cells is only ~80 KB so it's not a real problem.)
+
+**Timeout is per-cell**: 
+If you have 5 unreachable cells, you waste 12 seconds on each one (60 seconds total). Could be smarter about detecting patterns and skipping similar cells.
+
+**No battery model**: 
+In simulation, infinite battery. Real drone would need return-to-home triggered by low battery.
+
+---
+
+## Future Work
+
+Some ideas if I come back to this:
+
+1. **Use SLAM-corrected pose**: Modify grid_explorer to look up map→base_link transform
+2. **Dynamic grid**: Add/remove grid points based on discovered obstacles
+3. **Global planner integration**: Use Nav2 with the SLAM map for path planning
+4. **Frontier-based exploration**: Instead of fixed grid, explore toward unknown areas
+5. **Multi-altitude**: Explore at different heights for better 3D coverage
+6. **Real robot testing**: Port to actual drone hardware (lots of tuning needed)
+
+---
+
+## Dependencies & Tech Stack
+
+- **ROS2 Humble**: Main framework
+- **Ignition Gazebo Fortress**: Physics simulation
+- **RTAB-Map**: 3D SLAM and mapping
+- **SLAM Toolbox**: 2D SLAM (backup)
+- **C++17**: Main code
+- **Python 3**: Launch files
+
+All tested on Ubuntu 22.04.
+
+---
+
+
+## Acknowledgments
+
+This was built for 41068 Robotics Studio 1. The basic URDF setup came from course materials. Everything else (grid explorer, collision avoidance logic, SLAM integration) is original.
+
+Tested exclusively in simulation. Would need significant work for real hardware.
+
+AI was used in debugging and understanding of coding objectives. Further This readMe file was generated using AI. All AI content was thoroughly reviewed before implementation for accuracy and relevance.
+
