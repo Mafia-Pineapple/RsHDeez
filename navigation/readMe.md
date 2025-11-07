@@ -61,12 +61,29 @@ sudo apt install ros-humble-desktop
 # Gazebo Fortress
 sudo apt install ignition-fortress
 
+# Python Dependencies
+pip install PySide6 opencv-python-headless numpy psutil
+
 # Required packages
 sudo apt install ros-humble-ros-ign-gazebo \
                  ros-humble-ros-ign-bridge \
                  ros-humble-robot-state-publisher \
                  ros-humble-rtabmap-ros \
-                 ros-humble-slam-toolbox
+                 ros-humble-slam-toolbox \
+                 ros-humble-rclpy \
+                 ros-humble-cv-bridge \
+                 ros-humble-image-transport \
+                 ros-humble-sensor-msgs \
+                 ros-humble-geometry-msgs \
+                 ros-humble-nav-msgs \
+                 python3-opencv \
+                 python3-numpy \
+                 libxcb-cursor0 \
+                 libxkbcommon-x11-0 \
+                 libxcb-icccm4 \
+                 libxcb-image0 \
+                 libxcb-keysyms1 \
+                 libxcb-render-util0
 ```
 
 ### Build It
@@ -106,7 +123,20 @@ Wait for everything to fully load. You should see:
 
 Give it a good 5-10 seconds before launching the explorer. If you launch too early, the odometry might not be ready and the drone will think it's at the wrong position.
 
-### Terminal 2: Start Exploring
+### Terminal 2: GUI
+```bash
+cd ~/41068_ws
+source install/setup.bash
+python3 camera_control_gui.py
+```
+
+This brings up a dark blue GUI. In the GUI there are four main tabs:
+1. Image windows for RGB, Depth, and Thermal Cameras
+2. Topic text boxes that allow you to dynamically change any of the three camera feeds with other image ROS2 topics
+3. Environment Sourcing
+4. Navigation launching, starting and pausing
+
+### Terminal 3: Start Exploring
 ```bash
 cd ~/41068_ws
 source install/setup.bash
@@ -121,6 +151,8 @@ The drone should:
 5. Eventually return home and land
 
 The default grid is 5x5 (25 points) with 20m spacing, covering about 100m x 100m. Takes roughly 4-6 minutes depending on obstacles.
+
+
 
 ---
 
