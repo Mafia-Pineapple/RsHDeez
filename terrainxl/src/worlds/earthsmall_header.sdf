@@ -648,3 +648,11 @@
 			<name>homebase</name>
 			<pose>-183.5290 -7938.1300 567.1350 1.5700 0 -2</pose>
 		</include>
+
+		<include>
+			<uri>
+				model://models/bear
+			</uri>
+			<name>bear_demo</name>
+			<pose>-177 -7937 568.26 0 0 0</pose>
+		</include>
