@@ -1,0 +1,14 @@
+{
+  "topics": {
+    "rgb": "/camera/image",
+    "depth": "/scan",
+    "thermal": "/camera/thermal/image"
+  },
+  "commands": {
+    "Start Gazebo world": "ros2 launch navigation scout.launch.py",
+    "Start ROS\ufffdGZ bridge (demo clock)": "ros2 run ros_gz_bridge parameter_bridge /world/demo/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock]",
+    "Start cameras launch": "ros2 launch perception cameras.launch.py",
+    "Spawn animals": "ros2 run perception random_animal_spawner"
+  },
+  "setup_prefix": "source /opt/ros/humble/setup.bash && source ~/41068_ws/install/setup.bash"
+}
