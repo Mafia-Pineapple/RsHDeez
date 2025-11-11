@@ -10,7 +10,7 @@ This system makes a drone autonomously explore an area by flying to waypoints in
 
 The drone uses a 360° LIDAR sensor to detect obstacles and avoid them in real-time. If it can't reach a particular grid point (maybe there's a tree in the way), it marks it as unreachable and moves on. Once it's visited all the points it can, it automatically flies back home and lands.
 
-While exploring, RTAB-Map runs in the background building a 3D point cloud map from the LIDAR data. You get a nice visualization window showing the map being built in real-time.
+While exploring, RTAB-Map runs in the background building a 3D point cloud map from the LIDAR data. You get a nice visualisation window showing the map being built in real-time.
 
 ---
 
@@ -44,7 +44,7 @@ Sometimes the drone can't make progress - maybe the path is blocked, or it's nav
 If neither is true for 12 seconds (240 frames), it marks that grid point as unreachable and moves to the next one. Before giving up, if there's an obstacle directly in front, it tries climbing 5 meters higher to go over it. Sometimes this works, sometimes it doesn't.
 
 ### SLAM Integration
-RTAB-Map runs in parallel doing its own thing. It takes the same LIDAR data and builds a 3D map, does loop closure detection (recognizes when you revisit an area), and publishes the map→odom transform to correct drift.
+RTAB-Map runs in parallel doing its own thing. It takes the same LIDAR data and builds a 3D map, does loop closure detection (recognises when you revisit an area), and publishes the map→odom transform to correct drift.
 
 However, the grid explorer doesn't actually use the SLAM-corrected position - it just uses raw odometry relative to the start point. This works fine in simulation where odometry is perfect, but on a real robot you'd want to look up the map→base_link transform instead. That's a TODO for future work.
 
@@ -113,12 +113,12 @@ This starts Gazebo with the terrain, spawns the drone, launches all the sensor n
 ```bash
 cd ~/41068_ws
 source install/setup.bash
-ros2 launch navigation scout_launch.py
+ros2 launch navigation scout.launch.py
 ```
 
 Wait for everything to fully load. You should see:
 - Gazebo window with terrain and drone
-- RTAB-Map visualization window (might take a few seconds)
+- RTAB-Map visualisation window (might take a few seconds)
 - A bunch of ROS nodes starting up in the terminal
 
 Give it a good 5-10 seconds before launching the explorer. If you launch too early, the odometry might not be ready and the drone will think it's at the wrong position.
@@ -237,13 +237,13 @@ ros2 topic echo /scan | head -n 20
 
 **Drone doesn't take off:**
 - Make sure odometry is publishing (`ros2 topic hz /odometry`)
-- Wait longer after launching scout_launch.py (need 5-10 seconds)
+- Wait longer after launching scout.launch.py (need 5-10 seconds)
 - Check that no errors in Terminal 1
 
 **Drone flies away immediately:**
 - You probably launched the explorer before odometry was ready
 - Kill everything (Ctrl+C both terminals)
-- Restart scout_launch.py, wait 10 seconds, then launch explorer
+- Restart scout.launch.py, wait 10 seconds, then launch explorer
 
 **RTAB-Map window doesn't appear:**
 - It takes a few seconds to start
@@ -298,7 +298,7 @@ Key functions:
 
 ### Launch Files
 
-**scout_launch.py**:
+**scout.launch.py**:
 - Launches Gazebo with terrain model
 - Spawns the drone at specified coordinates
 - Starts ROS-Ignition bridge (maps Gazebo topics to ROS)
@@ -309,7 +309,7 @@ Key functions:
 
 **rtabmap_launch.py**:
 - Configures and launches RTAB-Map in LIDAR-only mode
-- Opens the visualization window
+- Opens the visualisation window
 - Subscribes to `/scan` and `/imu`
 - Publishes `/map` and map→odom transform
 

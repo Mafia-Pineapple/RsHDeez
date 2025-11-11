@@ -35,7 +35,7 @@ void DecisionMaking::thermalDetectionCallback(const geometry_msgs::msg::PointSta
     }
     
     RCLCPP_INFO(this->get_logger(), 
-                "⚠️  THERMAL DETECTION at (%.2f, %.2f, %.2f)!", 
+                "THERMAL DETECTION at (%.2f, %.2f, %.2f)!", 
                 msg->point.x, msg->point.y, msg->point.z);
     
     // Save current position to return to later
@@ -63,13 +63,12 @@ void DecisionMaking::updateStateMachine()
     switch (current_state_)
     {
         case State::WANDERING:
-            // Normal patrol mode - nothing special to do
-            // The quadcopter handles its own wandering logic
+     
             break;
             
         case State::FLYING_TO_DETECTION:
         {
-            // Check if we've reached the detection point
+    
             double distance = distanceToPoint(detection_target_);
             
             if (distance < DETECTION_TOLERANCE) {
@@ -80,7 +79,7 @@ void DecisionMaking::updateStateMachine()
                 current_state_ = State::INVESTIGATING;
                 investigation_start_time_ = this->now();
             } else {
-                // Still flying - log progress occasionally
+          
                 RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 2000,
                                    "Flying to detection... %.2f m remaining", distance);
             }

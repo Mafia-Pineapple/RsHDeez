@@ -8,7 +8,7 @@ def generate_launch_description():
     differ, change the AGL GZ topic accordingly.
     """
 
-    # /cmd_vel (ROS -> GZ). Keep bidirectional if you actually need it both ways.
+    
     cmd_vel_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -19,8 +19,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # Odometry (GZ -> ROS).
-    # ⚠ If your model is 'scout' (it is, per your SDF), change '/model/drone/...' to '/model/scout/...'
+  
     odom_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -48,7 +47,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # IMU (GZ -> ROS) — only if you have this topic in sim.
+    # IMU (GZ -> ROS) 
     imu_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -72,9 +71,9 @@ def generate_launch_description():
     )
 
     # AGL / downward laser (GZ -> ROS) — this is the important one.
-    # Default GZ topic when <topic> is removed from the SDF:
+    
     #   /world/<WORLD>/model/scout/link/body/sensor/agl/scan
-    # Change 'default' if your world has a different name.
+  
     agl_gz_topic = '/world/default/model/scout/link/body/sensor/agl/scan'
     agl_bridge = Node(
         package='ros_gz_bridge',

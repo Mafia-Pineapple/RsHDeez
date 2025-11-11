@@ -6,7 +6,7 @@
 #include "geometry_msgs/msg/point.hpp"
 #include <memory>
 
-// Forward declaration to avoid circular dependency
+
 class Quadcopter;
 
 class DecisionMaking : public rclcpp::Node

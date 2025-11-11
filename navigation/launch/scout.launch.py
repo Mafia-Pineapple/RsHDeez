@@ -24,7 +24,7 @@ import xacro
 
 def generate_launch_description():
     james_randomiser = LaunchConfiguration('james_randomiser', default='true')
-    # Your package name
+
     pkg_name = 'navigation'
     share_dir = FindPackageShare(pkg_name)
     config_path = PathJoinSubstitution([share_dir, 'config'])
