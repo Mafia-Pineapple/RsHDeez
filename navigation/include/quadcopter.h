@@ -66,7 +66,7 @@ public:
   // Callbacks
   void aglCallback(const std_msgs::msg::Float64::SharedPtr msg);
   void lidarCallback(const sensor_msgs::msg::LaserScan::SharedPtr msg);
-  void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);  // NEW: IMU callback
+  void imuCallback(const sensor_msgs::msg::Imu::SharedPtr msg);  // IMU callback
 
   // Pattern mode functions
   void patternReset();
@@ -103,7 +103,7 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::PointStamped>::SharedPtr subGoal_;
   rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr subAgl_;
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr subLidar_;
-  rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr subImu_;  // NEW: IMU subscriber
+  rclcpp::Subscription<sensor_msgs::msg::Imu>::SharedPtr subImu_;  // IMU subscriber
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr subOdom_;
   void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg);
@@ -135,7 +135,7 @@ private:
   double target_agl_ = 1.5;
   bool agl_received_ = false;
 
-  // NEW: Attitude tracking (from IMU)
+  
   double current_roll_ = 0.0;
   double current_pitch_ = 0.0;
   double current_yaw_ = 0.0;
@@ -145,23 +145,23 @@ private:
   bool imu_received_ = false;
   rclcpp::Time last_imu_time_;
   
-  // NEW: Attitude stabilization PID parameters
+  // Attitude stabilization PID parameters
   double roll_kp_ = 2.0;      // Proportional gain for roll
   double roll_kd_ = 0.5;      // Derivative gain for roll
   double pitch_kp_ = 2.0;     // Proportional gain for pitch
   double pitch_kd_ = 0.5;     // Derivative gain for pitch
   
-  // NEW: Emergency stabilization thresholds
+  //Emergency stabilization thresholds
   double max_safe_roll_ = 0.35;   // ~20 degrees max roll before emergency
   double max_safe_pitch_ = 0.35;  // ~20 degrees max pitch before emergency
   double emergency_roll_ = 0.52;  // ~30 degrees - CRITICAL recovery needed
   double emergency_pitch_ = 0.52; // ~30 degrees - CRITICAL recovery needed
   
-  // NEW: Stabilization state
+  // Stabilization state
   bool in_emergency_stabilization_ = false;
   rclcpp::Time emergency_stabilization_start_;
 
-  // LiDAR collision avoidance (must match order in cpp)
+  // LiDAR collision avoidance
   std::atomic<float> min_ahead_{std::numeric_limits<float>::infinity()};
   std::atomic<float> min_left_{std::numeric_limits<float>::infinity()};
   std::atomic<float> min_right_{std::numeric_limits<float>::infinity()};

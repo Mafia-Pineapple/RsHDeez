@@ -534,8 +534,7 @@ bool Quadcopter::reachGoal(void)
         double vx = 0.0;
         
         if (pattern_type_ == "spiral") {
-          // SPIRAL PATTERN - Archimedean spiral with increasing radius
-          // Update spiral parameters
+          // SPIRAL PATTERN 
           const double dt = 0.05;  // 20Hz control loop
           pattern_spiral_angle_ += pattern_spiral_yaw_rate_ * dt;
           pattern_spiral_radius_ = pattern_spiral_inflate_ * pattern_spiral_angle_;

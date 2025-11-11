@@ -272,35 +272,34 @@ private:
         // Check if we're getting closer to the goal
         bool getting_closer = (distance < last_distance_to_goal_ - 0.2);  // At least 20cm closer
         
-        if (progress_dist < 0.1 || !getting_closer) {  // Less than 10cm progress OR not getting closer
+        if (progress_dist < 0.1 || !getting_closer) {  
             stuck_counter_++;
         } else {
             stuck_counter_ = 0;
             last_progress_position_ = current_position_;
-            last_distance_to_goal_ = distance;  // Update last distance
+            last_distance_to_goal_ = distance; 
         }
         
-        // ENHANCED: Check if obstacle is blocking the direct path to goal
-        // If we're close to an obstacle AND moving toward it, increase stuck counter faster
+       
         bool obstacle_in_way = false;
         if (closest_obstacle_distance_ < 2.0 && distance > 3.0) {
-            // Calculate if obstacle is roughly in direction of goal
+           
             double goal_angle = std::atan2(dy, dx);
             double current_heading = current_yaw_;
             double heading_diff = std::abs(goal_angle - current_heading);
             while (heading_diff > M_PI) heading_diff -= 2*M_PI;
             
-            // If heading toward goal but obstacle in front, we're likely stuck
-            if (std::abs(heading_diff) < M_PI/4 && front_distance_ < 2.5) {  // Within 45° of goal
+          
+            if (std::abs(heading_diff) < M_PI/4 && front_distance_ < 2.5) { 
                 obstacle_in_way = true;
-                stuck_counter_ += 5;  // Count as stuck 5x faster (was 3x)
+                stuck_counter_ += 5; 
                 RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 1000,
                                    "Obstacle blocking direct path to goal! Dist: %.1fm", 
                                    front_distance_);
             }
         }
         
-        // Calculate desired heading (needed for both normal navigation and climb-over)
+    
         double angle_to_target = std::atan2(dy, dx);
         double angle_error = angle_to_target - current_yaw_;
         
@@ -352,7 +351,7 @@ private:
                 last_distance_to_goal_ = distance;
             }
             
-            // Safety: If climbing for more than 10 seconds, abort
+            
             if (climb_duration > 10.0) {
                 RCLCPP_ERROR(this->get_logger(),
                            " Climb-over failed after 10s. Marking unreachable.");
@@ -475,7 +474,7 @@ private:
             return safe_cmd;  // Return immediately - ignore rest of navigation
         }
         
-        // WARNING ZONE: 1.5m - 3m - Reduce speed and start avoiding
+ 
         RCLCPP_WARN_THROTTLE(this->get_logger(), *this->get_clock(), 500,
                            " Obstacle at %.2fm! Avoiding...", closest_obstacle_distance_);
         
